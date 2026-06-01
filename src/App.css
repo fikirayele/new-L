@@ -203,6 +203,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url('/assets/imgback.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1195,7 +1196,13 @@
   }
   
   .header-actions {
-    display: none; /* Hide on mobile to simplify header */
+    display: flex; /* Show on mobile for menu toggle */
+    gap: 8px;
+  }
+  
+  .header-actions .lang-selector-wrapper,
+  .header-actions .btn-donate {
+    display: none; /* Hide these but keep the menu toggle */
   }
   
   .hero-title {

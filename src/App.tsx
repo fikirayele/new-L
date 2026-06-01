@@ -494,8 +494,7 @@ function App() {
 
       {/* Hero Section takes first whole viewport cleanly */}
       <section 
-        className="hero-section" 
-        style={{ backgroundImage: `url('/assets/hero_background.png')` }}
+        className="hero-section"
       >
         <div className="container">
           <div className="hero-content animate-fade-in">
@@ -647,7 +646,7 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>Email Address</h4>
-                    <p>info@likrolihtov.org<br />partnerships@likrolihtov.org</p>
+                    <p>contact@likrolihtov.com</p>
                   </div>
                 </div>
 
@@ -657,7 +656,7 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>Direct Support Helpline</h4>
-                    <p>+1 234 567 8900<br />Mon - Fri, 8:00 AM - 5:00 PM</p>
+                    <p>+32 497 15 36 36</p>
                   </div>
                 </div>
 
@@ -667,7 +666,7 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>Headquarters Office</h4>
-                    <p>123 Empowerment Street, New York, NY 10001, USA</p>
+                    <p>Rue Edouard Dekoster 53<br />1140 Evere, Brussels, Belgium</p>
                   </div>
                 </div>
               </div>
@@ -734,11 +733,12 @@ function App() {
                   </div>
 
                   <div className="form-field-group">
-                    <label className="form-field-label">Message *</label>
+                    <label className="form-field-label">Message * ({contactMessage.length}/1200)</label>
                     <textarea 
                       placeholder={t.conMessage}
                       value={contactMessage}
-                      onChange={(e) => setContactMessage(e.target.value)}
+                      onChange={(e) => setContactMessage(e.target.value.slice(0, 1200))}
+                      maxLength={1200}
                       className="form-textarea"
                       required
                     ></textarea>
@@ -821,18 +821,18 @@ function App() {
               <div className="footer-contact">
                 <div className="contact-item">
                   <Mail size={16} />
-                  <span>info@likrolihtov.org</span>
+                  <span>contact@likrolihtov.com</span>
                 </div>
                 <div className="contact-item">
                   <Phone size={16} />
-                  <span>+1 234 567 8900</span>
+                  <span>+32 497 15 36 36</span>
                 </div>
                 <div className="contact-item">
                   <MapPin size={18} />
                   <span>
-                    123 Empowerment Street,<br />
-                    New York, NY 10001,<br />
-                    USA
+                    Rue Edouard Dekoster 53,<br />
+                    1140 Evere,<br />
+                    Brussels, Belgium
                   </span>
                 </div>
               </div>
