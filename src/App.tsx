@@ -501,7 +501,7 @@ function App() {
             <span className="hero-sub">{t.heroSub}</span>
             <h1 className="hero-title">
               {t.heroTitle1}<br />
-              {lang === 'FR' ? 'est un ' : lang === 'ES' ? 'es un ' : 'is a '}<span>{t.heroTitleItalic}</span>
+              {lang === 'FR' ? 'est un ' : lang === 'ES' ? 'es un ' : ''}<span>{t.heroTitleItalic}</span>
             </h1>
             <p className="hero-description">{t.heroDesc}</p>
             
