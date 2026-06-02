@@ -9,6 +9,8 @@ export interface TranslationSet {
   navIlliteracyDef: string;
   navIlliteracyProg: string;
   navIlliteracyMedia: string;
+  navIlliteracyStats: string;
+  navIlliteracyCons: string;
   navProjects: string;
   navProjectsEU: string;
   navProjectsConst: string;
@@ -77,7 +79,11 @@ export interface TranslationSet {
   conEmail: string;
   conSubject: string;
   conMessage: string;
-  conProgram: string;
+  conMessageLabel: string;
+  conPhone: string;
+  conOurEmail: string;
+  conOurPhone: string;
+  conHeadOffice: string;
   conProgramSelect: string;
   conSend: string;
   conSuccess: string;
@@ -90,25 +96,35 @@ export interface TranslationSet {
   newsConsent: string;
   newsSubmit: string;
   newsSuccess: string;
+
+  // Cookies
+  cookieText: string;
+  cookieAccept: string;
+  cookieDecline: string;
+
+  // FAQ
+  faqTitle: string;
 }
 
 export const translations: Record<string, TranslationSet> = {
   EN: {
-    navAbout: 'About',
+    navAbout: 'Who we are',
     navAboutOrg: 'Organization',
-    navAboutGoals: 'Goals',
+    navAboutGoals: 'School program',
     navAboutTeam: 'Team',
     navAboutSponsors: 'Sponsors',
     navIlliteracy: 'Illiteracy',
     navIlliteracyDef: 'Definition',
     navIlliteracyProg: 'School Program',
     navIlliteracyMedia: 'Photos & Videos',
+    navIlliteracyStats: 'Statistics',
+    navIlliteracyCons: 'Consequences',
     navProjects: 'Projects',
     navProjectsEU: 'EU Collaboration',
     navProjectsConst: 'Construction',
     navProjectsSec: 'Security',
     navProjectsEdu: 'Education',
-    navContacts: 'Contacts',
+    navContacts: 'Contact',
     btnDonate: 'Donate',
     btnLanguage: 'Language',
 
@@ -160,12 +176,16 @@ export const translations: Record<string, TranslationSet> = {
 
     conTitle: 'Connect With Us',
     conSub: 'Have questions about classes, volunteering, or partnerships? Write to our team.',
-    conName: 'Full Name',
-    conEmail: 'Email Address',
-    conSubject: 'Subject / Query Type',
+    conName: 'Full name',
+    conEmail: 'Your email',
+    conSubject: 'Subject',
     conMessage: 'Write your message here...',
-    conProgram: 'Program of Interest',
-    conProgramSelect: '-- Select Area --',
+    conMessageLabel: 'Message',
+    conPhone: 'Phone number',
+    conOurEmail: 'Our email',
+    conOurPhone: 'Our phone number',
+    conHeadOffice: 'Head office address',
+    conProgramSelect: '-- Select option --',
     conSend: 'Send Message',
     conSuccess: 'Thank you, {name}! Your message has been sent to our community team.',
 
@@ -175,24 +195,32 @@ export const translations: Record<string, TranslationSet> = {
     newsEmail: 'Email Address',
     newsConsent: 'I agree to receive monthly progress reports and student success stories.',
     newsSubmit: 'Subscribe Now',
-    newsSuccess: 'Congratulations, {name}! You have subscribed to the Likro & Lihtov monthly updates.'
+    newsSuccess: 'Congratulations, {name}! You have subscribed to the Likro & Lihtov monthly updates.',
+
+    cookieText: 'We use cookies to improve your experience. By clicking "Accept", you agree to our',
+    cookieAccept: 'Accept',
+    cookieDecline: 'Decline',
+
+    faqTitle: 'Frequently Asked Questions (FAQ)'
   },
   FR: {
-    navAbout: 'À Propos',
+    navAbout: 'Qui sommes-nous',
     navAboutOrg: 'Organisation',
-    navAboutGoals: 'Objectifs',
+    navAboutGoals: 'Programme scolaire',
     navAboutTeam: 'Équipe',
     navAboutSponsors: 'Sponsors',
     navIlliteracy: 'Analphabétisme',
     navIlliteracyDef: 'Définition',
     navIlliteracyProg: 'Programme Scolaire',
     navIlliteracyMedia: 'Photos et Vidéos',
+    navIlliteracyStats: 'Statistiques',
+    navIlliteracyCons: 'Conséquences',
     navProjects: 'Projets',
     navProjectsEU: 'Collaboration UE',
     navProjectsConst: 'Construction',
     navProjectsSec: 'Sécurité',
     navProjectsEdu: 'Éducation',
-    navContacts: 'Contacts',
+    navContacts: 'Contact',
     btnDonate: 'Faire un Don',
     btnLanguage: 'Langue',
 
@@ -244,12 +272,16 @@ export const translations: Record<string, TranslationSet> = {
 
     conTitle: 'Contactez-Nous',
     conSub: 'Des questions sur les cours, le bénévolat ou les partenariats ? Écrivez à notre équipe.',
-    conName: 'Nom Complet',
-    conEmail: 'Adresse Email',
-    conSubject: 'Sujet / Type de demande',
+    conName: 'Nom complet',
+    conEmail: 'Votre e-mail',
+    conSubject: 'Sujet',
     conMessage: 'Écrivez votre message ici...',
-    conProgram: 'Programme d’intérêt',
-    conProgramSelect: '-- Sélectionnez un domaine --',
+    conMessageLabel: 'Message',
+    conPhone: 'Numéro de téléphone',
+    conOurEmail: 'Notre e-mail',
+    conOurPhone: 'Notre numéro de téléphone',
+    conHeadOffice: 'Adresse du siège social',
+    conProgramSelect: '-- Sélectionner une option --',
     conSend: 'Envoyer le Message',
     conSuccess: 'Merci, {name}! Votre message a bien été envoyé à notre équipe communautaire.',
 
@@ -259,24 +291,32 @@ export const translations: Record<string, TranslationSet> = {
     newsEmail: 'Adresse Email',
     newsConsent: 'J’accepte de recevoir les rapports mensuels et les histoires de réussite des élèves.',
     newsSubmit: 'S’abonner Maintenant',
-    newsSuccess: 'Félicitations, {name}! Vous êtes maintenant abonné aux mises à jour de Likro & Lihtov.'
+    newsSuccess: 'Félicitations, {name}! Vous êtes maintenant abonné aux mises à jour de Likro & Lihtov.',
+
+    cookieText: 'Nous utilisons des cookies pour améliorer votre expérience. En cliquant sur "Accepter", vous acceptez notre',
+    cookieAccept: 'Accepter',
+    cookieDecline: 'Décliner',
+
+    faqTitle: 'Foire Aux Questions (FAQ)'
   },
   ES: {
-    navAbout: 'Nosotros',
+    navAbout: 'Quiénes somos',
     navAboutOrg: 'Organización',
-    navAboutGoals: 'Objetivos',
+    navAboutGoals: 'Programa escolar',
     navAboutTeam: 'Equipo',
     navAboutSponsors: 'Patrocinadores',
     navIlliteracy: 'Analfabetismo',
     navIlliteracyDef: 'Definición',
     navIlliteracyProg: 'Programa Escolar',
     navIlliteracyMedia: 'Fotos y Videos',
+    navIlliteracyStats: 'Estadísticas',
+    navIlliteracyCons: 'Consecuencias',
     navProjects: 'Proyectos',
     navProjectsEU: 'Colaboración UE',
     navProjectsConst: 'Construcción',
-    navProjectsSec: 'Seguridad',
+    navProjectsSec: 'Securidad',
     navProjectsEdu: 'Educación',
-    navContacts: 'Contactos',
+    navContacts: 'Contacto',
     btnDonate: 'Donar',
     btnLanguage: 'Idioma',
 
@@ -328,12 +368,16 @@ export const translations: Record<string, TranslationSet> = {
 
     conTitle: 'Contáctenos',
     conSub: '¿Tiene preguntas sobre clases, voluntariado o alianzas? Escriba a nuestro equipo.',
-    conName: 'Nombre Completo',
-    conEmail: 'Correo Electrónico',
-    conSubject: 'Asunto / Tipo de consulta',
+    conName: 'Nombre completo',
+    conEmail: 'Tu e-mail',
+    conSubject: 'Asunto',
     conMessage: 'Escriba su mensaje aquí...',
-    conProgram: 'Programa de Interés',
-    conProgramSelect: '-- Seleccione un área --',
+    conMessageLabel: 'Mensaje',
+    conPhone: 'Número de teléfono',
+    conOurEmail: 'Nuestro e-mail',
+    conOurPhone: 'Nuestro teléfono',
+    conHeadOffice: 'Dirección de la oficina central',
+    conProgramSelect: '-- Seleccionar opción --',
     conSend: 'Enviar Mensaje',
     conSuccess: '¡Gracias, {name}! Su mensaje ha sido enviado a nuestro equipo comunitario.',
 
@@ -343,6 +387,12 @@ export const translations: Record<string, TranslationSet> = {
     newsEmail: 'Correo Electrónico',
     newsConsent: 'Acepto recibir los informes mensuales y las historias de éxito de las alumnas.',
     newsSubmit: 'Suscribirse Ahora',
-    newsSuccess: '¡Felicitaciones, {name}! Se ha suscrito exitosamente a las actualizaciones mensuales de Likro & Lihtov.'
+    newsSuccess: '¡Felicitaciones, {name}! Se ha suscrito exitosamente a las actualizaciones mensuales de Likro & Lihtov.',
+
+    cookieText: 'Utilizamos cookies para mejorar su experiencia. Al hacer clic en "Aceptar", acepta nuestra',
+    cookieAccept: 'Aceptar',
+    cookieDecline: 'Declinar',
+
+    faqTitle: 'Preguntas Frecuentes (FAQ)'
   }
 };

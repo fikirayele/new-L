@@ -19,7 +19,7 @@ import {
   CreditCard,
   Send
 } from 'lucide-react';
-import { sectionsData, type DetailSection } from './data';
+import { sectionsData, type DetailSection, countryPrefixes } from './data';
 import { translations } from './translations';
 import './App.css';
 
@@ -57,19 +57,34 @@ function App() {
   const [newsEmail, setNewsEmail] = useState('');
   const [newsConsent, setNewsConsent] = useState(false);
 
+  // Modal: FAQ page
+  const [showFaqModal, setShowFaqModal] = useState(false);
+
+  // Modal: Cookie Policy page
+  const [showCookiePolicyModal, setShowCookiePolicyModal] = useState(false);
+
+  // Cookie Consent state
+  const [showCookies, setShowCookies] = useState(false);
+
   // Landing Page: Contact Us Section
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactSubject, setContactSubject] = useState('');
-  const [contactProgram, setContactProgram] = useState('');
+  const [contactPhonePrefix, setContactPhonePrefix] = useState('+32');
+  const [contactPhone, setContactPhone] = useState('');
   const [contactMessage, setContactMessage] = useState('');
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
   // Footer newsletter email input
   const [footerEmail, setFooterEmail] = useState('');
 
-  // Handle scroll to add background glassmorphism
+  // Handle scroll to add background glassmorphism & check cookies
   useEffect(() => {
+    const consent = localStorage.getItem('cookieConsent');
+    if (!consent) {
+      setShowCookies(true);
+    }
+
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
@@ -130,7 +145,7 @@ function App() {
       return;
     }
     if (!newsConsent) {
-      triggerToast(lang === 'FR' ? 'Veuillez accepter les conditions' : lang === 'ES' ? 'Por favor acepte las condiciones' : 'Please consent to newsletter terms.');
+      triggerToast(lang === 'FR' ? 'Veuillez accepter les conditions' : lang === 'ES' ? 'Por favor acepte las conditions' : 'Please consent to newsletter terms.');
       return;
     }
 
@@ -374,6 +389,154 @@ function App() {
         </div>
       )}
 
+      {/* FAQ MODAL */}
+      {showFaqModal && (
+        <div className="modal-overlay" onClick={() => setShowFaqModal(false)}>
+          <div className="modal-content animate-fade-in" style={{ maxWidth: '640px', padding: '36px' }} onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowFaqModal(false)} aria-label="Close">
+              <X size={20} />
+            </button>
+            <div className="modal-header-box" style={{ marginBottom: '24px' }}>
+              <Compass className="heart-icon animate-pulse" size={32} />
+              <h2>{t.faqTitle}</h2>
+              <p style={{ fontSize: '13px' }}>Find answers to common questions about our organization, enrollment, and support pathways.</p>
+            </div>
+            <div className="faq-list" style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '420px', overflowY: 'auto', paddingRight: '8px' }}>
+              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Qui est éligible pour s\'inscrire aux programmes de Likro & Lihtov ?' : lang === 'ES' ? '¿Quién es elegible para inscribirse en los programas?' : 'Who is eligible to enroll in Likro & Lihtov programs?'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                  {lang === 'FR' 
+                    ? 'Nos programmes sont spécifiquement conçus pour les femmes adultes (âgées de 18 ans et plus) qui n\'ont pas eu accès à l\'éducation formelle.' 
+                    : lang === 'ES' 
+                    ? 'Nuestros programas están diseñados para mujeres adultas (mayores de 18 años) con poco o ningún acceso previo a la educación formal.' 
+                    : 'Our programs are specifically designed for adult women (aged 18 and older) who have had little to no prior access to formal education and want to learn foundational reading, writing, and arithmetic.'}
+                </p>
+              </div>
+              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Les cours sont-ils vraiment gratuits ?' : lang === 'ES' ? '¿Las clases son realmente gratuitas?' : 'Are the classes really free?'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                  {lang === 'FR' 
+                    ? 'Oui, tous nos cours, le matériel pédagogique, les tablettes, le transport privé et la garderie sont 100 % gratuits, financés par nos partenaires.' 
+                    : lang === 'ES' 
+                    ? 'Sí, todas nuestras clases, materiales de aprendizaje, tabletas, transporte privado y guardería son 100% gratuitos para nuestras estudiantes.' 
+                    : 'Yes, all our classes, learning materials, tablets, private transit, and on-site child-care services are 100% free of charge for our students, funded entirely by our sponsors and donors.'}
+                </p>
+              </div>
+              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Comment fonctionne la navette de transport sécurisée ?' : lang === 'ES' ? '¿Cómo funciona el servicio de transporte seguro?' : 'How does the safe transit shuttle service work?'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                  {lang === 'FR' 
+                    ? 'Nous proposons des navettes privées qui récupèrent les étudiantes dans des points de rendez-vous éclairés et sécurisés.' 
+                    : lang === 'ES' 
+                    ? 'Ofrecemos vehículos privados que recogen a las alumnas en puntos de encuentro iluminados en sus vecindarios y las traen directamente al campus.' 
+                    : 'We provide private, secure shuttles that pick up students from designated, well-lit hubs in their neighborhoods and bring them directly to campus, returning them safely after class.'}
+                </p>
+              </div>
+              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Un service de garde d\'enfants est-il fourni pendant les cours ?' : lang === 'ES' ? '¿Se ofrece cuidado infantil durante las clases?' : 'Is child-care provided during classes?'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                  {lang === 'FR' 
+                    ? 'Oui ! Nous disposons de crèches professionnelles adjacentes à nos salles de classe pour accueillir vos enfants de moins de 5 ans.' 
+                    : lang === 'ES' 
+                    ? '¡Sí! Contamos con guarderías profesionales adyacentes a las aulas para cuidar de los niños menores de 5 años mientras sus madres estudian.' 
+                    : 'Yes! We have secure, professional nurseries adjacent to our classrooms. Students can bring their children (under 5 years) to be cared for by certified caregivers while they study.'}
+                </p>
+              </div>
+              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Quelle est la durée du programme et les horaires ?' : lang === 'ES' ? '¿Cuánto dura el programa y cuál es el horario?' : 'How long is the program, and what is the schedule?'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                  {lang === 'FR' 
+                    ? 'Le programme dure 9 mois, divisé en trois trimestres, avec des horaires flexibles en matinée, après-midi ou week-end.' 
+                    : lang === 'ES' 
+                    ? 'El programa dura 9 meses, dividido en tres trimestres. Ofrecemos sesiones flexibles por la mañana, tarde y fines de semana.' 
+                    : 'The core program is 9 months long, split into three quarters. To accommodate household and work duties, we offer flexible morning, afternoon, and weekend sessions.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* COOKIE POLICY MODAL */}
+      {showCookiePolicyModal && (
+        <div className="modal-overlay" onClick={() => setShowCookiePolicyModal(false)}>
+          <div className="modal-content animate-fade-in" style={{ maxWidth: '640px', padding: '36px' }} onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowCookiePolicyModal(false)} aria-label="Close">
+              <X size={20} />
+            </button>
+            <div className="modal-header-box" style={{ marginBottom: '20px' }}>
+              <Shield className="heart-icon animate-pulse" size={32} />
+              <h2>{lang === 'FR' ? 'Politique relative aux cookies' : lang === 'ES' ? 'Política de cookies' : 'Cookie Policy'}</h2>
+              <p style={{ fontSize: '12px' }}><strong>Likro & Lihtov Organization</strong></p>
+            </div>
+            <div className="faq-list" style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxHeight: '420px', overflowY: 'auto', paddingRight: '8px' }}>
+              <div>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6', marginBottom: '14px' }}>
+                  {lang === 'FR' 
+                    ? 'Likro & Lihtov Organization utilise des cookies et des technologies similaires pour améliorer votre expérience de navigation, optimiser les performances du site et comprendre comment les visiteurs utilisent notre site.' 
+                    : lang === 'ES' 
+                    ? 'Likro & Lihtov Organization utiliza cookies y tecnologías similares para mejorar su experiencia de navegación, optimizar el rendimiento del sitio y entender cómo interactúa con el sitio.' 
+                    : 'Likro & Lihtov Organization uses cookies and similar technologies to improve your browsing experience, enhance website performance, remember your preferences, and better understand how visitors use our website.'}
+                </p>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Qu\'est-ce que les cookies ?' : lang === 'ES' ? '¿Qué son las cookies?' : 'What Are Cookies?'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '14px' }}>
+                  {lang === 'FR' 
+                    ? 'Les cookies sont de petits fichiers stockés sur votre appareil qui aident le site à fonctionner correctement et à vous offrir une navigation plus fluide.' 
+                    : lang === 'ES' 
+                    ? 'Las cookies son pequeños archivos almacenados en su dispositivo que facilitan un mejor funcionamiento del sitio y ofrecen una experiencia más fluida.' 
+                    : 'Cookies are small files stored on your device when you visit our website. They help our website function properly and provide a smoother user experience.'}
+                </p>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Les cookies que nous utilisons' : lang === 'ES' ? 'Las cookies que utilizamos' : 'Cookies We Use'}
+                </h4>
+                <ul style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6', listStyleType: 'disc', paddingLeft: '20px', marginBottom: '14px' }}>
+                  <li><strong>{lang === 'FR' ? 'Cookies nécessaires' : lang === 'ES' ? 'Cookies necesarias' : 'Necessary Cookies'}</strong> – {lang === 'FR' ? 'Requis pour le fonctionnement du site.' : lang === 'ES' ? 'Requeridas para la funcionalidad.' : 'Required for website functionality and security.'}</li>
+                  <li><strong>{lang === 'FR' ? 'Cookies fonctionnels' : lang === 'ES' ? 'Cookies funcionales' : 'Functional Cookies'}</strong> – {lang === 'FR' ? 'Retiennent vos préférences.' : lang === 'ES' ? 'Recuerdan sus preferencias.' : 'Remember your preferences and settings.'}</li>
+                  <li><strong>{lang === 'FR' ? 'Cookies d\'analyse' : lang === 'ES' ? 'Cookies analíticas' : 'Analytics Cookies'}</strong> – {lang === 'FR' ? 'Aident à comprendre le trafic du site.' : lang === 'ES' ? 'Ayudan a comprender el tráfico del sitio.' : 'Help us improve our website by understanding visitor interactions.'}</li>
+                </ul>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6', marginBottom: '14px' }}>
+                  {lang === 'FR' 
+                    ? 'Vous pouvez configurer ou désactiver les cookies dans les paramètres de votre navigateur. Notez que cela peut affecter certaines fonctionnalités.' 
+                    : lang === 'ES' 
+                    ? 'Puede modificar o deshabilitar las cookies en las opciones de su navegador. Tenga en cuenta que esto podría afectar el funcionamiento de algunas características.' 
+                    : 'You can manage or disable cookies through your browser settings. Please note that disabling some cookies may affect certain website features.'}
+                </p>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Mises à jour de cette politique' : lang === 'ES' ? 'Modificaciones de esta política' : 'Changes to This Policy'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '14px' }}>
+                  {lang === 'FR' 
+                    ? 'Nous pouvons modifier cette politique à tout moment. Les mises à jour seront publiées sur cette page.' 
+                    : lang === 'ES' 
+                    ? 'Podemos actualizar esta política en cualquier momento. Las actualizaciones se publicarán en esta página.' 
+                    : 'We may update this Cookie Policy from time to time. Any updates will be posted on this page.'}
+                </p>
+                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                  {lang === 'FR' ? 'Contactez-nous' : lang === 'ES' ? 'Contáctenos' : 'Contact Us'}
+                </h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                  {lang === 'FR' ? 'Pour toute question :' : lang === 'ES' ? 'Si tiene preguntas :' : 'If you have questions about this Cookie Policy, contact us:'}<br />
+                  <strong>Email:</strong> <a href="mailto:contact@likrolihtov.com" style={{ color: 'var(--primary)' }}>contact@likrolihtov.com</a><br />
+                  <strong>Website:</strong> <a href="https://new-l-plum.vercel.app/" target="_blank" rel="noreferrer" style={{ color: 'var(--primary)' }}>https://new-l-plum.vercel.app/</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header Sticky glass navigation */}
       <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container header-container">
@@ -391,7 +554,7 @@ function App() {
                 </button>
               </li>
 
-              {/* ABOUT */}
+              {/* ABOUT / WHO WE ARE */}
               <li className={`nav-item ${activeMobileDropdown === 'about' ? 'open-mobile' : ''}`}>
                 <span className="nav-link" onClick={() => {
                   if (window.innerWidth <= 1024) {
@@ -419,8 +582,8 @@ function App() {
                 </span>
                 <div className="dropdown-menu">
                   <span className="dropdown-item" onClick={() => openDrawer('illiteracy-definition')}>{t.navIlliteracyDef}</span>
-                  <span className="dropdown-item" onClick={() => openDrawer('illiteracy-school-program')}>{t.navIlliteracyProg}</span>
-                  <span className="dropdown-item" onClick={() => openDrawer('illiteracy-photos-videos')}>{t.navIlliteracyMedia}</span>
+                  <span className="dropdown-item" onClick={() => openDrawer('illiteracy-statistics')}>{t.navIlliteracyStats}</span>
+                  <span className="dropdown-item" onClick={() => openDrawer('illiteracy-consequences')}>{t.navIlliteracyCons}</span>
                 </div>
               </li>
 
@@ -627,7 +790,7 @@ function App() {
         </div>
       </section>
 
-      {/* DEDICATED CONTACT US SECTION (HIGH-FIDELITY NGO FORM) */}
+      {/* DEDICATED CONTACT US SECTION */}
       <section id="contacts-section" className="contacts-section">
         <div className="container">
           <div className="contact-layout">
@@ -645,7 +808,7 @@ function App() {
                     <Mail size={18} />
                   </div>
                   <div className="contact-card-details">
-                    <h4>Email Address</h4>
+                    <h4>{t.conOurEmail}</h4>
                     <p>contact@likrolihtov.com</p>
                   </div>
                 </div>
@@ -655,7 +818,7 @@ function App() {
                     <Phone size={18} />
                   </div>
                   <div className="contact-card-details">
-                    <h4>Direct Support Helpline</h4>
+                    <h4>{t.conOurPhone}</h4>
                     <p>+32 497 15 36 36</p>
                   </div>
                 </div>
@@ -665,7 +828,7 @@ function App() {
                     <MapPin size={18} />
                   </div>
                   <div className="contact-card-details">
-                    <h4>Headquarters Office</h4>
+                    <h4>{t.conHeadOffice}</h4>
                     <p>Rue Edouard Dekoster 53<br />1140 Evere, Brussels, Belgium</p>
                   </div>
                 </div>
@@ -718,22 +881,35 @@ function App() {
                       </select>
                     </div>
                     <div className="form-field-group">
-                      <label className="form-field-label">{t.conProgram}</label>
-                      <select 
-                        value={contactProgram}
-                        onChange={(e) => setContactProgram(e.target.value)}
-                        className="form-select"
-                      >
-                        <option value="">{t.conProgramSelect}</option>
-                        <option value="Basic Literacy">Basic Literacy Program</option>
-                        <option value="School Expansion">School Expansion Construction</option>
-                        <option value="Transit Security">Safe Transit Shuttle</option>
-                      </select>
+                      <label className="form-field-label">
+                        {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
+                      </label>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <select 
+                          value={contactPhonePrefix}
+                          onChange={(e) => setContactPhonePrefix(e.target.value)}
+                          className="form-select"
+                          style={{ width: '120px', flexShrink: 0 }}
+                        >
+                          {countryPrefixes.map((c) => (
+                            <option key={`${c.flag}-${c.code}`} value={c.code}>
+                              {c.flag} {c.code} ({c.iso})
+                            </option>
+                          ))}
+                        </select>
+                        <input 
+                          type="tel" 
+                          placeholder="497 15 36 36" 
+                          value={contactPhone}
+                          onChange={(e) => setContactPhone(e.target.value)}
+                          className="form-input" 
+                        />
+                      </div>
                     </div>
                   </div>
 
                   <div className="form-field-group">
-                    <label className="form-field-label">Message * ({contactMessage.length}/1200)</label>
+                    <label className="form-field-label">{t.conMessageLabel} * ({contactMessage.length}/1200)</label>
                     <textarea 
                       placeholder={t.conMessage}
                       value={contactMessage}
@@ -756,7 +932,7 @@ function App() {
                   </div>
                   <h3 className="success-card-title">Message Transmitted</h3>
                   <p className="success-card-text">
-                    Thank you, <strong>{contactName}</strong>. Your query has been logged in our system. A community coordinator will reach out to you within 24 hours.
+                    Thank you, <strong>{contactName}</strong>. Your query has been logged in our system. A coordinator will reach out to you within 24 hours.
                   </p>
                   <button 
                     onClick={() => {
@@ -765,7 +941,8 @@ function App() {
                       setContactEmail('');
                       setContactMessage('');
                       setContactSubject('');
-                      setContactProgram('');
+                      setContactPhone('');
+                      setContactPhonePrefix('+32');
                     }}
                     className="btn-donate"
                     style={{ marginTop: '16px' }}
@@ -810,7 +987,7 @@ function App() {
               <ul className="footer-links">
                 <li><a onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</a></li>
                 <li><a onClick={() => openDrawer('about-organization')}>{t.navAboutOrg}</a></li>
-                <li><a onClick={() => openDrawer('illiteracy-school-program')}>{t.navIlliteracyProg}</a></li>
+                <li><a onClick={() => openDrawer('about-goals')}>{t.navAboutGoals}</a></li>
                 <li><a onClick={() => openDrawer('projects-construction')}>{t.navProjectsConst}</a></li>
                 <li><a href="#contacts-section">{t.navContacts}</a></li>
               </ul>
@@ -863,6 +1040,8 @@ function App() {
               <a href="#privacy">{t.footNav === 'Navigation' ? 'Privacy Policy' : t.footNav === 'Navegación' ? 'Política de Privacidad' : 'Politique de Confidentialité'}</a>
               <span>|</span>
               <a href="#terms">{t.footNav === 'Navigation' ? 'Terms of Use' : t.footNav === 'Navegación' ? 'Términos de Uso' : 'Conditions d\'Utilisation'}</a>
+              <span>|</span>
+              <a href="#faq" onClick={(e) => { e.preventDefault(); setShowFaqModal(true); }}>FAQ</a>
             </div>
           </div>
         </div>
@@ -1042,6 +1221,47 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Cookies Consent Banner */}
+      {showCookies && (
+        <div className="cookie-banner">
+          <div className="cookie-container">
+            <p className="cookie-text">
+              {t.cookieText}{' '}
+              <a 
+                href="#cookie-policy" 
+                onClick={(e) => { 
+                  e.preventDefault(); 
+                  setShowCookiePolicyModal(true); 
+                }}
+                style={{ color: 'var(--primary)', textDecoration: 'underline', cursor: 'pointer' }}
+              >
+                {lang === 'FR' ? 'politique relative aux cookies.' : lang === 'ES' ? 'política de cookies.' : 'cookie policy.'}
+              </a>
+            </p>
+            <div className="cookie-buttons">
+              <button 
+                className="cookie-btn accept" 
+                onClick={() => {
+                  localStorage.setItem('cookieConsent', 'accepted');
+                  setShowCookies(false);
+                }}
+              >
+                {t.cookieAccept}
+              </button>
+              <button 
+                className="cookie-btn decline" 
+                onClick={() => {
+                  localStorage.setItem('cookieConsent', 'declined');
+                  setShowCookies(false);
+                }}
+              >
+                {t.cookieDecline}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
