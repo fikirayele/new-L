@@ -197,7 +197,7 @@ export const translations: Record<string, TranslationSet> = {
     newsSubmit: 'Subscribe Now',
     newsSuccess: 'Congratulations, {name}! You have subscribed to the Likro & Lihtov monthly updates.',
 
-    cookieText: 'We use cookies to improve your experience. By clicking "Accept", you agree to our',
+    cookieText: 'We use cookies, pixels, and similar tracking technologies to optimize website performance, analyze visitor traffic patterns, remember your language preferences, and support our educational advocacy missions. By clicking "Accept", you agree to our',
     cookieAccept: 'Accept',
     cookieDecline: 'Decline',
 
@@ -293,7 +293,7 @@ export const translations: Record<string, TranslationSet> = {
     newsSubmit: 'S’abonner Maintenant',
     newsSuccess: 'Félicitations, {name}! Vous êtes maintenant abonné aux mises à jour de Likro & Lihtov.',
 
-    cookieText: 'Nous utilisons des cookies pour améliorer votre expérience. En cliquant sur "Accepter", vous acceptez notre',
+    cookieText: 'Nous utilisons des cookies, des pixels et des technologies de suivi similaires pour optimiser les performances du site, analyser la fréquentation, mémoriser vos préférences linguistiques et soutenir nos missions d\'alphabétisation. En cliquant sur « Accepter », vous consentez à l\'utilisation de ces cookies conformément à notre',
     cookieAccept: 'Accepter',
     cookieDecline: 'Décliner',
 
@@ -389,7 +389,7 @@ export const translations: Record<string, TranslationSet> = {
     newsSubmit: 'Suscribirse Ahora',
     newsSuccess: '¡Felicitaciones, {name}! Se ha suscrito exitosamente a las actualizaciones mensuales de Likro & Lihtov.',
 
-    cookieText: 'Utilizamos cookies para mejorar su experiencia. Al hacer clic en "Aceptar", acepta nuestra',
+    cookieText: 'Utilizamos cookies, píxeles y tecnologías de seguimiento similares para optimizar el rendimiento del sitio web, analizar el tráfico de visitantes, recordar sus preferencias de idioma y apoyar nuestras misiones educativas. Al hacer clic en "Aceptar", acepta el uso de estas cookies en su dispositivo de conformidad con nuestra',
     cookieAccept: 'Aceptar',
     cookieDecline: 'Declinar',
 
