@@ -844,7 +844,7 @@ function App() {
                       <label className="form-field-label">{t.conName} *</label>
                       <input 
                         type="text" 
-                        placeholder="Jane Doe" 
+                        placeholder=" " 
                         value={contactName}
                         onChange={(e) => setContactName(e.target.value)}
                         className="form-input" 
@@ -855,7 +855,7 @@ function App() {
                       <label className="form-field-label">{t.conEmail} *</label>
                       <input 
                         type="email" 
-                        placeholder="jane@example.com" 
+                        placeholder=" " 
                         value={contactEmail}
                         onChange={(e) => setContactEmail(e.target.value)}
                         className="form-input" 
