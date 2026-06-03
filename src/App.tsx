@@ -541,14 +541,14 @@ function App() {
       <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container header-container">
           <a href="#" className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            likro<span>&</span>lihtov
+            Likro <span>&</span> Lihtov
           </a>
 
           {/* Nav Links */}
           <nav>
             <ul className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
               <li className="mobile-menu-header">
-                <span className="logo">likro<span>&</span>lihtov</span>
+                <span className="logo">Likro <span>&</span> Lihtov</span>
                 <button className="mobile-close-btn" onClick={() => setMobileMenuOpen(false)}>
                   <X size={24} />
                 </button>
@@ -664,7 +664,7 @@ function App() {
             <span className="hero-sub">{t.heroSub}</span>
             <h1 className="hero-title">
               {t.heroTitle1}<br />
-              {lang === 'FR' ? 'est un ' : lang === 'ES' ? 'es un ' : ''}<span>{t.heroTitleItalic}</span>
+              {t.heroTitleLinker}<span>{t.heroTitleItalic}</span>
             </h1>
             <p className="hero-description">{t.heroDesc}</p>
             
@@ -874,10 +874,11 @@ function App() {
                         required
                       >
                         <option value="">{t.conProgramSelect}</option>
-                        <option value="Enrollment Inquiry">Student Enrollment</option>
-                        <option value="Volunteering">Volunteering Opportunity</option>
-                        <option value="Corporate Partnership">Corporate Partnership</option>
-                        <option value="General Query">General Question</option>
+                        <option value="General Information">{t.conSubjGen}</option>
+                        <option value="Volunteering">{t.conSubjVol}</option>
+                        <option value="Partnership Opportunities">{t.conSubjPartner}</option>
+                        <option value="Support Our Mission">{t.conSubjSupport}</option>
+                        <option value="Other">{t.conSubjOther}</option>
                       </select>
                     </div>
                     <div className="form-field-group">
@@ -962,7 +963,7 @@ function App() {
           <div className="footer-grid">
             <div className="footer-brand">
               <a href="#" className="footer-logo">
-                likro<span>&</span>lihtov
+                Likro <span>&</span> Lihtov
               </a>
               <p className="footer-desc">{t.footDesc}</p>
               

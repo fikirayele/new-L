@@ -23,6 +23,7 @@ export interface TranslationSet {
   // Hero
   heroSub: string;
   heroTitle1: string;
+  heroTitleLinker: string;
   heroTitleItalic: string;
   heroDesc: string;
   heroRegPlaceholder: string;
@@ -85,6 +86,11 @@ export interface TranslationSet {
   conOurPhone: string;
   conHeadOffice: string;
   conProgramSelect: string;
+  conSubjGen: string;
+  conSubjVol: string;
+  conSubjPartner: string;
+  conSubjSupport: string;
+  conSubjOther: string;
   conSend: string;
   conSuccess: string;
 
@@ -129,9 +135,10 @@ export const translations: Record<string, TranslationSet> = {
     btnLanguage: 'Language',
 
     heroSub: 'Likro & Lihtov',
-    heroTitle1: 'Learning to Read and Write is a ',
-    heroTitleItalic: 'human right',
-    heroDesc: 'We are a dedicated school for illiterate women. Our target mission is to help women learn to read, write, calculate, and ultimately empower themselves in daily society.',
+    heroTitle1: 'Learning to Read and Write',
+    heroTitleLinker: 'is a ',
+    heroTitleItalic: 'Human Right',
+    heroDesc: 'Education opens doors. Through literacy, women can gain the skills, confidence and opportunities they need to shape their own future',
     heroRegPlaceholder: 'Enter your email address',
     heroRegBtn: 'Register newsletter',
 
@@ -151,11 +158,11 @@ export const translations: Record<string, TranslationSet> = {
     sponTitle: 'Trust & Partnership',
     sponSub: 'They believe in us and sponsor classrooms, security fleets, and materials.',
 
-    footDesc: 'We are a school dedicated completely to illiterate women. Our targeted pedagogical programs teach women to read, write, calculate and empower themselves within the wider community.',
-    footNav: 'Navigation',
+    footDesc: 'Learning to Read and Write is a Human Right',
+    footNav: 'Quick Links',
     footContact: 'Contact',
-    footStay: 'Stay updated',
-    footSubText: 'Subscribe to our monthly newsletter to receive dynamic news and educational impact updates.',
+    footStay: 'Join Our Community',
+    footSubText: 'Get updates about our projects and achievements.',
     footSubPlaceholder: 'Your email address',
     footSubBtn: 'Subscribe',
     footCopy: '© 2026 Likro & Lihtov. All rights reserved.',
@@ -174,11 +181,11 @@ export const translations: Record<string, TranslationSet> = {
     donSubmit: 'Complete Donation',
     donSuccess: 'Thank you! Your donation of ${amount} for the {cause} was received.',
 
-    conTitle: 'Connect With Us',
-    conSub: 'Have questions about classes, volunteering, or partnerships? Write to our team.',
+    conTitle: 'Get in Touch',
+    conSub: 'Every conversation can make a difference. Reach out to learn more about our projects, partnerships and community initiatives.',
     conName: 'Full name',
     conEmail: 'Your email',
-    conSubject: 'Subject',
+    conSubject: 'Reason for contact',
     conMessage: 'Write your message here...',
     conMessageLabel: 'Message',
     conPhone: 'Phone number',
@@ -186,6 +193,11 @@ export const translations: Record<string, TranslationSet> = {
     conOurPhone: 'Our phone number',
     conHeadOffice: 'Head office address',
     conProgramSelect: '-- Select option --',
+    conSubjGen: 'General Information',
+    conSubjVol: 'Volunteering',
+    conSubjPartner: 'Partnership Opportunities',
+    conSubjSupport: 'Support Our Mission',
+    conSubjOther: 'Other',
     conSend: 'Send Message',
     conSuccess: 'Thank you, {name}! Your message has been sent to our community team.',
 
@@ -225,9 +237,10 @@ export const translations: Record<string, TranslationSet> = {
     btnLanguage: 'Langue',
 
     heroSub: 'Likro & Lihtov',
-    heroTitle1: 'Apprendre à lire et à écrire est un ',
+    heroTitle1: 'Apprendre à lire et à écrire',
+    heroTitleLinker: 'est un ',
     heroTitleItalic: 'droit humain',
-    heroDesc: 'Nous sommes une école dédiée aux femmes analphabètes. Notre mission est d’aider les femmes à apprendre à lire, écrire, calculer et s’autonomiser au quotidien.',
+    heroDesc: 'L\'éducation ouvre des portes. Grâce à l\'alphabétisation, les femmes peuvent acquérir les compétences, la confiance et les opportunités nécessaires pour façonner leur propre avenir.',
     heroRegPlaceholder: 'Entrez votre adresse email',
     heroRegBtn: 'S’inscrire à la newsletter',
 
@@ -247,11 +260,11 @@ export const translations: Record<string, TranslationSet> = {
     sponTitle: 'Confiance & Partenariat',
     sponSub: 'Ils croient en nous et soutiennent le financement de nos classes et équipements.',
 
-    footDesc: 'Nous sommes une école dédiée aux femmes analphabètes. Nos programmes pédagogiques ciblés permettent aux femmes de s’épanouir au sein de la communauté.',
-    footNav: 'Navigation',
+    footDesc: 'L\'apprentissage de la lecture et de l\'écriture est un droit humain',
+    footNav: 'Liens rapides',
     footContact: 'Contact',
-    footStay: 'Restez informé',
-    footSubText: 'Abonnez-vous à notre newsletter mensuelle pour recevoir des nouvelles et des mises à jour d’impact.',
+    footStay: 'Rejoignez notre communauté',
+    footSubText: 'Recevez des mises à jour sur nos projets et nos réussites.',
     footSubPlaceholder: 'Votre adresse email',
     footSubBtn: 'S’abonner',
     footCopy: '© 2026 Likro & Lihtov. Tous droits réservés.',
@@ -270,11 +283,11 @@ export const translations: Record<string, TranslationSet> = {
     donSubmit: 'Finaliser le Don',
     donSuccess: 'Merci! Votre don de {amount}$ pour le {cause} a bien été reçu.',
 
-    conTitle: 'Contactez-Nous',
-    conSub: 'Des questions sur les cours, le bénévolat ou les partenariats ? Écrivez à notre équipe.',
+    conTitle: 'Contactez-nous',
+    conSub: 'Chaque conversation peut faire la différence. Contactez-nous pour en savoir plus sur nos projets, nos partenariats et nos initiatives communautaires.',
     conName: 'Nom complet',
     conEmail: 'Votre e-mail',
-    conSubject: 'Sujet',
+    conSubject: 'Motif du contact',
     conMessage: 'Écrivez votre message ici...',
     conMessageLabel: 'Message',
     conPhone: 'Numéro de téléphone',
@@ -282,6 +295,11 @@ export const translations: Record<string, TranslationSet> = {
     conOurPhone: 'Notre numéro de téléphone',
     conHeadOffice: 'Adresse du siège social',
     conProgramSelect: '-- Sélectionner une option --',
+    conSubjGen: 'Informations générales',
+    conSubjVol: 'Bénévolat',
+    conSubjPartner: 'Opportunités de partenariat',
+    conSubjSupport: 'Soutenir notre mission',
+    conSubjOther: 'Autre',
     conSend: 'Envoyer le Message',
     conSuccess: 'Merci, {name}! Votre message a bien été envoyé à notre équipe communautaire.',
 
@@ -321,9 +339,10 @@ export const translations: Record<string, TranslationSet> = {
     btnLanguage: 'Idioma',
 
     heroSub: 'Likro & Lihtov',
-    heroTitle1: 'Aprender a leer y escribir es un ',
+    heroTitle1: 'Aprender a leer y escribir',
+    heroTitleLinker: 'es un ',
     heroTitleItalic: 'derecho humano',
-    heroDesc: 'Somos una escuela dedicada a mujeres analfabetas. Nuestra misión es ayudar a las mujeres a leer, escribir, calcular y empoderarse en la sociedad.',
+    heroDesc: 'La educación abre puertas. A través de la alfabetización, las mujeres pueden adquirir las habilidades, la confianza y las oportunidades necesarias para forjar su propio futuro.',
     heroRegPlaceholder: 'Ingrese su correo electrónico',
     heroRegBtn: 'Registrar boletín',
 
@@ -343,11 +362,11 @@ export const translations: Record<string, TranslationSet> = {
     sponTitle: 'Confianza y Alianza',
     sponSub: 'Ellos confían en nosotros y apoyan el equipamiento de nuestras aulas y transporte.',
 
-    footDesc: 'Somos una escuela dedicada completamente a mujeres analfabetas. Nuestros programas pedagógicos permiten a las mujeres empoderarse dentro de la comunidad.',
-    footNav: 'Navegación',
+    footDesc: 'Aprender a leer y escribir es un derecho humano',
+    footNav: 'Enlaces rápidos',
     footContact: 'Contacto',
-    footStay: 'Manténgase al día',
-    footSubText: 'Suscríbase a nuestro boletín mensual para recibir noticias de impacto y actualizaciones.',
+    footStay: 'Únase a nuestra comunidad',
+    footSubText: 'Reciba actualizaciones sobre nuestros proyectos y logros.',
     footSubPlaceholder: 'Su correo electrónico',
     footSubBtn: 'Suscribirse',
     footCopy: '© 2026 Likro & Lihtov. Todos los derechos reservados.',
@@ -366,11 +385,11 @@ export const translations: Record<string, TranslationSet> = {
     donSubmit: 'Completar Donación',
     donSuccess: '¡Gracias! Su donación de {amount}$ para {cause} fue recibida con éxito.',
 
-    conTitle: 'Contáctenos',
-    conSub: '¿Tiene preguntas sobre clases, voluntariado o alianzas? Escriba a nuestro equipo.',
+    conTitle: 'Póngase en contacto',
+    conSub: 'Cada conversación puede marcar la diferencia. Póngase en contacto para obtener más información sobre nuestros proyectos, alianzas e iniciativas comunitarias.',
     conName: 'Nombre completo',
     conEmail: 'Tu e-mail',
-    conSubject: 'Asunto',
+    conSubject: 'Motivo de contacto',
     conMessage: 'Escriba su mensaje aquí...',
     conMessageLabel: 'Mensaje',
     conPhone: 'Número de teléfono',
@@ -378,6 +397,11 @@ export const translations: Record<string, TranslationSet> = {
     conOurPhone: 'Nuestro teléfono',
     conHeadOffice: 'Dirección de la oficina central',
     conProgramSelect: '-- Seleccionar opción --',
+    conSubjGen: 'Información general',
+    conSubjVol: 'Voluntariado',
+    conSubjPartner: 'Oportunidades de alianza',
+    conSubjSupport: 'Apoyar nuestra misión',
+    conSubjOther: 'Otro',
     conSend: 'Enviar Mensaje',
     conSuccess: '¡Gracias, {name}! Su mensaje ha sido enviado a nuestro equipo comunitario.',
 
