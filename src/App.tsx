@@ -19,8 +19,10 @@ import {
   CreditCard,
   Send
 } from 'lucide-react';
-import { sectionsData, type DetailSection, countryPrefixes } from './data';
+import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 import './App.css';
 
 function App() {
@@ -70,10 +72,66 @@ function App() {
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactSubject, setContactSubject] = useState('');
-  const [contactPhonePrefix, setContactPhonePrefix] = useState('+32');
   const [contactPhone, setContactPhone] = useState('');
   const [contactMessage, setContactMessage] = useState('');
   const [contactSubmitted, setContactSubmitted] = useState(false);
+
+  // States for sending and geo-ip country detection
+  const [isSending, setIsSending] = useState(false);
+  const [defaultCountry, setDefaultCountry] = useState<any>('ET'); // Default to Ethiopia
+  const [prevLang, setPrevLang] = useState<'EN' | 'FR' | 'ES'>('EN');
+
+  // Detect user country
+  useEffect(() => {
+    const detectCountry = async () => {
+      try {
+        const res = await fetch('https://ipapi.co/country/');
+        const country = await res.text();
+        if (country && country.trim().length === 2) {
+          setDefaultCountry(country.trim().toUpperCase());
+        }
+      } catch (err) {
+        // Fallback using timezone detection
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          if (tz) {
+            if (tz.includes('Brussels') || tz.includes('Belgium')) setDefaultCountry('BE');
+            else if (tz.includes('Paris') || tz.includes('France')) setDefaultCountry('FR');
+            else if (tz.includes('Madrid') || tz.includes('Spain')) setDefaultCountry('ES');
+            else if (tz.includes('Addis_Ababa') || tz.includes('Ethiopia')) setDefaultCountry('ET');
+          }
+        } catch (e) {
+          console.error('Timezone detection failed:', e);
+        }
+      }
+    };
+    detectCountry();
+  }, []);
+
+  // Language Change Listener for Auto Message Translation
+  useEffect(() => {
+    const translateMessage = async (text: string, fromLang: 'EN' | 'FR' | 'ES', toLang: 'EN' | 'FR' | 'ES') => {
+      if (fromLang === toLang) return;
+      try {
+        const fromCode = fromLang.toLowerCase();
+        const toCode = toLang.toLowerCase();
+        const response = await fetch(
+          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromCode}|${toCode}`
+        );
+        const data = await response.json();
+        if (data?.responseData?.translatedText) {
+          setContactMessage(data.responseData.translatedText);
+        }
+      } catch (err) {
+        console.error('Auto-translation failed:', err);
+      }
+    };
+
+    if (contactMessage.trim().length > 0 && lang !== prevLang) {
+      translateMessage(contactMessage, prevLang, lang);
+    }
+    setPrevLang(lang);
+  }, [lang, contactMessage, prevLang]);
 
   // Footer newsletter email input
   const [footerEmail, setFooterEmail] = useState('');
@@ -189,15 +247,52 @@ function App() {
   };
 
   // Submit NGO Contact Us Form
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 1. Client-side Validation
     if (!contactName.trim() || !contactEmail.includes('@') || !contactMessage.trim()) {
       triggerToast(lang === 'FR' ? 'Veuillez remplir tous les champs requis' : lang === 'ES' ? 'Por favor complete todos los campos requeridos' : 'Please fill in all required fields.');
       return;
     }
 
-    setContactSubmitted(true);
-    triggerToast(t.conSuccess.replace('{name}', contactName));
+    // Optional phone validation if number is provided
+    if (contactPhone && !isValidPhoneNumber(contactPhone)) {
+      triggerToast(lang === 'FR' ? 'Numéro de téléphone invalide' : lang === 'ES' ? 'Número de teléfono no válido' : 'Please enter a valid international phone number.');
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      const response = await fetch('/send-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: contactName,
+          email: contactEmail,
+          phone: contactPhone || '',
+          message: contactMessage,
+          language: lang,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setContactSubmitted(true);
+        triggerToast(t.conSuccess.replace('{name}', contactName));
+      } else {
+        triggerToast(data.error || (lang === 'FR' ? 'Erreur lors de l\'envoi du message' : lang === 'ES' ? 'Error al enviar el mensaje' : 'Failed to send message. Please try again.'));
+      }
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      triggerToast(lang === 'FR' ? 'Erreur de connexion avec le serveur' : lang === 'ES' ? 'Error de conexión con el servidor' : 'Network error. Could not reach server.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -849,6 +944,7 @@ function App() {
                         onChange={(e) => setContactName(e.target.value)}
                         className="form-input" 
                         required 
+                        disabled={isSending}
                       />
                     </div>
                     <div className="form-field-group">
@@ -860,6 +956,7 @@ function App() {
                         onChange={(e) => setContactEmail(e.target.value)}
                         className="form-input" 
                         required 
+                        disabled={isSending}
                       />
                     </div>
                   </div>
@@ -872,6 +969,7 @@ function App() {
                         onChange={(e) => setContactSubject(e.target.value)}
                         className="form-select"
                         required
+                        disabled={isSending}
                       >
                         <option value="">{t.conProgramSelect}</option>
                         <option value="General Information">{t.conSubjGen}</option>
@@ -885,27 +983,14 @@ function App() {
                       <label className="form-field-label">
                         {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
                       </label>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <select 
-                          value={contactPhonePrefix}
-                          onChange={(e) => setContactPhonePrefix(e.target.value)}
-                          className="form-select"
-                          style={{ width: '120px', flexShrink: 0 }}
-                        >
-                          {countryPrefixes.map((c) => (
-                            <option key={`${c.flag}-${c.code}`} value={c.code}>
-                              {c.flag} {c.code} ({c.iso})
-                            </option>
-                          ))}
-                        </select>
-                        <input 
-                          type="tel" 
-                          placeholder="497 15 36 36" 
-                          value={contactPhone}
-                          onChange={(e) => setContactPhone(e.target.value)}
-                          className="form-input" 
-                        />
-                      </div>
+                      <PhoneInput
+                        placeholder="497 15 36 36"
+                        value={contactPhone}
+                        onChange={(val) => setContactPhone(val || '')}
+                        defaultCountry={defaultCountry}
+                        className="react-phone-input-field"
+                        disabled={isSending}
+                      />
                     </div>
                   </div>
 
@@ -918,11 +1003,12 @@ function App() {
                       maxLength={1200}
                       className="form-textarea"
                       required
+                      disabled={isSending}
                     ></textarea>
                   </div>
 
-                  <button type="submit" className="btn-form-submit">
-                    <span>{t.conSend}</span>
+                  <button type="submit" className="btn-form-submit" disabled={isSending}>
+                    <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'ES' ? 'Enviando...' : 'Sending...') : t.conSend}</span>
                     <Send size={15} />
                   </button>
                 </form>
@@ -943,7 +1029,6 @@ function App() {
                       setContactMessage('');
                       setContactSubject('');
                       setContactPhone('');
-                      setContactPhonePrefix('+32');
                     }}
                     className="btn-donate"
                     style={{ marginTop: '16px' }}

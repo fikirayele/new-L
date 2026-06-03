@@ -1964,4 +1964,48 @@
   }
 }
 
+/* React Phone Number Input customization */
+.react-phone-input-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.react-phone-input-field .PhoneInputInput {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg-light);
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-dark);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.react-phone-input-field .PhoneInputInput:focus {
+  border-color: var(--primary);
+  background: var(--bg-white);
+  box-shadow: 0 0 0 2px rgba(226, 29, 84, 0.15);
+}
+
+.react-phone-input-field .PhoneInputCountry {
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.react-phone-input-field .PhoneInputCountrySelect {
+  cursor: pointer;
+}
+
+
 
