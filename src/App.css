@@ -1654,6 +1654,9 @@
   padding: 100px 0;
   border-top: 1px solid var(--border);
 }
+.section-title {
+  margin-top: -50px;
+}
 
 .contact-layout {
   display: grid;
