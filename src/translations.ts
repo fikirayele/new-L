@@ -91,6 +91,13 @@ export interface TranslationSet {
   conSubjPartner: string;
   conSubjSupport: string;
   conSubjOther: string;
+  conRequiredFieldsText: string;
+  conSalutationLabel: string;
+  conSalutationSelect: string;
+  conSalutationMr: string;
+  conSalutationMs: string;
+  conSalutationDr: string;
+  conSalutationOther: string;
   conSend: string;
   conSuccess: string;
 
@@ -193,11 +200,18 @@ export const translations: Record<string, TranslationSet> = {
     conOurPhone: 'Our phone number',
     conHeadOffice: 'Head office address',
     conProgramSelect: '-- Select option --',
-    conSubjGen: 'General Information',
+    conSubjGen: 'General Inquiry',
     conSubjVol: 'Volunteering',
-    conSubjPartner: 'Partnership Opportunities',
-    conSubjSupport: 'Support Our Mission',
+    conSubjPartner: 'Partnership',
+    conSubjSupport: 'Donations & Sponsoring',
     conSubjOther: 'Other',
+    conRequiredFieldsText: 'Fields marked with * are required.',
+    conSalutationLabel: 'Salutation (Optional)',
+    conSalutationSelect: '-- Select an option --',
+    conSalutationMr: 'Mr.',
+    conSalutationMs: 'Ms.',
+    conSalutationDr: 'Dr.',
+    conSalutationOther: 'Other',
     conSend: 'Send Message',
     conSuccess: 'Thank you, {name}! Your message has been sent to our community team.',
 
@@ -295,12 +309,19 @@ export const translations: Record<string, TranslationSet> = {
     conOurPhone: 'Notre numéro de téléphone',
     conHeadOffice: 'Adresse du siège social',
     conProgramSelect: '-- Sélectionner une option --',
-    conSubjGen: 'Informations générales',
+    conSubjGen: "Demande d'information générale",
     conSubjVol: 'Bénévolat',
-    conSubjPartner: 'Opportunités de partenariat',
-    conSubjSupport: 'Soutenir notre mission',
+    conSubjPartner: 'Partenariat',
+    conSubjSupport: 'Dons et sponsoring',
     conSubjOther: 'Autre',
-    conSend: 'Envoyer le Message',
+    conRequiredFieldsText: "Les champs marqués d'un * sont obligatoires.",
+    conSalutationLabel: 'Salutation (Optionnel)',
+    conSalutationSelect: '-- Sélectionnez une option --',
+    conSalutationMr: 'M.',
+    conSalutationMs: 'Mme',
+    conSalutationDr: 'Dr.',
+    conSalutationOther: 'Autre',
+    conSend: 'Envoyer le message',
     conSuccess: 'Merci, {name}! Votre message a bien été envoyé à notre équipe communautaire.',
 
     newsTitle: 'Inscription à la Newsletter',
@@ -397,12 +418,19 @@ export const translations: Record<string, TranslationSet> = {
     conOurPhone: 'Nuestro teléfono',
     conHeadOffice: 'Dirección de la oficina central',
     conProgramSelect: '-- Seleccionar opción --',
-    conSubjGen: 'Información general',
+    conSubjGen: 'Consulta general',
     conSubjVol: 'Voluntariado',
-    conSubjPartner: 'Oportunidades de alianza',
-    conSubjSupport: 'Apoyar nuestra misión',
+    conSubjPartner: 'Alianza',
+    conSubjSupport: 'Donaciones y patrocinio',
     conSubjOther: 'Otro',
-    conSend: 'Enviar Mensaje',
+    conRequiredFieldsText: 'Los campos marcados con * son obligatorios.',
+    conSalutationLabel: 'Saludo (Opcional)',
+    conSalutationSelect: '-- Seleccionar una opción --',
+    conSalutationMr: 'Sr.',
+    conSalutationMs: 'Sra.',
+    conSalutationDr: 'Dr.',
+    conSalutationOther: 'Otro',
+    conSend: 'Enviar mensaje',
     conSuccess: '¡Gracias, {name}! Su mensaje ha sido enviado a nuestro equipo comunitario.',
 
     newsTitle: 'Registro al Boletín',

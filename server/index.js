@@ -43,7 +43,7 @@ transporter.verify((error) => {
 
 // POST /send-message route
 app.post('/send-message', async (req, res) => {
-  const { name, email, phone, message, language } = req.body;
+  const { salutation, name, email, phone, message, language } = req.body;
 
   // Validation
   if (!name || !email || !message) {
@@ -54,6 +54,7 @@ app.post('/send-message', async (req, res) => {
   const emailContent = `
 New Contact Message:
 ---------------------------------------------
+Salutation: ${salutation || 'Not provided'}
 Name: ${name}
 Email: ${email}
 Phone number: ${phone || 'Not provided'}

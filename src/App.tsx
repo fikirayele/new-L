@@ -25,6 +25,120 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import './App.css';
 
+const faqItems: Array<{
+  q: Record<'EN' | 'FR' | 'ES', string>;
+  a: Record<'EN' | 'FR' | 'ES', string>;
+}> = [
+  {
+    q: {
+      EN: "Who is Likro & Lihtov? & What does “Likro & Lihtov” mean?",
+      FR: "Que signifie « Likro & Lihtov » ?",
+      ES: "¿Qué significa «Likro & Lihtov»?"
+    },
+    a: {
+      EN: "Likro & Lihtov is a non-profit organization dedicated to combating adult female illiteracy. The name is derived from the Hebrew words \"Likro\" (to read) and \"Lihtov\" (to write), reflecting our core mission of empowering individuals through literacy and education.",
+      FR: "Likro & Lihtov est une organisation à but non lucratif dédiée à la lutte contre l'analphabétisme des femmes adultes. Le nom provient de l'hébreu « Likro » (lire) et « Lihtov » (écrire), reflétant notre mission principale d'autonomisation par l'éducation.",
+      ES: "Likro & Lihtov es una organización sin fines de lucro dedicada a combatir el analfabetismo de mujeres adultas. El nombre proviene de las palabras hebreas \"Likro\" (leer) y \"Lihtov\" (escribir), lo que refleja nuestra misión principal de empoderamiento a través de la educación."
+    }
+  },
+  {
+    q: {
+      EN: "What is your main activity?",
+      FR: "Quelle est votre activité principale ?",
+      ES: "¿Cuál es su actividad principal?"
+    },
+    a: {
+      EN: "Our main activity is providing tailored, slow-paced literacy and numeracy courses for adult women. To ensure success, we remove all barriers to education by providing digital learning tablets, free private transit/shuttles, and professional on-site child-care during classes.",
+      FR: "Notre activité principale consiste à offrir des cours d'alphabétisation et de calcul adaptés aux femmes adultes. Pour garantir leur réussite, nous levons tous les obstacles en fournissant des tablettes numériques, un service de transport privé gratuit et une crèche sur place pendant les cours.",
+      ES: "Nuestra actividad principal es ofrecer cursos adaptados de lectura, escritura y cálculo para mujeres adultas. Para asegurar el éxito, eliminamos barreras proporcionando tabletas de aprendizaje, transporte privado gratuito y guardería profesional durante las clases."
+    }
+  },
+  {
+    q: {
+      EN: "Where do you operate?",
+      FR: "Où exercez-vous vos activités ?",
+      ES: "¿Dónde operan?"
+    },
+    a: {
+      EN: "Our head office is located in Brussels, Belgium. We manage local educational programs in Belgium and partner with international initiatives in developing regions to build classrooms, supply learning materials, and establish local support networks.",
+      FR: "Notre siège social est situé à Bruxelles, en Belgique. Nous gérons des programmes éducatifs locaux en Belgique et collaborons avec des initiatives internationales dans les pays en développement pour construire des écoles, fournir du matériel et former des éducateurs locaux.",
+      ES: "Nuestra sede principal está en Bruselas, Bélgica. Gestionamos programas educativos locales en Bélgica y colaboramos con iniciativas internacionales en regiones en desarrollo para construir aulas, suministrar materiales y formar educadores."
+    }
+  },
+  {
+    q: {
+      EN: "How can I support your mission?",
+      FR: "Comment puis-je soutenir votre mission ?",
+      ES: "¿Cómo puedo apoyar su misión?"
+    },
+    a: {
+      EN: "You can support our mission by making a financial donation (either general or dedicated to specific causes like shuttles or classroom construction), volunteering as an educator or coordinator, or forming a corporate partnership with your organization.",
+      FR: "Vous pouvez soutenir notre mission en faisant un don financier (général ou dédié à des projets précis comme nos navettes ou la construction de classes), en devenant bénévole pour encadrer des sessions, ou en établissant un partenariat d'entreprise.",
+      ES: "Puede apoyar nuestra misión mediante donaciones financieras (generales o destinadas a causas específicas), trabajando como voluntario en clases o logística, o estableciendo una alianza corporativa."
+    }
+  },
+  {
+    q: {
+      EN: "What types of donations do you accept?",
+      FR: "Quel type de dons acceptez-vous ?",
+      ES: "¿Qué tipo de donaciones aceptan?"
+    },
+    a: {
+      EN: "We accept secure one-time or recurring financial donations via credit card, PayPal, or bank transfer through our donation portal. We also accept corporate sponsorships, educational equipment (such as tablets and laptops), and direct material support for our classrooms.",
+      FR: "Nous acceptons les dons financiers ponctuels ou récurrents via carte de crédit, PayPal ou virement bancaire sur notre portail. Nous acceptons également les parrainages d'entreprises, le matériel informatique (tablettes, ordinateurs) et le soutien matériel pour nos classes.",
+      ES: "Aceptamos donaciones financieras seguras (únicas o recurrentes) a través de tarjeta de crédito, PayPal o transferencia bancaria en nuestro portal. También aceptamos patrocinios corporativos y equipos educativos (como tabletas o portátiles)."
+    }
+  },
+  {
+    q: {
+      EN: "How can I become a volunteer?",
+      FR: "Comment devenir bénévole ?",
+      ES: "¿Cómo puedo ser voluntario?"
+    },
+    a: {
+      EN: "You can become a volunteer by filling out the contact form on our website and selecting \"Volunteering\" as the subject. Our community team will contact you to discuss options like tutoring, event coordination, logistics, or administrative support.",
+      FR: "Pour devenir bénévole, remplissez le formulaire de contact sur notre site en sélectionnant « Bénévolat » comme motif de contact. Notre équipe vous contactera pour discuter des opportunités (soutien scolaire, logistique, administration).",
+      ES: "Puede convertirse en voluntario completando el formulario de contacto en nuestro sitio web y seleccionando \"Voluntariado\" como asunto. Nuestro equipo se comunicará con usted para coordinar el apoyo."
+    }
+  },
+  {
+    q: {
+      EN: "Can my organization become a partner?",
+      FR: "Mon organisation peut-elle devenir partenaire ?",
+      ES: "¿Puede mi organización convertirse en socia/aliada?"
+    },
+    a: {
+      EN: "Yes, we highly encourage partnerships with NGOs, educational institutions, government agencies, and corporate sponsors. Please contact us via the contact form with the \"Partnership\" subject to discuss joint initiatives.",
+      FR: "Oui, nous encourageons vivement les partenariats avec les ONG, les institutions éducatives, les entreprises et les organismes publics. Contactez-nous via le formulaire en choisissant le sujet « Partenariat » pour élaborer des projets communs.",
+      ES: "Sí, fomentamos activamente las alianzas con otras organizaciones, instituciones educativas y patrocinadores corporativos. Escríbanos a través del formulario de contacto seleccionando \"Alianza\" como asunto."
+    }
+  },
+  {
+    q: {
+      EN: "Who can benefit from your programs?",
+      FR: "Qui peut bénéficier de vos programmes ?",
+      ES: "¿Quién puede beneficiarse de sus programas?"
+    },
+    a: {
+      EN: "Our educational programs are designed for adult women (aged 18 and older) who have had little to no access to formal schooling and wish to learn to read, write, and gain basic life skills for personal and professional autonomy.",
+      FR: "Nos programmes s'adressent principalement aux femmes adultes (de 18 ans et plus) n'ayant pas ou peu bénéficié d'une scolarité formelle, et souhaitant apprendre à lire, écrire et compter pour acquérir leur autonomie.",
+      ES: "Nuestros programas educativos están diseñados para mujeres adultas (mayores de 18 años) que han tenido poco o ningún acceso previo a la educación formal y desean aprender a leer, escribir y contar."
+    }
+  },
+  {
+    q: {
+      EN: "How can I contact Likro & Lihtov?",
+      FR: "Comment contacter Likro & Lihtov ?",
+      ES: "¿Cómo contactar a Likro & Lihtov?"
+    },
+    a: {
+      EN: "You can contact us using the contact form on this page, by emailing us directly at contact@likrolihtov.com, calling us at +32 497 15 36 36, or visiting our head office at Rue Edouard Dekoster 53, 1140 Brussels, Belgium.",
+      FR: "Vous pouvez nous contacter en utilisant le formulaire ci-dessus, par e-mail à contact@likrolihtov.com, par téléphone au +32 497 15 36 36, ou à notre siège social Rue Edouard Dekoster 53, 1140 Bruxelles, Belgique.",
+      ES: "Puede contactarnos a través del formulario en esta página, por correo electrónico a contact@likrolihtov.com, llamando al +32 497 15 36 36, o visitando nuestra sede en Rue Edouard Dekoster 53, 1140 Bruselas, Bélgica."
+    }
+  }
+];
+
 function App() {
   // Language & Translation State
   const [lang, setLang] = useState<'EN' | 'FR' | 'ES'>('EN');
@@ -69,6 +183,7 @@ function App() {
   const [showCookies, setShowCookies] = useState(false);
 
   // Landing Page: Contact Us Section
+  const [contactSalutation, setContactSalutation] = useState('');
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactSubject, setContactSubject] = useState('');
@@ -79,7 +194,6 @@ function App() {
   // States for sending and geo-ip country detection
   const [isSending, setIsSending] = useState(false);
   const [defaultCountry, setDefaultCountry] = useState<any>('ET'); // Default to Ethiopia
-  const [prevLang, setPrevLang] = useState<'EN' | 'FR' | 'ES'>('EN');
 
   // Detect user country
   useEffect(() => {
@@ -107,31 +221,6 @@ function App() {
     };
     detectCountry();
   }, []);
-
-  // Language Change Listener for Auto Message Translation
-  useEffect(() => {
-    const translateMessage = async (text: string, fromLang: 'EN' | 'FR' | 'ES', toLang: 'EN' | 'FR' | 'ES') => {
-      if (fromLang === toLang) return;
-      try {
-        const fromCode = fromLang.toLowerCase();
-        const toCode = toLang.toLowerCase();
-        const response = await fetch(
-          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromCode}|${toCode}`
-        );
-        const data = await response.json();
-        if (data?.responseData?.translatedText) {
-          setContactMessage(data.responseData.translatedText);
-        }
-      } catch (err) {
-        console.error('Auto-translation failed:', err);
-      }
-    };
-
-    if (contactMessage.trim().length > 0 && lang !== prevLang) {
-      translateMessage(contactMessage, prevLang, lang);
-    }
-    setPrevLang(lang);
-  }, [lang, contactMessage, prevLang]);
 
   // Footer newsletter email input
   const [footerEmail, setFooterEmail] = useState('');
@@ -271,6 +360,7 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          salutation: contactSalutation || '',
           name: contactName,
           email: contactEmail,
           phone: contactPhone || '',
@@ -497,66 +587,16 @@ function App() {
               <p style={{ fontSize: '13px' }}>Find answers to common questions about our organization, enrollment, and support pathways.</p>
             </div>
             <div className="faq-list" style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '420px', overflowY: 'auto', paddingRight: '8px' }}>
-              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Qui est éligible pour s\'inscrire aux programmes de Likro & Lihtov ?' : lang === 'ES' ? '¿Quién es elegible para inscribirse en los programas?' : 'Who is eligible to enroll in Likro & Lihtov programs?'}
-                </h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
-                  {lang === 'FR' 
-                    ? 'Nos programmes sont spécifiquement conçus pour les femmes adultes (âgées de 18 ans et plus) qui n\'ont pas eu accès à l\'éducation formelle.' 
-                    : lang === 'ES' 
-                    ? 'Nuestros programas están diseñados para mujeres adultas (mayores de 18 años) con poco o ningún acceso previo a la educación formal.' 
-                    : 'Our programs are specifically designed for adult women (aged 18 and older) who have had little to no prior access to formal education and want to learn foundational reading, writing, and arithmetic.'}
-                </p>
-              </div>
-              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Les cours sont-ils vraiment gratuits ?' : lang === 'ES' ? '¿Las clases son realmente gratuitas?' : 'Are the classes really free?'}
-                </h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
-                  {lang === 'FR' 
-                    ? 'Oui, tous nos cours, le matériel pédagogique, les tablettes, le transport privé et la garderie sont 100 % gratuits, financés par nos partenaires.' 
-                    : lang === 'ES' 
-                    ? 'Sí, todas nuestras clases, materiales de aprendizaje, tabletas, transporte privado y guardería son 100% gratuitos para nuestras estudiantes.' 
-                    : 'Yes, all our classes, learning materials, tablets, private transit, and on-site child-care services are 100% free of charge for our students, funded entirely by our sponsors and donors.'}
-                </p>
-              </div>
-              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Comment fonctionne la navette de transport sécurisée ?' : lang === 'ES' ? '¿Cómo funciona el servicio de transporte seguro?' : 'How does the safe transit shuttle service work?'}
-                </h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
-                  {lang === 'FR' 
-                    ? 'Nous proposons des navettes privées qui récupèrent les étudiantes dans des points de rendez-vous éclairés et sécurisés.' 
-                    : lang === 'ES' 
-                    ? 'Ofrecemos vehículos privados que recogen a las alumnas en puntos de encuentro iluminados en sus vecindarios y las traen directamente al campus.' 
-                    : 'We provide private, secure shuttles that pick up students from designated, well-lit hubs in their neighborhoods and bring them directly to campus, returning them safely after class.'}
-                </p>
-              </div>
-              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Un service de garde d\'enfants est-il fourni pendant les cours ?' : lang === 'ES' ? '¿Se ofrece cuidado infantil durante las clases?' : 'Is child-care provided during classes?'}
-                </h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
-                  {lang === 'FR' 
-                    ? 'Oui ! Nous disposons de crèches professionnelles adjacentes à nos salles de classe pour accueillir vos enfants de moins de 5 ans.' 
-                    : lang === 'ES' 
-                    ? '¡Sí! Contamos con guarderías profesionales adyacentes a las aulas para cuidar de los niños menores de 5 años mientras sus madres estudian.' 
-                    : 'Yes! We have secure, professional nurseries adjacent to our classrooms. Students can bring their children (under 5 years) to be cared for by certified caregivers while they study.'}
-                </p>
-              </div>
-              <div className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
-                <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Quelle est la durée du programme et les horaires ?' : lang === 'ES' ? '¿Cuánto dura el programa y cuál es el horario?' : 'How long is the program, and what is the schedule?'}
-                </h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
-                  {lang === 'FR' 
-                    ? 'Le programme dure 9 mois, divisé en trois trimestres, avec des horaires flexibles en matinée, après-midi ou week-end.' 
-                    : lang === 'ES' 
-                    ? 'El programa dura 9 meses, dividido en tres trimestres. Ofrecemos sesiones flexibles por la mañana, tarde y fines de semana.' 
-                    : 'The core program is 9 months long, split into three quarters. To accommodate household and work duties, we offer flexible morning, afternoon, and weekend sessions.'}
-                </p>
-              </div>
+              {faqItems.map((item, index) => (
+                <div key={index} className="faq-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                  <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
+                    {item.q[lang]}
+                  </h4>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
+                    {item.a[lang]}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -891,7 +931,6 @@ function App() {
           <div className="contact-layout">
             {/* Left side info panel */}
             <div className="contact-info-side">
-              <span className="section-label">NGO Operations</span>
               <h2 className="section-title" style={{ fontSize: '32px' }}>{t.conTitle}</h2>
               <p className="section-description" style={{ fontSize: '15px', marginTop: '8px' }}>
                 {t.conSub}
@@ -933,35 +972,78 @@ function App() {
             {/* Right side NGO contact form */}
             <div className="contact-form-card">
               {!contactSubmitted ? (
-                <form onSubmit={handleContactSubmit} className="contact-form">
-                  <div className="form-group-row">
-                    <div className="form-field-group">
-                      <label className="form-field-label">{t.conName} *</label>
-                      <input 
-                        type="text" 
-                        placeholder=" " 
-                        value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
-                        className="form-input" 
-                        required 
-                        disabled={isSending}
-                      />
-                    </div>
-                    <div className="form-field-group">
-                      <label className="form-field-label">{t.conEmail} *</label>
-                      <input 
-                        type="email" 
-                        placeholder=" " 
-                        value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value)}
-                        className="form-input" 
-                        required 
-                        disabled={isSending}
-                      />
-                    </div>
+                <>
+                  <div className="form-required-notice" style={{ 
+                    background: 'rgba(226, 29, 84, 0.06)', 
+                    borderLeft: '4px solid var(--primary)', 
+                    padding: '12px 16px', 
+                    borderRadius: 'var(--radius-sm)', 
+                    marginBottom: '20px', 
+                    fontSize: '13px', 
+                    fontWeight: 500, 
+                    color: 'var(--text-dark)' 
+                  }}>
+                    {t.conRequiredFieldsText}
                   </div>
+                  <form onSubmit={handleContactSubmit} className="contact-form">
+                    <div className="form-group-row" style={{ gridTemplateColumns: '1fr 2fr' }}>
+                      <div className="form-field-group">
+                        <label className="form-field-label">{t.conSalutationLabel}</label>
+                        <select
+                          value={contactSalutation}
+                          onChange={(e) => setContactSalutation(e.target.value)}
+                          className="form-select"
+                          disabled={isSending}
+                        >
+                          <option value="">{t.conSalutationSelect}</option>
+                          <option value="Mr">{t.conSalutationMr}</option>
+                          <option value="Ms">{t.conSalutationMs}</option>
+                          <option value="Dr">{t.conSalutationDr}</option>
+                          <option value="Other">{t.conSalutationOther}</option>
+                        </select>
+                      </div>
+                      <div className="form-field-group">
+                        <label className="form-field-label">{t.conName} *</label>
+                        <input 
+                          type="text" 
+                          placeholder="Jane Doe" 
+                          value={contactName}
+                          onChange={(e) => setContactName(e.target.value)}
+                          className="form-input" 
+                          required 
+                          disabled={isSending}
+                        />
+                      </div>
+                    </div>
 
-                  <div className="form-group-row">
+                    <div className="form-group-row">
+                      <div className="form-field-group">
+                        <label className="form-field-label">{t.conEmail} *</label>
+                        <input 
+                          type="email" 
+                          placeholder="jane@example.com" 
+                          value={contactEmail}
+                          onChange={(e) => setContactEmail(e.target.value)}
+                          className="form-input" 
+                          required 
+                          disabled={isSending}
+                        />
+                      </div>
+                      <div className="form-field-group">
+                        <label className="form-field-label">
+                          {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
+                        </label>
+                        <PhoneInput
+                          placeholder=""
+                          value={contactPhone}
+                          onChange={(val) => setContactPhone(val || '')}
+                          defaultCountry={defaultCountry}
+                          className="react-phone-input-field"
+                          disabled={isSending}
+                        />
+                      </div>
+                    </div>
+
                     <div className="form-field-group">
                       <label className="form-field-label">{t.conSubject} *</label>
                       <select 
@@ -979,39 +1061,26 @@ function App() {
                         <option value="Other">{t.conSubjOther}</option>
                       </select>
                     </div>
+
                     <div className="form-field-group">
-                      <label className="form-field-label">
-                        {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
-                      </label>
-                      <PhoneInput
-                        placeholder="497 15 36 36"
-                        value={contactPhone}
-                        onChange={(val) => setContactPhone(val || '')}
-                        defaultCountry={defaultCountry}
-                        className="react-phone-input-field"
+                      <label className="form-field-label">{t.conMessageLabel} * ({contactMessage.length}/1200)</label>
+                      <textarea 
+                        placeholder={t.conMessage}
+                        value={contactMessage}
+                        onChange={(e) => setContactMessage(e.target.value.slice(0, 1200))}
+                        maxLength={1200}
+                        className="form-textarea"
+                        required
                         disabled={isSending}
-                      />
+                      ></textarea>
                     </div>
-                  </div>
 
-                  <div className="form-field-group">
-                    <label className="form-field-label">{t.conMessageLabel} * ({contactMessage.length}/1200)</label>
-                    <textarea 
-                      placeholder={t.conMessage}
-                      value={contactMessage}
-                      onChange={(e) => setContactMessage(e.target.value.slice(0, 1200))}
-                      maxLength={1200}
-                      className="form-textarea"
-                      required
-                      disabled={isSending}
-                    ></textarea>
-                  </div>
-
-                  <button type="submit" className="btn-form-submit" disabled={isSending}>
-                    <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'ES' ? 'Enviando...' : 'Sending...') : t.conSend}</span>
-                    <Send size={15} />
-                  </button>
-                </form>
+                    <button type="submit" className="btn-form-submit" disabled={isSending}>
+                      <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'ES' ? 'Enviando...' : 'Sending...') : t.conSend}</span>
+                      <Send size={15} />
+                    </button>
+                  </form>
+                </>
               ) : (
                 <div className="form-success-card animate-fade-in">
                   <div className="success-check-circle">
@@ -1024,6 +1093,7 @@ function App() {
                   <button 
                     onClick={() => {
                       setContactSubmitted(false);
+                      setContactSalutation('');
                       setContactName('');
                       setContactEmail('');
                       setContactMessage('');
@@ -1094,8 +1164,7 @@ function App() {
                   <MapPin size={18} />
                   <span>
                     Rue Edouard Dekoster 53,<br />
-                    1140 Evere,<br />
-                    Brussels, Belgium
+                    1140 Brussels, Belgium
                   </span>
                 </div>
               </div>
