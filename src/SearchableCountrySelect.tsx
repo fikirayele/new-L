@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
-import flags from 'react-phone-number-input/flags';
+import * as flags from 'country-flag-icons/react/3x2';
 import { getCountryCallingCode } from 'react-phone-number-input';
 
 type CountryCode = string;
