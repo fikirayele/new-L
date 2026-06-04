@@ -1,87 +1,93 @@
-import express from 'express';
-import nodemailer from 'nodemailer';
-import cors from 'cors';
-import dotenv from 'dotenv';
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { MailtrapClient } from "mailtrap";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS
+// Middleware
 app.use(cors());
-
-// Parse JSON payloads
 app.use(express.json());
 
-// Load SMTP configurations from environment
-const smtpHost = process.env.SMTP_HOST || 'smtp.mailtrap.io';
-const smtpPort = parseInt(process.env.SMTP_PORT || '2525', 10);
-const smtpUser = process.env.SMTP_USER || '';
-const smtpPass = process.env.SMTP_PASS || '';
-const orgEmail = process.env.ORG_EMAIL || 'contact@organization.com';
+// Debug check (VERY IMPORTANT)
+console.log("MAILTRAP TOKEN:", process.env.MAILTRAP_TOKEN ? "Loaded ✅" : "Missing ❌");
+console.log("ORG EMAIL:", process.env.ORG_EMAIL);
 
-// Create Nodemailer Transporter
-const transporter = nodemailer.createTransport({
-  host: smtpHost,
-  port: smtpPort,
-  secure: smtpPort === 465, // true for port 465, false for other ports
-  auth: smtpUser && smtpPass ? {
-    user: smtpUser,
-    pass: smtpPass
-  } : undefined
+// Mailtrap client
+const client = new MailtrapClient({
+  token: process.env.MAILTRAP_TOKEN,
 });
 
-// Verify SMTP connection on startup
-transporter.verify((error) => {
-  if (error) {
-    console.error('SMTP Connection Warning (Normal if credentials are not configured yet):', error.message);
-  } else {
-    console.log('SMTP Server is ready to deliver messages.');
-  }
+// Test route
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
 });
 
-// POST /send-message route
-app.post('/send-message', async (req, res) => {
+// Contact API
+app.post("/send-message", async (req, res) => {
   const { name, email, phone, message, language } = req.body;
 
   // Validation
   if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Name, email, and message are required.' });
+    return res.status(400).json({
+      error: "Name, email, and message are required.",
+    });
   }
 
-  // Format email body
-  const emailContent = `
-New Contact Message:
----------------------------------------------
-Name: ${name}
-Email: ${email}
-Phone number: ${phone || 'Not provided'}
-Language: ${language}
-
-Message Content:
-${message}
----------------------------------------------
-  `;
-
-  const mailOptions = {
-    from: smtpUser || email, // Fallback to user email if no auth configured
-    to: orgEmail,
-    subject: 'New Contact Message',
-    text: emailContent,
-    replyTo: email
+  const sender = {
+    email: "hello@demomailtrap.co",
+    name: "Contact System",
   };
 
+  // ⚠️ IMPORTANT FIX:
+  // If you're using Mailtrap DEMO, you MUST send to your Mailtrap inbox email
+  // NOT random Gmail or org email
+  const recipients = [
+    {
+      email: process.env.ORG_EMAIL, // must be allowed in your Mailtrap account
+    },
+  ];
+
+  const emailContent = `
+New Contact Message
+---------------------------------
+Name: ${name}
+Email: ${email}
+Phone: ${phone || "Not provided"}
+Language: ${language || "Not provided"}
+
+Message:
+${message}
+---------------------------------
+  `;
+
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.messageId);
-    return res.status(200).json({ success: true, message: 'Message sent successfully.' });
+    const result = await client.send({
+      from: sender,
+      to: recipients,
+      subject: `New Contact Message from ${name}`,
+      text: emailContent,
+      category: "Contact Form",
+    });
+
+    console.log("Email sent successfully:", result);
+
+    return res.status(200).json({
+      success: true,
+      message: "Message sent successfully",
+    });
   } catch (error) {
-    console.error('Email Delivery Error:', error);
-    return res.status(500).json({ error: 'Failed to send message. SMTP delivery issue.' });
+    console.error("Email Error:", error);
+
+    return res.status(500).json({
+      error: error?.message || "Failed to send message",
+    });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
