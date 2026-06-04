@@ -52,8 +52,9 @@ app.post("/send-message", async (req, res) => {
   ];
 
   const emailContent = `
-New Contact Message
----------------------------------
+New Contact Message:
+---------------------------------------------
+Salutation: ${salutation || 'Not provided'}
 Name: ${name}
 Email: ${email}
 Phone: ${phone || "Not provided"}

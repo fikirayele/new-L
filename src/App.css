@@ -1991,21 +1991,214 @@
 }
 
 .react-phone-input-field .PhoneInputCountry {
-  background: var(--bg-light);
-  border: 1px solid var(--border);
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   cursor: pointer;
   transition: var(--transition-fast);
 }
 
-.react-phone-input-field .PhoneInputCountrySelect {
-  cursor: pointer;
+.react-phone-input-field .PhoneInputCountryIcon,
+.react-phone-input-field .PhoneInputCountrySelect,
+.react-phone-input-field .PhoneInputCountrySelectArrow {
+  display: none !important;
 }
+
+/* Custom Searchable Country Select */
+.custom-country-select-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.custom-country-select-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-light);
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-dark);
+  cursor: pointer;
+  outline: none;
+  height: 48px;
+  box-sizing: border-box;
+  transition: var(--transition-fast);
+}
+
+.custom-country-select-trigger:focus,
+.custom-country-select-trigger:hover {
+  border-color: var(--primary);
+  background: var(--bg-white);
+}
+
+.selected-flag-wrapper {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 16px;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.selected-flag-wrapper svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.selected-dial-code {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.select-arrow {
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.select-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.custom-country-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  margin-top: 6px;
+  width: 300px;
+  max-width: calc(90vw - 32px);
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeInDropdown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border);
+}
+
+.dropdown-search-wrapper .search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.dropdown-search-input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text-dark);
+  outline: none;
+}
+
+.dropdown-options-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-option-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-dark);
+  transition: var(--transition-fast);
+}
+
+.dropdown-option-item:hover,
+.dropdown-option-item.selected {
+  background: rgba(226, 29, 84, 0.08);
+  color: var(--primary);
+}
+
+.option-flag {
+  display: flex;
+  align-items: center;
+  width: 20px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.option-flag svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.option-name {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option-dial {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.dropdown-option-item:hover .option-dial,
+.dropdown-option-item.selected .option-dial {
+  color: var(--primary);
+}
+
+.no-options-found {
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Responsiveness fixes for form and footer */
+@media (max-width: 640px) {
+  .form-group-row {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  
+  .contact-item span {
+    font-size: 13px;
+  }
+}
+
 
 
 
