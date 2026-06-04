@@ -22,6 +22,7 @@ import {
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import SearchableCountrySelect from './SearchableCountrySelect';
 import 'react-phone-number-input/style.css';
 import './App.css';
 
@@ -1038,6 +1039,7 @@ function App() {
                           value={contactPhone}
                           onChange={(val) => setContactPhone(val || '')}
                           defaultCountry={defaultCountry}
+                          countrySelectComponent={SearchableCountrySelect}
                           className="react-phone-input-field"
                           disabled={isSending}
                         />
@@ -1192,9 +1194,9 @@ function App() {
           <div className="footer-bottom">
             <span>{t.footCopy}</span>
             <div className="footer-bottom-links">
-              <a href="#privacy">{t.footNav === 'Navigation' ? 'Privacy Policy' : t.footNav === 'Navegación' ? 'Política de Privacidad' : 'Politique de Confidentialité'}</a>
+              <a href="#privacy">{lang === 'EN' ? 'Privacy Policy' : lang === 'ES' ? 'Política de Privacidad' : 'Politique de Confidentialité'}</a>
               <span>|</span>
-              <a href="#terms">{t.footNav === 'Navigation' ? 'Terms of Use' : t.footNav === 'Navegación' ? 'Términos de Uso' : 'Conditions d\'Utilisation'}</a>
+              <a href="#terms">{lang === 'EN' ? 'Terms of Use' : lang === 'ES' ? 'Términos de Uso' : 'Conditions d\'Utilisation'}</a>
               <span>|</span>
               <a href="#faq" onClick={(e) => { e.preventDefault(); setShowFaqModal(true); }}>FAQ</a>
             </div>
