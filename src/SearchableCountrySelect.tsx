@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
 import * as flags from 'country-flag-icons/react/3x2';
 import { getCountryCallingCode } from 'react-phone-number-input';
+import en from 'react-phone-number-input/locale/en.json';
 
 type CountryCode = string;
 
@@ -35,8 +36,12 @@ export function SearchableCountrySelect({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Defensively resolve flags and labels to prevent runtime undefined access
+  const resolvedFlags = flags ? ((flags as any).default || flags) : {};
+  const countryLabels = labels || en || {};
+
   const selectedCountry = value;
-  const SelectedFlag = selectedCountry ? flags[selectedCountry as keyof typeof flags] : null;
+  const SelectedFlag = selectedCountry ? resolvedFlags[selectedCountry as keyof typeof resolvedFlags] : null;
   
   let selectedDialCode = '';
   if (selectedCountry) {
@@ -50,7 +55,7 @@ export function SearchableCountrySelect({
   // Filter options based on search query (name, dial code, or country code)
   const filteredOptions = (options || []).filter((opt) => {
     if (!opt.value) return false;
-    const countryName = labels[opt.value] || opt.label || '';
+    const countryName = countryLabels[opt.value] || opt.label || '';
     let dialCode = '';
     try {
       dialCode = getCountryCallingCode(opt.value as any);
@@ -99,14 +104,14 @@ export function SearchableCountrySelect({
             {filteredOptions.length > 0 ? (
               filteredOptions.map((opt) => {
                 if (!opt.value) return null;
-                const CountryFlag = flags[opt.value as keyof typeof flags];
+                const CountryFlag = resolvedFlags[opt.value as keyof typeof resolvedFlags];
                 let dialCode = '';
                 try {
                   dialCode = getCountryCallingCode(opt.value as any);
                 } catch (e) {
                   // Ignored
                 }
-                const countryName = labels[opt.value] || opt.label || opt.value;
+                const countryName = countryLabels[opt.value] || opt.label || opt.value;
 
                 return (
                   <button
