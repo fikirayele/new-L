@@ -28,12 +28,12 @@ app.get("/", (req, res) => {
 
 // Contact API
 app.post("/send-message", async (req, res) => {
-  const { name, email, phone, message, language } = req.body;
+  const { salutation, firstName, lastName, email, phone, message, language } = req.body;
 
   // Validation
-  if (!name || !email || !message) {
+  if (!firstName || !lastName || !email || !message) {
     return res.status(400).json({
-      error: "Name, email, and message are required.",
+      error: "First name, last name, email, and message are required.",
     });
   }
 
@@ -55,7 +55,8 @@ app.post("/send-message", async (req, res) => {
 New Contact Message:
 ---------------------------------------------
 Salutation: ${salutation || 'Not provided'}
-Name: ${name}
+First Name: ${firstName}
+Last Name: ${lastName}
 Email: ${email}
 Phone: ${phone || "Not provided"}
 Language: ${language || "Not provided"}
@@ -69,7 +70,7 @@ ${message}
     const result = await client.send({
       from: sender,
       to: recipients,
-      subject: `New Contact Message from ${name}`,
+      subject: `New Contact Message from ${firstName} ${lastName}`,
       text: emailContent,
       category: "Contact Form",
     });

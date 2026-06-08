@@ -185,7 +185,6 @@ function App() {
 
   // Landing Page: Contact Us Section
   const [contactSalutation, setContactSalutation] = useState('');
-  const [contactName, setContactName] = useState('');
   const [contactFirstName, setContactFirstName] = useState('');
   const [contactLastName, setContactLastName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -343,7 +342,7 @@ function App() {
     e.preventDefault();
 
     // 1. Client-side Validation
-    if (!contactName.trim() || !contactEmail.includes('@') || !contactMessage.trim()) {
+    if (!contactFirstName.trim() || !contactLastName.trim() || !contactEmail.includes('@') || !contactMessage.trim()) {
       triggerToast(lang === 'FR' ? 'Veuillez remplir tous les champs requis' : lang === 'ES' ? 'Por favor complete todos los campos requeridos' : 'Please fill in all required fields.');
       return;
     }
@@ -364,7 +363,8 @@ function App() {
         },
         body: JSON.stringify({
           salutation: contactSalutation || '',
-          name: contactName,
+          firstName: contactFirstName,
+          lastName: contactLastName,
           email: contactEmail,
           phone: contactPhone || '',
           message: contactMessage,
@@ -376,7 +376,7 @@ function App() {
 
       if (response.ok && data.success) {
         setContactSubmitted(true);
-        triggerToast(t.conSuccess.replace('{name}', contactName));
+        triggerToast(t.conSuccess.replace('{name}', `${contactFirstName} ${contactLastName}`));
       } else {
         triggerToast(data.error || (lang === 'FR' ? 'Erreur lors de l\'envoi du message' : lang === 'ES' ? 'Error al enviar el mensaje' : 'Failed to send message. Please try again.'));
       }
@@ -981,14 +981,14 @@ function App() {
                     {t.conRequiredFieldsText}
                   </p>
                   <form onSubmit={handleContactSubmit} className="contact-form">
-                    <div className="form-group-row" style={{ gridTemplateColumns: '1fr 2fr' }}>
+                    <div className="form-group-row" style={{ gridTemplateColumns: '1fr 1fr' }}>
                       <div className="form-field-group">
                         <label className="form-field-label">
                           {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
                         </label>
-                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                           {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Dr', label: t.conSalutationDr}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
-                            <label key={opt.val} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px' }}>
+                            <label key={opt.val} style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontSize: '13px' }}>
                               <input 
                                 type="radio" 
                                 name="salutation" 
@@ -996,28 +996,22 @@ function App() {
                                 checked={contactSalutation === opt.val}
                                 onChange={(e) => setContactSalutation(e.target.value)}
                                 disabled={isSending}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: 'pointer', appearance: 'none', width: '16px', height: '16px', margin: 0, marginRight: '4px' }}
                               />
-                              {opt.label}
+                              <span style={{
+                                padding: '6px 12px',
+                                borderRadius: '4px',
+                                background: contactSalutation === opt.val ? '#0079BE' : 'transparent',
+                                color: contactSalutation === opt.val ? 'white' : 'var(--text-dark)',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                              }}>
+                                {opt.label}
+                              </span>
                             </label>
                           ))}
                         </div>
                       </div>
-                      <div className="form-field-group">
-                        <label className="form-field-label">{t.conName} *</label>
-                        <input 
-                          type="text" 
-                          placeholder=" " 
-                          value={contactName}
-                          onChange={(e) => setContactName(e.target.value)}
-                          className="form-input" 
-                          required 
-                          disabled={isSending}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group-row">
                       <div className="form-field-group">
                         <label className="form-field-label">First Name *</label>
                         <input 
@@ -1030,6 +1024,9 @@ function App() {
                           disabled={isSending}
                         />
                       </div>
+                    </div>
+
+                    <div className="form-group-row">
                       <div className="form-field-group">
                         <label className="form-field-label">Last Name *</label>
                         <input 
@@ -1117,13 +1114,12 @@ function App() {
                   </div>
                   <h3 className="success-card-title">Message Transmitted</h3>
                   <p className="success-card-text">
-                    Thank you, <strong>{contactName}</strong>. Your query has been logged in our system. A coordinator will reach out to you within 24 hours.
+                    Thank you, <strong>{contactFirstName} {contactLastName}</strong>. Your query has been logged in our system. A coordinator will reach out to you within 24 hours.
                   </p>
                   <button 
                     onClick={() => {
                       setContactSubmitted(false);
                       setContactSalutation('');
-                      setContactName('');
                       setContactFirstName('');
                       setContactLastName('');
                       setContactEmail('');

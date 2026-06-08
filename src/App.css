@@ -2211,6 +2211,11 @@
   .contact-item span {
     font-size: 13px;
   }
+
+  /* Salutation radio button styling for mobile */
+  .form-field-group > div[style*="display: flex"] {
+    gap: 6px !important;
+  }
 }
 
 
