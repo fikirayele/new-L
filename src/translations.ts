@@ -152,7 +152,7 @@ export const translations: Record<string, TranslationSet> = {
     missionTitle: 'Our Mission',
     missionText: 'To dismantle adult female illiteracy from its roots. By providing targeted, slow-paced educational curriculum, private transit, childcare services, and digital tablets, we foster true personal autonomy, socio-economic confidence, and secure paths forward for our students.',
 
-    discSub: 'Empowerment Areas',
+    discSub: '',
     discTitle: 'Discover our areas of activity',
     discDesc: 'We offer a wide range of specialized, adult-focused programs and architectural initiatives that create lasting intergenerational impact. Click on any area to read the structural deep dive.',
     discIntl: 'International collaboration',
@@ -261,7 +261,7 @@ export const translations: Record<string, TranslationSet> = {
     missionTitle: 'Notre Mission',
     missionText: 'Éradiquer l’analphabétisme des femmes adultes à la racine. Grâce à un programme adapté, des transports sécurisés, une crèche et des tablettes numériques, nous favorisons l’autonomie de nos élèves.',
 
-    discSub: 'Domaines d’autonomisation',
+    discSub: '',
     discTitle: 'Découvrez nos domaines d’activité',
     discDesc: 'Nous proposons une large gamme de programmes spécialisés pour adultes et des initiatives architecturales qui créent un impact durable. Cliquez pour en savoir plus.',
     discIntl: 'Collaboration internationale',
@@ -370,7 +370,7 @@ export const translations: Record<string, TranslationSet> = {
     missionTitle: 'Nuestra Misión',
     missionText: 'Desmantelar el analfabetismo femenino adulto desde sus raíces. Con un plan de estudios adaptado, transporte privado y cuidado infantil, fomentamos la autonomía personal.',
 
-    discSub: 'Áreas de Empoderamiento',
+    discSub: '',
     discTitle: 'Descubra nuestras áreas de actividad',
     discDesc: 'Ofrecemos una amplia gama de programas especializados para adultos e iniciativas arquitectónicas que generan un impacto duradero. Haga clic para leer más.',
     discIntl: 'Colaboración internacional',

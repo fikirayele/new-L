@@ -186,6 +186,8 @@ function App() {
   // Landing Page: Contact Us Section
   const [contactSalutation, setContactSalutation] = useState('');
   const [contactName, setContactName] = useState('');
+  const [contactFirstName, setContactFirstName] = useState('');
+  const [contactLastName, setContactLastName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactSubject, setContactSubject] = useState('');
   const [contactPhone, setContactPhone] = useState('');
@@ -841,6 +843,7 @@ function App() {
       {/* Areas of Activity */}
       <section className="areas-section">
         <div className="container">
+          
           <div className="section-intro">
             <span className="section-label">{t.discSub}</span>
             <h2 className="section-title">{t.discTitle}</h2>
@@ -964,7 +967,7 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>{t.conHeadOffice}</h4>
-                    <p>Rue Edouard Dekoster 53<br />1140 Evere, Brussels, Belgium</p>
+                    <p>Rue Edouard Dekoster 53<br />1140 Brussels, Belgium</p>
                   </div>
                 </div>
               </div>
@@ -974,34 +977,31 @@ function App() {
             <div className="contact-form-card">
               {!contactSubmitted ? (
                 <>
-                  <div className="form-required-notice" style={{ 
-                    background: 'rgba(226, 29, 84, 0.06)', 
-                    borderLeft: '4px solid var(--primary)', 
-                    padding: '12px 16px', 
-                    borderRadius: 'var(--radius-sm)', 
-                    marginBottom: '20px', 
-                    fontSize: '13px', 
-                    fontWeight: 500, 
-                    color: 'var(--text-dark)' 
-                  }}>
+                  <p style={{ marginBottom: '20px', fontSize: '13px', color: 'var(--text-dark)' }}>
                     {t.conRequiredFieldsText}
-                  </div>
+                  </p>
                   <form onSubmit={handleContactSubmit} className="contact-form">
                     <div className="form-group-row" style={{ gridTemplateColumns: '1fr 2fr' }}>
                       <div className="form-field-group">
-                        <label className="form-field-label">{t.conSalutationLabel}</label>
-                        <select
-                          value={contactSalutation}
-                          onChange={(e) => setContactSalutation(e.target.value)}
-                          className="form-select"
-                          disabled={isSending}
-                        >
-                          <option value="">{t.conSalutationSelect}</option>
-                          <option value="Mr">{t.conSalutationMr}</option>
-                          <option value="Ms">{t.conSalutationMs}</option>
-                          <option value="Dr">{t.conSalutationDr}</option>
-                          <option value="Other">{t.conSalutationOther}</option>
-                        </select>
+                        <label className="form-field-label">
+                          {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
+                        </label>
+                        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                          {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Dr', label: t.conSalutationDr}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
+                            <label key={opt.val} style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px' }}>
+                              <input 
+                                type="radio" 
+                                name="salutation" 
+                                value={opt.val} 
+                                checked={contactSalutation === opt.val}
+                                onChange={(e) => setContactSalutation(e.target.value)}
+                                disabled={isSending}
+                                style={{ cursor: 'pointer' }}
+                              />
+                              {opt.label}
+                            </label>
+                          ))}
+                        </div>
                       </div>
                       <div className="form-field-group">
                         <label className="form-field-label">{t.conName} *</label>
@@ -1010,6 +1010,33 @@ function App() {
                           placeholder=" " 
                           value={contactName}
                           onChange={(e) => setContactName(e.target.value)}
+                          className="form-input" 
+                          required 
+                          disabled={isSending}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group-row">
+                      <div className="form-field-group">
+                        <label className="form-field-label">First Name *</label>
+                        <input 
+                          type="text" 
+                          placeholder=" " 
+                          value={contactFirstName || ''}
+                          onChange={(e) => setContactFirstName(e.target.value)}
+                          className="form-input" 
+                          required 
+                          disabled={isSending}
+                        />
+                      </div>
+                      <div className="form-field-group">
+                        <label className="form-field-label">Last Name *</label>
+                        <input 
+                          type="text" 
+                          placeholder=" " 
+                          value={contactLastName || ''}
+                          onChange={(e) => setContactLastName(e.target.value)}
                           className="form-input" 
                           required 
                           disabled={isSending}
@@ -1055,7 +1082,7 @@ function App() {
                         required
                         disabled={isSending}
                       >
-                        <option value="">{t.conProgramSelect}</option>
+                        <option value="">Select a reason</option>
                         <option value="General Information">{t.conSubjGen}</option>
                         <option value="Volunteering">{t.conSubjVol}</option>
                         <option value="Partnership Opportunities">{t.conSubjPartner}</option>
@@ -1097,6 +1124,8 @@ function App() {
                       setContactSubmitted(false);
                       setContactSalutation('');
                       setContactName('');
+                      setContactFirstName('');
+                      setContactLastName('');
                       setContactEmail('');
                       setContactMessage('');
                       setContactSubject('');
