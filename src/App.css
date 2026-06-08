@@ -2236,6 +2236,82 @@
   }
 }
 
+/* Salutation Custom Segmented Radio Buttons */
+.salutation-group {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  width: fit-content;
+  flex-wrap: wrap;
+}
 
+.salutation-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--bg-white);
+  color: var(--text-dark);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  transition: var(--transition-fast);
+  user-select: none;
+  margin: 0;
+}
 
+.salutation-option:last-child {
+  border-right: none;
+}
 
+.salutation-option:hover {
+  background: var(--bg-light);
+}
+
+.salutation-option.selected {
+  background: #0079BE;
+  color: var(--text-white);
+  border-right-color: #0079BE;
+}
+
+/* Custom Radio Button inside Salutation Options */
+.salutation-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  outline: none;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 !important;
+  transition: all 0.2s ease;
+}
+
+.salutation-radio:checked {
+  border-color: #ffffff;
+  background: transparent;
+}
+
+.salutation-radio:checked::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.salutation-option:hover .salutation-radio {
+  border-color: #94a3b8;
+}
+
+.salutation-option.selected:hover .salutation-radio {
+  border-color: #ffffff;
+}

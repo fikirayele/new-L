@@ -986,9 +986,12 @@ function App() {
                         <label className="form-field-label">
                           {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
                         </label>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div className="salutation-group">
                           {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Dr', label: t.conSalutationDr}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
-                            <label key={opt.val} style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontSize: '13px' }}>
+                            <label 
+                              key={opt.val} 
+                              className={`salutation-option ${contactSalutation === opt.val ? 'selected' : ''}`}
+                            >
                               <input 
                                 type="radio" 
                                 name="salutation" 
@@ -996,18 +999,9 @@ function App() {
                                 checked={contactSalutation === opt.val}
                                 onChange={(e) => setContactSalutation(e.target.value)}
                                 disabled={isSending}
-                                style={{ cursor: 'pointer', appearance: 'none', width: '16px', height: '16px', margin: 0, marginRight: '4px' }}
+                                className="salutation-radio"
                               />
-                              <span style={{
-                                padding: '6px 12px',
-                                borderRadius: '4px',
-                                background: contactSalutation === opt.val ? '#0079BE' : 'transparent',
-                                color: contactSalutation === opt.val ? 'white' : 'var(--text-dark)',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s'
-                              }}>
-                                {opt.label}
-                              </span>
+                              {opt.label}
                             </label>
                           ))}
                         </div>
