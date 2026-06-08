@@ -62,7 +62,7 @@ export function SearchableCountrySelect({
     } catch (e) {
       // Ignored
     }
-    const query = search.toLowerCase();
+    const query = search.toLowerCase().replace(/^\+/, ''); // Remove + prefix from search
     return (
       countryName.toLowerCase().includes(query) ||
       dialCode.includes(query) ||

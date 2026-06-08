@@ -981,10 +981,10 @@ function App() {
                     {t.conRequiredFieldsText}
                   </p>
                   <form onSubmit={handleContactSubmit} className="contact-form">
-                    <div className="form-group-row" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                      <div className="form-field-group">
+                    <div className="form-group-row">
+                      <div className="form-field-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-field-label">
-                          {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
+                          {t.conSalutationLabel}
                         </label>
                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                           {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Dr', label: t.conSalutationDr}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
@@ -1012,6 +1012,9 @@ function App() {
                           ))}
                         </div>
                       </div>
+                    </div>
+
+                    <div className="form-group-row" style={{ gridTemplateColumns: '1fr 1fr' }}>
                       <div className="form-field-group">
                         <label className="form-field-label">First Name *</label>
                         <input 
@@ -1024,9 +1027,6 @@ function App() {
                           disabled={isSending}
                         />
                       </div>
-                    </div>
-
-                    <div className="form-group-row">
                       <div className="form-field-group">
                         <label className="form-field-label">Last Name *</label>
                         <input 
