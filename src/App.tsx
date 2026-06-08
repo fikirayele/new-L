@@ -984,7 +984,7 @@ function App() {
                     <div className="form-group-row">
                       <div className="form-field-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-field-label">
-                          {t.conSalutationLabel}
+                          {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
                         </label>
                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                           {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Dr', label: t.conSalutationDr}, {val: 'Other', label: t.conSalutationOther}].map(opt => (

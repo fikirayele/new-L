@@ -1227,6 +1227,14 @@
     margin-left: 0;
   }
   
+  .hero-section {
+    padding: 120px 0 80px;
+  }
+  
+  .mission-container {
+    padding: 48px 0 32px;
+  }
+  
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -1264,6 +1272,16 @@
   
   .drawer-gallery {
     grid-template-columns: 1fr;
+  }
+  
+  .hero-section {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 100px 0 60px;
+  }
+  
+  .mission-container {
+    padding: 32px 0 20px;
   }
 }
 
