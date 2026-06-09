@@ -1244,12 +1244,21 @@ function App() {
                 <div className="container" style={{ padding: '0 24px 80px 24px' }}>
                   <div className="drawer-layout animate-fade-in">
                 <aside className="drawer-sidebar">
-                  {selectedSection.statNumber && (
+                  {(selectedSection.sidebarText || selectedSection.statNumber) && (
                     <div className="sidebar-card">
-                      <h4 className="sidebar-card-title">Impact</h4>
-                      <p className="sidebar-card-text">{selectedSection.sidebarText}</p>
-                      <div className="sidebar-stat">{selectedSection.statNumber}</div>
-                      <div className="sidebar-stat-label">{selectedSection.statLabel}</div>
+                      <h4 className="sidebar-card-title">
+                        {selectedSection.sidebarTitle || 
+                          (lang === 'FR' ? 'Impact' : lang === 'ES' ? 'Impacto' : 'Impact')}
+                      </h4>
+                      {selectedSection.sidebarText && (
+                        <p className="sidebar-card-text">{selectedSection.sidebarText}</p>
+                      )}
+                      {selectedSection.statNumber && (
+                        <div className="sidebar-stat">{selectedSection.statNumber}</div>
+                      )}
+                      {selectedSection.statLabel && (
+                        <div className="sidebar-stat-label">{selectedSection.statLabel}</div>
+                      )}
                     </div>
                   )}
 

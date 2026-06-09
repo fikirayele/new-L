@@ -6,6 +6,7 @@ export interface DetailSection {
   statNumber?: string;
   statLabel?: string;
   sidebarText?: string;
+  sidebarTitle?: string;
   mainParagraphs: string[];
   cards?: { title: string; text: string }[];
   listTitle?: string;
@@ -225,9 +226,8 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       path: 'Who we are / Organization',
       title: 'Our Organization',
       subtitle: 'Likro & Lihtov means "Read and Write" in Hebrew.',
-      statNumber: '10 Yrs+',
-      statLabel: 'Community Presence',
-      sidebarText: 'Likro & Lihtov was established to remove gender barriers in adult education. We operate in urban neighborhoods and rural communities.',
+      sidebarTitle: 'Our Story',
+      sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), which means "Read and Write" in Hebrew, was inspired by a life-changing moment in 2016 in Kinshasa, Democratic Republic of the Congo. While stuck in traffic, I witnessed two young girls selling oil in the street. The taxi driver explained that many children like them do not attend school because they need to help support their families financially. I could hardly believe it. This was the beginning of my discovery of a difficult reality faced by many women and children who lack access to education and opportunities. Two years later, what started as a simple idea gradually evolved into a project dedicated to literacy, empowerment and community development. Today, we work to help illiterate women gain the knowledge, confidence and skills needed to build a better future for themselves, their families and their communities.',
       mainParagraphs: [
         'Founded in Congo DR in 2018, our organization believes that education is one of the most powerful tools for transforming lives and communities.',
         'We work to promote literacy, support women’s empowerment and contribute to sustainable development projects.',
@@ -235,7 +235,6 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         'Every project we undertake is guided by a simple idea: when people gain access to education, they gain the power to create change.'
       ],
       cards: [
-        { title: 'Our Story', text: 'Likro & Lihtov (לקרוא ולכתוב), which means "Read and Write" in Hebrew, was inspired by a life-changing moment in 2016 in Kinshasa, Democratic Republic of the Congo. While stuck in traffic, I witnessed two young girls selling oil in the street. The taxi driver explained that many children like them do not attend school because they need to help support their families financially. I could hardly believe it. This was the beginning of my discovery of a difficult reality faced by many women and children who lack access to education and opportunities. Two years later, what started as a simple idea gradually evolved into a project dedicated to literacy, empowerment and community development. Today, we work to help illiterate women gain the knowledge, confidence and skills needed to build a better future for themselves, their families and their communities.' },
         { title: 'Our Vision', text: 'Whoever you are, wherever you come from, and whatever path you choose, strive to make our world a better place.' },
         { title: 'Our Values', text: 'Treat others with the same respect, dignity and kindness that you expect for yourself.' }
       ]
@@ -498,9 +497,8 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       path: 'Qui sommes-nous / Organisation',
       title: 'Notre Organisation',
       subtitle: 'Likro & Lihtov signifie « Lire et Écrire » en hébreu.',
-      statNumber: '10 ans+',
-      statLabel: 'Présence Communautaire',
-      sidebarText: 'Likro & Lihtov a été créé pour éliminer les obstacles de genre dans l’éducation des adultes. Nous opérons dans les zones urbaines et rurales.',
+      sidebarTitle: 'Notre histoire',
+      sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), qui signifie « Lire et Écrire » en hébreu, est né d’un événement marquant vécu en 2016 à Kinshasa, en République Démocratique du Congo. Alors que j’étais bloqué dans les embouteillages, j’ai aperçu deux jeunes filles vendant de l’huile dans la rue. Le chauffeur de taxi m’a expliqué que de nombreux enfants comme elles ne fréquentent pas l’école parce qu’ils doivent contribuer financièrement aux revenus de leur famille. J’avais du mal à le croire. Ce fut le début de ma découverte d’une réalité difficile vécue par de nombreuses femmes et de nombreux enfants privés d’accès à l’éducation et aux opportunités. Deux ans plus tard, ce qui n’était au départ qu’une simple idée s’est progressivement transformé en un projet dédié à l’alphabétisation, à l’autonomisation et au développement des communautés. Aujourd’hui, nous travaillons pour aider les femmes analphabètes à acquérir les connaissances, la confiance et les compétences nécessaires pour construire un avenir meilleur pour elles-mêmes, leurs familles et leurs communautés.',
       mainParagraphs: [
         'Fondée en RD Congo en 2018, notre organisation estime que l\'éducation est l\'un des outils les plus puissants pour transformer les vies et les communautés.',
         'Nous travaillons à promouvoir l\'alphabétisation, à soutenir l\'autonomisation des femmes et à contribuer à des projets de développement durable.',
@@ -508,7 +506,6 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         'Chaque projet que nous entreprenons est guidé par une idée simple : lorsque les gens ont accès à l\'éducation, ils acquièrent le pouvoir de créer le changement.'
       ],
       cards: [
-        { title: 'Notre histoire', text: 'Likro & Lihtov (לקרוא ולכתוב), qui signifie « Lire et Écrire » en hébreu, est né d’un événement marquant vécu en 2016 à Kinshasa, en République Démocratique du Congo. Alors que j’étais bloqué dans les embouteillages, j’ai aperçu deux jeunes filles vendant de l’huile dans la rue. Le chauffeur de taxi m’a expliqué que de nombreux enfants comme elles ne fréquentent pas l’école parce qu’ils doivent contribuer financièrement aux revenus de leur famille. J’avais du mal à le croire. Ce fut le début de ma découverte d’une réalité difficile vécue par de nombreuses femmes et de nombreux enfants privés d’accès à l’éducation et aux opportunités. Deux ans plus tard, ce qui n’était au départ qu’une simple idée s’est progressivement transformé en un projet dédié à l’alphabétisation, à l’autonomisation et au développement des communautés. Aujourd’hui, nous travaillons pour aider les femmes analphabètes à acquérir les connaissances, la confiance et les compétences nécessaires pour construire un avenir meilleur pour elles-mêmes, leurs familles et leurs communautés.' },
         { title: 'Notre vision', text: 'Qui que vous soyez, d’où que vous veniez et quel que soit le chemin que vous choisissez, travaillez à rendre notre monde meilleur.' },
         { title: 'Nos valeurs', text: 'Traitez les autres comme vous aimeriez être traité: avec le même respect, dignité et bienveillance.' }
       ]
@@ -700,9 +697,8 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       path: 'Quiénes somos / Organización',
       title: 'Nuestra Organización',
       subtitle: 'Likro & Lihtov significa "Leer y Escribir" en hebreo.',
-      statNumber: '10 Años+',
-      statLabel: 'Presencia Comunitaria',
-      sidebarText: 'Likro & Lihtov se estableció para eliminar las barreras de género en la educación de adultos.',
+      sidebarTitle: 'Nuestra historia',
+      sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), que significa "Leer y Escribir" en hebreo, se inspiró en un momento trascendental en 2016 en Kinshasa, República Democrática del Congo. Mientras estaba atrapado en el tráfico, vi a dos niñas vendiendo aceite en la calle. El taxista me explicó que muchos niños como ellos no asisten a la escuela porque necesitan ayudar económicamente a sus familias. Apenas podía creerlo. Este fue el comienzo de mi descubrimiento de una difícil realidad que enfrentan muchas mujeres y niños que carecen de acceso a la educación y a las oportunidades. Dos años más tarde, lo que comenzó como una simple idea evolucionó gradualmente hacia un proyecto dedicado a la alfabetización, el empoderamiento y el desarrollo comunitario. Hoy trabajamos para ayudar a las mujeres analfabetas a adquirir el conocimiento, la confianza y las habilidades necesarias para construir un futuro mejor para ellas, sus familias y sus comunidades.',
       mainParagraphs: [
         'Fundada en RD Congo en 2018, nuestra organización cree que la educación es una de las herramientas más poderosas para transformar vidas y comunidades.',
         'Trabajamos para promover la alfabetización, apoyar el empoderamiento de las mujeres y contribuir a proyectos de desarrollo sostenible.',
@@ -710,7 +706,6 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         'Cada proyecto que emprendemos está guiado por una idea simple: cuando las personas tienen acceso a la educación, obtienen el poder de generar cambios.'
       ],
       cards: [
-        { title: 'Nuestra historia', text: 'Likro & Lihtov (לקרוא ולכתוב), que significa "Leer y Escribir" en hebreo, se inspiró en un momento trascendental en 2016 en Kinshasa, República Democrática del Congo. Mientras estaba atrapado en el tráfico, vi a dos niñas vendiendo aceite en la calle. El taxista me explicó que muchos niños como ellos no asisten a la escuela porque necesitan ayudar económicamente a sus familias. Apenas podía creerlo. Este fue el comienzo de mi descubrimiento de una difícil realidad que enfrentan muchas mujeres y niños que carecen de acceso a la educación y a las oportunidades. Dos años más tarde, lo que comenzó como una simple idea evolucionó gradualmente hacia un proyecto dedicado a la alfabetización, el empoderamiento y el desarrollo comunitario. Hoy trabajamos para ayudar a las mujeres analfabetas a adquirir el conocimiento, la confianza y las habilidades necesarias para construir un futuro mejor para ellas, sus familias y sus comunidades.' },
         { title: 'Nuestra visión', text: 'Quienquiera que seas, de dondequiera que vengas y cualquiera que sea el camino que elijas, esfuérzate por hacer de nuestro mundo un lugar mejor.' },
         { title: 'Nuestros valores', text: 'Trata a los demás con el mismo respeto, dignidad y amabilidad que esperas para ti mismo.' }
       ]
