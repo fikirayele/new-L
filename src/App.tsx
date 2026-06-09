@@ -16,8 +16,7 @@ import {
   Image as ImageIcon,
   ChevronRight,
   Sparkles,
-  CreditCard,
-  Send
+  CreditCard
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -282,6 +281,97 @@ function App() {
     setFooterEmail('');
   };
 
+  const renderSiteFooter = () => (
+    <footer className="main-footer">
+      <div className="container">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <a href="#" className="footer-logo" onClick={(e) => { e.preventDefault(); closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+              Likro <span>&</span> Lihtov
+            </a>
+            <p className="footer-desc">{t.footDesc}</p>
+            
+            <div className="footer-socials">
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="LinkedIn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="YouTube">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="footer-col-title">{t.footNav}</h3>
+            <ul className="footer-links">
+              <li><a onClick={() => { closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</a></li>
+              <li><a onClick={() => { closeDrawer(); openDrawer('about-organization'); }}>{t.navAboutOrg}</a></li>
+              <li><a onClick={() => { closeDrawer(); openDrawer('about-goals'); }}>{t.navAboutGoals}</a></li>
+              <li><a onClick={() => { closeDrawer(); openDrawer('projects-construction'); }}>{t.navProjectsConst}</a></li>
+              <li><a href="#contacts-section" onClick={() => closeDrawer()}>{t.navContacts}</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="footer-col-title">{t.footContact}</h3>
+            <div className="footer-contact">
+              <div className="contact-item">
+                <Mail size={16} />
+                <span>contact@likrolihtov.com</span>
+              </div>
+              <div className="contact-item">
+                <Phone size={16} />
+                <span>+32 497 15 36 36</span>
+              </div>
+              <div className="contact-item">
+                <MapPin size={16} />
+                <span>
+                  Rue Edouard Dekoster 53,<br />
+                  1140 Brussels, Belgium
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="footer-col-title">{t.footStay}</h3>
+            <div className="footer-subscribe">
+              <p className="subscribe-text">{t.footSubText}</p>
+              <form onSubmit={handleFooterNewsletterSubmit} className="subscribe-form">
+                <input 
+                  type="email" 
+                  placeholder={t.footSubPlaceholder} 
+                  value={footerEmail} 
+                  onChange={(e) => setFooterEmail(e.target.value)}
+                  className="subscribe-input"
+                  required
+                />
+                <button type="submit" className="subscribe-btn">{t.footSubBtn}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <span>{t.footCopy}</span>
+          <div className="footer-bottom-links">
+            <a href="#privacy" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = '#privacy'; }}>{lang === 'EN' ? 'Privacy Policy' : lang === 'ES' ? 'Política de Privacidad' : 'Politique de Confidentialité'}</a>
+            <span>|</span>
+            <a href="#terms" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = '#terms'; }}>{lang === 'EN' ? 'Terms of Use' : lang === 'ES' ? 'Términos de Uso' : 'Conditions d\'Utilisation'}</a>
+            <span>|</span>
+            <a href="#faq" onClick={(e) => { e.preventDefault(); closeDrawer(); setShowFaqModal(true); }}>FAQ</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+
   // Submit Newsletter (Dedicated Standalone Form Modal)
   const handleNewsletterModalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -446,7 +536,7 @@ function App() {
                 </label>
               </div>
               <button type="submit" className="donate-submit-btn">
-                {t.newsSubmit} <Mail size={16} />
+                {t.newsSubmit}
               </button>
             </form>
           </div>
@@ -936,7 +1026,7 @@ function App() {
             {/* Left side info panel */}
             <div className="contact-info-side">
               <h2 className="section-title" style={{ fontSize: '32px' }}>{t.conTitle}</h2>
-              <p className="section-description" style={{ fontSize: '15px', marginTop: '8px' }}>
+              <p className="section-description" style={{ fontSize: '15px', marginTop: '8px', whiteSpace: 'pre-line' }}>
                 {t.conSub}
               </p>
 
@@ -987,7 +1077,7 @@ function App() {
                           {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
                         </label>
                         <div className="salutation-group">
-                          {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Dr', label: t.conSalutationDr}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
+                          {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
                             <label 
                               key={opt.val} 
                               className={`salutation-option ${contactSalutation === opt.val ? 'selected' : ''}`}
@@ -1035,7 +1125,7 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="form-group-row">
+                    <div className="form-group-row" style={{ gridTemplateColumns: '1fr 1.3fr' }}>
                       <div className="form-field-group">
                         <label className="form-field-label">{t.conEmail} *</label>
                         <input 
@@ -1097,7 +1187,6 @@ function App() {
 
                     <button type="submit" className="btn-form-submit" disabled={isSending}>
                       <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'ES' ? 'Enviando...' : 'Sending...') : t.conSend}</span>
-                      <Send size={15} />
                     </button>
                   </form>
                 </>
@@ -1134,109 +1223,26 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="main-footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <a href="#" className="footer-logo">
-                Likro <span>&</span> Lihtov
-              </a>
-              <p className="footer-desc">{t.footDesc}</p>
-              
-              <div className="footer-socials">
-                <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="Facebook">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                </a>
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="Instagram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="LinkedIn">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                </a>
-                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="YouTube">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="footer-col-title">{t.footNav}</h3>
-              <ul className="footer-links">
-                <li><a onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</a></li>
-                <li><a onClick={() => openDrawer('about-organization')}>{t.navAboutOrg}</a></li>
-                <li><a onClick={() => openDrawer('about-goals')}>{t.navAboutGoals}</a></li>
-                <li><a onClick={() => openDrawer('projects-construction')}>{t.navProjectsConst}</a></li>
-                <li><a href="#contacts-section">{t.navContacts}</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="footer-col-title">{t.footContact}</h3>
-              <div className="footer-contact">
-                <div className="contact-item">
-                  <Mail size={16} />
-                  <span>contact@likrolihtov.com</span>
-                </div>
-                <div className="contact-item">
-                  <Phone size={16} />
-                  <span>+32 497 15 36 36</span>
-                </div>
-                <div className="contact-item">
-                  <MapPin size={16} />
-                  <span>
-                    Rue Edouard Dekoster 53,<br />
-                    1140 Brussels, Belgium
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="footer-col-title">{t.footStay}</h3>
-              <div className="footer-subscribe">
-                <p className="subscribe-text">{t.footSubText}</p>
-                <form onSubmit={handleFooterNewsletterSubmit} className="subscribe-form">
-                  <input 
-                    type="email" 
-                    placeholder={t.footSubPlaceholder} 
-                    value={footerEmail} 
-                    onChange={(e) => setFooterEmail(e.target.value)}
-                    className="subscribe-input"
-                    required
-                  />
-                  <button type="submit" className="subscribe-btn">{t.footSubBtn}</button>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer-bottom">
-            <span>{t.footCopy}</span>
-            <div className="footer-bottom-links">
-              <a href="#privacy">{lang === 'EN' ? 'Privacy Policy' : lang === 'ES' ? 'Política de Privacidad' : 'Politique de Confidentialité'}</a>
-              <span>|</span>
-              <a href="#terms">{lang === 'EN' ? 'Terms of Use' : lang === 'ES' ? 'Términos de Uso' : 'Conditions d\'Utilisation'}</a>
-              <span>|</span>
-              <a href="#faq" onClick={(e) => { e.preventDefault(); setShowFaqModal(true); }}>FAQ</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {renderSiteFooter()}
 
       {/* Multilingual Slide-in Drawer */}
       <div className={`overlay-drawer ${isDrawerOpen ? 'open' : ''}`}>
         <div className="overlay-backdrop" onClick={closeDrawer}></div>
         <div className="overlay-panel">
           <div className="overlay-header">
-            <span className="overlay-path">{selectedSection?.path}</span>
-            <button className="overlay-close-btn" onClick={closeDrawer}>
-              <X size={20} />
-            </button>
+            <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
+              <span className="overlay-path">{selectedSection?.path}</span>
+              <button className="overlay-close-btn" onClick={closeDrawer}>
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
-          <div className="overlay-body">
+          <div className="overlay-body" style={{ padding: '48px 0 0 0' }}>
             {selectedSection && (
-              <div className="drawer-layout animate-fade-in">
+              <>
+                <div className="container" style={{ padding: '0 24px 80px 24px' }}>
+                  <div className="drawer-layout animate-fade-in">
                 <aside className="drawer-sidebar">
                   {selectedSection.statNumber && (
                     <div className="sidebar-card">
@@ -1392,7 +1398,10 @@ function App() {
                     </div>
                   )}
                 </article>
-              </div>
+                  </div>
+                </div>
+                {renderSiteFooter()}
+              </>
             )}
           </div>
         </div>
