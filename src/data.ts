@@ -12,6 +12,8 @@ export interface DetailSection {
   listTitle?: string;
   listItems?: string[];
   galleryType?: 'photos' | 'curriculum' | 'team' | 'none';
+  quickInfoTitle?: string;
+  quickInfoItems?: string[];
 }
 
 export interface CountryData {
@@ -303,19 +305,20 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       id: 'illiteracy-definition',
       path: 'Illiteracy / Definition',
       title: 'Understanding Adult Illiteracy',
-      subtitle: 'Why learning to read and write is not just a skill, but a fundamental human right.',
-      statNumber: '773M',
-      statLabel: 'Illiterate Worldwide',
-      sidebarText: 'Nearly two-thirds of the world\'s illiterate adults are women. This structural inequality traps entire families in cycles of poverty.',
+      subtitle: 'Why literacy is a fundamental human right.',
+      statNumber: '141M',
+      statLabel: 'WOMEN IN SUB-SAHARAN AFRICA',
+      sidebarTitle: 'Facts',
+      sidebarText: 'In Sub-Saharan Africa, around 141 million adult women could not read and write.\n\nReference: UNESCO Institute for Statistics, 2016/2017.',
+      quickInfoTitle: 'Consequences',
+      quickInfoItems: ['Loss of autonomy', 'Economic dependence', 'Social isolation'],
       mainParagraphs: [
-        'Illiteracy is more than the inability to decipher letters on a page; it is a profound barrier to social, legal, and economic agency. A woman who cannot read cannot review an employment contract, verify medication dosages for her children, vote with confidence, or protect herself from financial exploitation.',
-        'Scientific research consistently shows that illiteracy is closely tied to domestic vulnerability. When women gain literacy, they experience a dramatic increase in self-worth, community decision-making, and financial independence.',
-        'Likro & Lihtov defines literacy as "applied capability"—meaning reading, basic math, and critical comprehension that can be instantly utilized in daily life to improve health, safety, and income.'
+        'Illiteracy prevents people from having full access to economic and legal independence. Being able to read is an essential factor for empowerment.'
       ],
       cards: [
-        { title: 'The Cycle of Poverty', text: 'Without reading skills, women are confined to low-income labor, making child education and upward mobility extremely difficult.' },
-        { title: 'Health & Nutrition', text: 'Literate mothers are significantly more likely to follow proper medical prescriptions, lowering infant mortality and disease rates.' },
-        { title: 'Cognitive Autonomy', text: 'Literacy physically rewires brain networks, improving executive function, analytical logic, and long-term planning.' }
+        { title: 'Definition', text: 'Illiteracy is the inability to read and write a simple sentence, understand a short text, or perform basic calculations.' },
+        { title: 'Literate vs. Illiterate', text: 'A literate person can read, write, and understand simple information. An illiterate person does not possess these basic skills.' },
+        { title: 'Psychological Consequences', text: 'Illiteracy often leads to low self-confidence, stress, feelings of inferiority, and a loss of self-esteem.' }
       ]
     },
     'illiteracy-school-program': {
@@ -550,13 +553,21 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     'illiteracy-definition': {
       id: 'illiteracy-definition',
       path: 'Analphabétisme / Définition',
-      title: 'Comprendre l’Analphabétisme des Adultes',
+      title: 'Comprendre l’analphabétisme des adultes',
       subtitle: 'Pourquoi l’alphabétisation est un droit humain fondamental.',
-      statNumber: '773M',
-      statLabel: 'Analphabètes dans le Monde',
-      sidebarText: 'Près des deux tiers des adultes analphabètes sont des femmes.',
+      statNumber: '141M',
+      statLabel: 'FEMMES EN AFRIQUE SUBSAHARIENNE',
+      sidebarTitle: 'Facts',
+      sidebarText: 'En Afrique subsaharienne, environ 141 millions de femmes adultes ne savaient pas lire et écrire.\n\nRéférence : UNESCO Institute for Statistics, 2016/2017.',
+      quickInfoTitle: 'Conséquences',
+      quickInfoItems: ['Perte d’autonomie', 'Dépendance économique', 'Isolement social'],
       mainParagraphs: [
-        'L’analphabétisme empêche d’avoir pleinement accès à l’indépendance économique et juridique. Savoir lire est un facteur essentiel d’émancipation.'
+        'L’analphabétisme empêche les personnes d’avoir pleinement accès à l’indépendance économique et juridique. Savoir lire est un facteur essentiel d’autonomisation.'
+      ],
+      cards: [
+        { title: 'Définition', text: 'L’analphabétisme est l’incapacité de lire et d’écrire une phrase simple, de comprendre un court texte ou d’effectuer des calculs de base.' },
+        { title: 'Alphabétisé vs Analphabète', text: 'Une personne alphabétisée peut lire, écrire et comprendre des informations simples. Une personne analphabète ne possède pas ces compétences fondamentales.' },
+        { title: 'Conséquences psychologiques', text: 'L’analphabétisme entraîne souvent un manque de confiance en soi, du stress, un sentiment d’infériorité et une perte d’estime de soi.' }
       ]
     },
     'illiteracy-school-program': {
@@ -750,13 +761,21 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     'illiteracy-definition': {
       id: 'illiteracy-definition',
       path: 'Analfabetismo / Definición',
-      title: 'Comprendiendo el Analfabetismo Adulto',
+      title: 'Comprendiendo el analfabetismo adulto',
       subtitle: 'La alfabetización es un derecho humano y un camino al empoderamiento.',
-      statNumber: '773M',
-      statLabel: 'Adultos Analfabetos',
-      sidebarText: 'Dos tercios de las personas analfabetas adultas son mujeres.',
+      statNumber: '141M',
+      statLabel: 'MUJERES EN ÁFRICA SUBSAHARIANA',
+      sidebarTitle: 'Facts',
+      sidebarText: 'En el África subsahariana, alrededor de 141 millones de mujeres adultas no sabían leer ni escribir.\n\nReferencia: Instituto de Estadística de la UNESCO, 2016/2017.',
+      quickInfoTitle: 'Consecuencias',
+      quickInfoItems: ['Pérdida de autonomía', 'Dependencia económica', 'Aislamiento social'],
       mainParagraphs: [
-        'No saber leer aísla legal y financieramente a las mujeres. La lectura abre caminos hacia la autosuficiencia.'
+        'El analfabetismo impide que las personas tengan pleno acceso a la independencia económica y legal. Ser capaz de leer es un factor esencial para el empoderamiento.'
+      ],
+      cards: [
+        { title: 'Definición', text: 'El analfabetismo es la incapacidad de leer y escribir una oración simple, comprender un texto corto o realizar cálculos básicos.' },
+        { title: 'Alfabetizado vs Analfabeto', text: 'Una persona alfabetizada puede leer, escribir y comprender información simple. Una persona analfabeta no posee estas habilidades básicas.' },
+        { title: 'Consecuencias psicológicas', text: 'El analfabetismo a menudo conduce a una baja confianza en sí mismo, estrés, sentimientos de inferioridad y pérdida de la autoestima.' }
       ]
     },
     'illiteracy-school-program': {

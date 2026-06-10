@@ -167,6 +167,9 @@ function App() {
   const [donateCause, setDonateCause] = useState('General Educational Fund');
   const [payMethod, setPayMethod] = useState('card');
 
+  // Isolate contact form view
+  const [showContactOnly, setShowContactOnly] = useState(false);
+
   // Modal: Standalone Newsletter Form
   const [showNewsletterModal, setShowNewsletterModal] = useState(false);
   const [newsName, setNewsName] = useState('');
@@ -191,6 +194,8 @@ function App() {
   const [contactPhone, setContactPhone] = useState('');
   const [contactMessage, setContactMessage] = useState('');
   const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactRobotVerified, setContactRobotVerified] = useState(false);
+  const [robotError, setRobotError] = useState(false);
 
   // States for sending and geo-ip country detection
   const [isSending, setIsSending] = useState(false);
@@ -221,6 +226,21 @@ function App() {
       }
     };
     detectCountry();
+  }, []);
+
+  // Listen for hashchange to show/hide sections when Contact form is accessed
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#contacts-section') {
+        setShowContactOnly(true);
+        window.scrollTo({ top: 0 });
+      } else {
+        setShowContactOnly(false);
+      }
+    };
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   // Footer newsletter email input
@@ -286,7 +306,7 @@ function App() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <a href="#" className="footer-logo" onClick={(e) => { e.preventDefault(); closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+            <a href="#" className="footer-logo" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = ''; setShowContactOnly(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
               Likro <span>&</span> Lihtov
             </a>
             <p className="footer-desc">{t.footDesc}</p>
@@ -323,17 +343,32 @@ function App() {
             <div className="footer-contact">
               <div className="contact-item">
                 <Mail size={16} />
-                <span>contact@likrolihtov.com</span>
+                <span>
+                  <a href="mailto:contact@likrolihtov.com" className="footer-contact-link">
+                    contact@likrolihtov.com
+                  </a>
+                </span>
               </div>
               <div className="contact-item">
                 <Phone size={16} />
-                <span>+32 497 15 36 36</span>
+                <span>
+                  <a href="tel:+32497153636" className="footer-contact-link">
+                    +32 497 15 36 36
+                  </a>
+                </span>
               </div>
               <div className="contact-item">
                 <MapPin size={16} />
                 <span>
-                  Rue Edouard Dekoster 53,<br />
-                  1140 Brussels, Belgium
+                  <a 
+                    href="https://maps.google.com/?q=Rue+Edouard+Dekoster+53,+1140+Brussels,+Belgium" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="footer-contact-link"
+                  >
+                    Rue Edouard Dekoster 53,<br />
+                    1140 Brussels, Belgium
+                  </a>
                 </span>
               </div>
             </div>
@@ -431,6 +466,13 @@ function App() {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Spam / Robot Validation
+    if (!contactRobotVerified) {
+      setRobotError(true);
+      triggerToast(t.conRobotError);
+      return;
+    }
+
     // 1. Client-side Validation
     if (!contactFirstName.trim() || !contactLastName.trim() || !contactEmail.includes('@') || !contactMessage.trim()) {
       triggerToast(lang === 'FR' ? 'Veuillez remplir tous les champs requis' : lang === 'ES' ? 'Por favor complete todos los campos requeridos' : 'Please fill in all required fields.');
@@ -505,7 +547,7 @@ function App() {
                 <label className="form-field-label">{t.newsName}</label>
                 <input
                   type="text"
-                  placeholder="Jane Doe"
+                  placeholder=""
                   value={newsName}
                   onChange={(e) => setNewsName(e.target.value)}
                   className="form-input"
@@ -516,20 +558,20 @@ function App() {
                 <label className="form-field-label">{t.newsEmail}</label>
                 <input
                   type="email"
-                  placeholder="jane.doe@example.com"
+                  placeholder=""
                   value={newsEmail}
                   onChange={(e) => setNewsEmail(e.target.value)}
                   className="form-input"
                   required
                 />
               </div>
-              <div className="form-field-group" style={{ flexDirection: 'row', gap: '10px', alignItems: 'flex-start', marginBottom: '24px' }}>
+              <div className="form-field-group" style={{ flexDirection: 'row', gap: '10px', alignItems: 'center', marginBottom: '24px' }}>
                 <input
                   type="checkbox"
                   id="consent"
                   checked={newsConsent}
                   onChange={(e) => setNewsConsent(e.target.checked)}
-                  style={{ marginTop: '4px', cursor: 'pointer' }}
+                  className="newsletter-checkbox"
                 />
                 <label htmlFor="consent" style={{ fontSize: '12px', color: 'var(--text-muted)', cursor: 'pointer', lineHeight: '1.4' }}>
                   {t.newsConsent}
@@ -768,7 +810,12 @@ function App() {
       {/* Header Sticky glass navigation */}
       <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container header-container">
-          <a href="#" className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <a href="#" className="logo" onClick={(e) => {
+            e.preventDefault();
+            window.location.hash = '';
+            setShowContactOnly(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}>
             Likro <span>&</span> Lihtov
           </a>
 
@@ -883,10 +930,12 @@ function App() {
         </div>
       </header>
 
-      {/* Hero Section takes first whole viewport cleanly */}
-      <section 
-        className="hero-section"
-      >
+      {!showContactOnly && (
+        <>
+          {/* Hero Section takes first whole viewport cleanly */}
+          <section 
+            className="hero-section"
+          >
         <div className="container">
           <div className="hero-content animate-fade-in">
             <span className="hero-sub">{t.heroSub}</span>
@@ -1018,6 +1067,8 @@ function App() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
       {/* DEDICATED CONTACT US SECTION */}
       <section id="contacts-section" className="contacts-section">
@@ -1037,7 +1088,11 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>{t.conOurEmail}</h4>
-                    <p>contact@likrolihtov.com</p>
+                    <p>
+                      <a href="mailto:contact@likrolihtov.com" className="clickable-contact-link">
+                        contact@likrolihtov.com
+                      </a>
+                    </p>
                   </div>
                 </div>
 
@@ -1047,7 +1102,11 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>{t.conOurPhone}</h4>
-                    <p>+32 497 15 36 36</p>
+                    <p>
+                      <a href="tel:+32497153636" className="clickable-contact-link">
+                        +32 497 15 36 36
+                      </a>
+                    </p>
                   </div>
                 </div>
 
@@ -1057,7 +1116,16 @@ function App() {
                   </div>
                   <div className="contact-card-details">
                     <h4>{t.conHeadOffice}</h4>
-                    <p>Rue Edouard Dekoster 53<br />1140 Brussels, Belgium</p>
+                    <p>
+                      <a 
+                        href="https://maps.google.com/?q=Rue+Edouard+Dekoster+53,+1140+Brussels,+Belgium" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="clickable-contact-link"
+                      >
+                        Rue Edouard Dekoster 53<br />1140 Brussels, Belgium
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1185,6 +1253,35 @@ function App() {
                       ></textarea>
                     </div>
 
+                    {/* I am not a robot Verification */}
+                    <div className="captcha-container">
+                      <div className="captcha-left">
+                        <input 
+                          type="checkbox" 
+                          id="robot-verify" 
+                          checked={contactRobotVerified}
+                          onChange={(e) => {
+                            setContactRobotVerified(e.target.checked);
+                            if (e.target.checked) setRobotError(false);
+                          }}
+                          className="captcha-checkbox"
+                          disabled={isSending}
+                        />
+                        <label htmlFor="robot-verify" className="captcha-label">
+                          {t.conRobotVerification}
+                        </label>
+                      </div>
+                      <div className="captcha-right">
+                        <Shield size={22} style={{ color: 'var(--primary)' }} />
+                        <span className="captcha-logo-text">reCAPTCHA</span>
+                      </div>
+                    </div>
+                    {robotError && (
+                      <div className="form-error-msg">
+                        {t.conRobotError}
+                      </div>
+                    )}
+
                     <button type="submit" className="btn-form-submit" disabled={isSending}>
                       <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'ES' ? 'Enviando...' : 'Sending...') : t.conSend}</span>
                     </button>
@@ -1209,6 +1306,8 @@ function App() {
                       setContactMessage('');
                       setContactSubject('');
                       setContactPhone('');
+                      setContactRobotVerified(false);
+                      setRobotError(false);
                     }}
                     className="btn-donate"
                     style={{ marginTop: '16px' }}
@@ -1263,20 +1362,34 @@ function App() {
                   )}
 
                   <div className="sidebar-quickinfo">
-                    <h4 className="quickinfo-title">Status</h4>
+                    <h4 className="quickinfo-title">
+                      {selectedSection.quickInfoTitle || 
+                        (lang === 'FR' ? 'Statut' : lang === 'ES' ? 'Estado' : 'Status')}
+                    </h4>
                     <ul className="quickinfo-list">
-                      <li>
-                        <CheckCircle size={14} />
-                        <span>Empowerment Focus</span>
-                      </li>
-                      <li>
-                        <CheckCircle size={14} />
-                        <span>Safety Guaranteed</span>
-                      </li>
-                      <li>
-                        <CheckCircle size={14} />
-                        <span>Community Funded</span>
-                      </li>
+                      {selectedSection.quickInfoItems ? (
+                        selectedSection.quickInfoItems.map((item, index) => (
+                          <li key={index}>
+                            <CheckCircle size={14} />
+                            <span>{item}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <>
+                          <li>
+                            <CheckCircle size={14} />
+                            <span>{lang === 'FR' ? 'Priorité autonomisation' : lang === 'ES' ? 'Enfoque de empoderamiento' : 'Empowerment Focus'}</span>
+                          </li>
+                          <li>
+                            <CheckCircle size={14} />
+                            <span>{lang === 'FR' ? 'Sécurité garantie' : lang === 'ES' ? 'Seguridad garantizada' : 'Safety Guaranteed'}</span>
+                          </li>
+                          <li>
+                            <CheckCircle size={14} />
+                            <span>{lang === 'FR' ? 'Financé par la communauté' : lang === 'ES' ? 'Financiado por la comunidad' : 'Community Funded'}</span>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   </div>
                 </aside>

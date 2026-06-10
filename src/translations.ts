@@ -100,6 +100,8 @@ export interface TranslationSet {
   conSalutationOther: string;
   conSend: string;
   conSuccess: string;
+  conRobotVerification: string;
+  conRobotError: string;
 
   // Dedicated Newsletter Registration Form
   newsTitle: string;
@@ -169,7 +171,7 @@ export const translations: Record<string, TranslationSet> = {
     footNav: 'Quick Links',
     footContact: 'Contact',
     footStay: 'Join Our Community',
-    footSubText: 'Get updates about our projects and achievements.',
+    footSubText: 'Subscribe to our newsletter to stay updated on our projects and achievements.',
     footSubPlaceholder: 'Your email address',
     footSubBtn: 'Subscribe',
     footCopy: '© 2026 Likro & Lihtov. All rights reserved.',
@@ -214,6 +216,8 @@ export const translations: Record<string, TranslationSet> = {
     conSalutationOther: 'Other',
     conSend: 'Send Message',
     conSuccess: 'Thank you, {name}! Your message has been sent to our community team.',
+    conRobotVerification: "I'm not a robot",
+    conRobotError: 'Please verify that you are not a robot.',
 
     newsTitle: 'Join Our Community',
     newsSub: 'Stay informed about our projects, achievements and impact.',
@@ -274,11 +278,11 @@ export const translations: Record<string, TranslationSet> = {
     sponTitle: 'Confiance & Partenariat',
     sponSub: 'Ils croient en nous et soutiennent le financement de nos classes et équipements.',
 
-    footDesc: 'L\'apprentissage de la lecture et de l\'écriture est un droit humain',
+    footDesc: 'Apprendre à lire et à écrire est un droit humain.',
     footNav: 'Liens rapides',
     footContact: 'Contact',
     footStay: 'Rejoignez notre communauté',
-    footSubText: 'Recevez des mises à jour sur nos projets et nos réussites.',
+    footSubText: 'Inscrivez-vous à notre newsletter pour suivre nos projets et nos résultats.',
     footSubPlaceholder: 'Votre adresse email',
     footSubBtn: 'S’abonner',
     footCopy: '© 2026 Likro & Lihtov. Tous droits réservés.',
@@ -323,9 +327,11 @@ export const translations: Record<string, TranslationSet> = {
     conSalutationOther: 'Autre',
     conSend: 'Envoyer le message',
     conSuccess: 'Merci, {name}! Votre message a bien été envoyé à notre équipe communautaire.',
+    conRobotVerification: "Je ne suis pas un robot",
+    conRobotError: "Veuillez vérifier que vous n'êtes pas un robot.",
 
     newsTitle: 'Rejoignez nous',
-    newsSub: 'Restez informé de nos projets, réalisations et impact',
+    newsSub: 'Restez informé de nos projets, réalisations et impact.',
     newsName: 'Nom complet',
     newsEmail: 'Email',
     newsConsent: 'J\'accepte de recevoir des informations sur les projets et les activités de Likro & Lihtov.',
@@ -387,7 +393,7 @@ export const translations: Record<string, TranslationSet> = {
     footNav: 'Enlaces rápidos',
     footContact: 'Contacto',
     footStay: 'Únase a nuestra comunidad',
-    footSubText: 'Reciba actualizaciones sobre nuestros proyectos y logros.',
+    footSubText: 'Suscríbase a nuestro boletín para mantenerse actualizado sobre nuestros proyectos y logros.',
     footSubPlaceholder: 'Su correo electrónico',
     footSubBtn: 'Suscribirse',
     footCopy: '© 2026 Likro & Lihtov. Todos los derechos reservados.',
@@ -432,6 +438,8 @@ export const translations: Record<string, TranslationSet> = {
     conSalutationOther: 'Otro',
     conSend: 'Enviar mensaje',
     conSuccess: '¡Gracias, {name}! Su mensaje ha sido enviado a nuestro equipo comunitario.',
+    conRobotVerification: 'No soy un robot',
+    conRobotError: 'Por favor, verifique que no es un robot.',
 
     newsTitle: 'Únete a nuestra comunidad',
     newsSub: 'Manténgase informado sobre nuestros proyectos, logros e impacto.',

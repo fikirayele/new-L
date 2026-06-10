@@ -667,7 +667,10 @@
 }
 
 .footer-links a:hover {
-  color: var(--primary);
+  color: red !important;
+  text-decoration: underline !important;
+  text-decoration-color: white !important;
+  text-underline-offset: 4px;
   padding-left: 4px;
 }
 
@@ -762,7 +765,10 @@
 }
 
 .footer-bottom-links a:hover {
-  color: var(--primary);
+  color: red !important;
+  text-decoration: underline !important;
+  text-decoration-color: white !important;
+  text-underline-offset: 4px;
 }
 
 /* ==========================================
@@ -2313,4 +2319,126 @@
 
 .salutation-option.selected:hover .salutation-radio {
   border-color: #ffffff;
+}
+
+/* Custom Checkbox for Newsletter Modal */
+.newsletter-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border: 2px solid var(--primary) !important;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.newsletter-checkbox:checked {
+  background-color: var(--primary) !important;
+}
+
+.newsletter-checkbox:checked::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 1px;
+}
+
+/* Clickable contact links in side panel */
+.clickable-contact-link {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.clickable-contact-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Clickable contact links in footer */
+.footer-contact-link {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.footer-contact-link:hover {
+  color: red !important;
+  text-decoration: underline !important;
+  text-decoration-color: white !important;
+  text-underline-offset: 4px;
+}
+
+/* Captcha box styles */
+.captcha-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  padding: 12px 16px;
+  width: 100%;
+  max-width: 302px;
+  margin: 16px 0 20px 0;
+  box-sizing: border-box;
+}
+
+.captcha-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.captcha-checkbox {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+.captcha-label {
+  font-size: 14px;
+  color: #333;
+  user-select: none;
+  font-family: Roboto, helvetica, arial, sans-serif;
+  font-weight: 500;
+}
+
+.captcha-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+.captcha-logo-text {
+  font-size: 8px;
+  color: #9b9b9b;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.form-error-msg {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  font-weight: 500;
 }
