@@ -22,7 +22,8 @@ import {
   GraduationCap,
   HelpCircle,
   FileText,
-  Calendar
+  Calendar,
+  Users
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -361,10 +362,10 @@ function App() {
 
     // Intro texts
     const introTitle = isFr 
-      ? "1 - Comprendre l'analphabétisme" 
+      ? "Comprendre l'analphabétisme" 
       : isEs 
-        ? "1 - Comprender el analfabetismo" 
-        : "1 - Understanding Illiteracy";
+        ? "Comprender el analfabetismo" 
+        : "Understanding Illiteracy";
 
     const introSub = isFr 
       ? "Pourquoi l'alphabétisation est un droit fondamental" 
@@ -375,25 +376,28 @@ function App() {
     const introParagraphs = isFr 
       ? [
           "Savoir lire et écrire est bien plus qu'une compétence scolaire. C'est une condition essentielle pour accéder à l'information, comprendre ses droits, prendre des décisions éclairées, soutenir sa famille et participer pleinement à la vie économique, sociale et citoyenne.",
-          "L'analphabétisme touche des millions de personnes dans le monde. Il limite leur autonomie, renforce les inégalités et freine le développement des individus et des communautés."
+          "L'analphabétisme concerne des millions de personnes dans le monde. Il limite leur autonomie, renforce les inégalités et freine le développement des individus et des communautés.",
+          "L'alphabétisation ouvre la voie à un avenir plus juste et plus inclusif pour toutes et tous."
         ]
       : isEs 
         ? [
-            "Saber leer y escribir es mucho más que una habilidad escolar. Es una condición esencia para acceder a la información, comprender sus derechos, tomar decisiones informadas, apoyar a su familia y participar plenamente en la vida económica, social y ciudadana.",
-            "El analfabetismo afecta a millones de personas en el mundo. Limita su autonomía, refuerza las desigualdades y frena el desarrollo de las personas y de las comunidades."
+            "Saber leer y escribir es mucho más que una habilidad escolar. Es una condición esencial para acceder a la información, comprender sus derechos, tomar decisiones informadas, apoyar a su familia y participar plenamente en la vida económica, social y ciudadana.",
+            "El analfabetismo afecta a millones de personas en el mundo. Limita su autonomía, refuerza las desigualdades y frena el desarrollo de las personas y de las comunidades.",
+            "La alfabetización abre el camino hacia un futuro más justo e inclusivo para todos."
           ]
         : [
             "Knowing how to read and write is much more than an academic skill. It is an essential condition for accessing information, understanding one's rights, making informed decisions, supporting one's family, and fully participating in economic, social, and civic life.",
-            "Illiteracy affects millions of people worldwide. It limits their autonomy, reinforces inequalities, and hinders the development of individuals and communities."
+            "Illiteracy affects millions of people worldwide. It limits their autonomy, reinforces inequalities, and hinders the development of individuals and communities.",
+            "Literacy opens the way to a more just and inclusive future for everyone."
           ];
 
     // Left stack cards content (Cards 2 to 5)
     const cards = [
       {
         id: 2,
-        title: isFr ? "2 - Définition" : isEs ? "2 - Definición" : "2 - Definition",
+        title: isFr ? "Définition" : isEs ? "Definición" : "Definition",
         text: isFr 
-          ? "L'analphabétisme est l'incapacité de lire et d'écrire une phrase simple, de comprendre un court texte ou d'effectuer des calculs de base."
+          ? "L'analphabétisme est l'incapacité de lire et d'écrire une phrase simple, à comprendre un court texte ou à effectuer des calculs élémentaires."
           : isEs 
             ? "El analfabetismo es la incapacidad de leer y escribir una oración simple, comprender un texto corto o realizar cálculos básicos."
             : "Illiteracy is the inability to read and write a simple sentence, understand a short text, or perform basic calculations.",
@@ -401,83 +405,92 @@ function App() {
       },
       {
         id: 3,
-        title: isFr ? "3 - Causes" : isEs ? "3 - Causas" : "3 - Causes",
+        title: isFr ? "Causes de l'analphabétisme" : isEs ? "Causas del analfabetismo" : "Causes of Illiteracy",
         text: isFr 
-          ? "Alimenté par la pauvreté structurelle, le manque d'infrastructures scolaires dans les zones reculées, les biais de genre et les responsabilités familiales précoces."
+          ? "L'analphabétisme est souvent lié à la pauvreté, au manque d'accès à l'éducation, aux inégalités entre les sexes, aux conflits, aux déplacements forcés ou à l'abandon scolaire précoce."
           : isEs 
-            ? "Impulsado por la pobreza estructural, la falta de infraestructura escolar en zonas remotas, los prejuicios de género y las responsabilidades familiares tempranas."
-            : "Driven by structural poverty, lack of school infrastructure in remote areas, gender bias, and early family care responsibilities.",
+            ? "El analfabetismo suele estar relacionado con la pobreza, la falta de acceso a la educación, las desigualdades de género, los conflictos, los desplazamientos forzados o el abandono escolar temprano."
+            : "Illiteracy is often linked to poverty, lack of access to education, gender inequalities, conflicts, forced displacement, or early school dropout.",
         icon: <HelpCircle size={20} />
       },
       {
         id: 4,
-        title: isFr ? "4 - Alphabétisé vs Analphabète" : isEs ? "4 - Alfabetizado vs Analfabeto" : "4 - Literate vs. Illiterate",
+        title: isFr ? "Personne alphabétisée vs. analphabète" : isEs ? "Persona alfabetizada vs. analfabeta" : "Literate vs. Illiterate Person",
         text: isFr 
-          ? "Une personne alphabétisée peut lire, écrire et gérer ses démarches administratives. Une personne analphabète est exclue de l'information de base, de la signature de contrats et de l'autonomie économique."
+          ? "Une personne alphabétisée peut lire, écrire et comprendre des informations de base. Une personne analphabète ne possède pas ces compétences essentielles."
           : isEs 
-            ? "Una persona alfabetizada puede leer, escribir y gestionar trámites administrativos. Una persona analfabeta está excluida de la información básica, la firma de contratos y la autonomía económica."
-            : "A literate person can read, write, and navigate daily administration. An illiterate person is excluded from basic information, contract signatures, and economic autonomy.",
+            ? "Una persona alfabetizada puede leer, escribir y comprender información básica. Una persona analfabeta no posee estas habilidades esenciales."
+            : "A literate person can read, write, and understand basic information. An illiterate person does not possess these essential skills.",
         icon: <GraduationCap size={20} />
       },
       {
         id: 5,
-        title: isFr ? "5 - Conséquences psychologiques" : isEs ? "5 - Consecuencias psicológicas" : "5 - Psychological Consequences",
+        title: isFr ? "Conséquences psychologiques" : isEs ? "Consecuencias psicológicas" : "Psychological Consequences",
         text: isFr 
-          ? "L'analphabétisme entraîne une perte d'estime de soi, une anxiété constante d'être démasquée, une dépendance envers les proches et un isolement social."
+          ? "L'analphabétisme entraîne souvent un manque de confiance en soi, un sentiment d'exclusion sociale, du stress et une diminution des opportunités de développement personnel et professionnel."
           : isEs 
-            ? "El analfabetismo conduce a una pérdida de autoestima, una ansiedad constante de ser expuesto, la dependencia de familiares y el aislamiento social."
-            : "Illiteracy leads to severe loss of self-esteem, constant anxiety of exposure, dependence on relatives, and social isolation.",
+            ? "El analfabetismo suele provocar una falta de confianza en uno mismo, un sentimiento de exclusión social, estrés y una reducción de las oportunidades de desarrollo personal y profesional."
+            : "Illiteracy often leads to a lack of self-confidence, a sense of social exclusion, stress, and reduced opportunities for personal and professional development.",
         icon: <User size={20} />
       }
     ];
 
     // Right grid boxes (6 & 7)
-    const box6Title = isFr ? "6 - Quelques définitions" : isEs ? "6 - Algunas definiciones" : "6 - Some Definitions";
+    const box6Title = isFr ? "Quelques définitions" : isEs ? "Algunas definiciones" : "Some Definitions";
     const box6Items = isFr 
       ? [
-          { term: "Littératie", desc: "La capacité d'utiliser la lecture, l'écriture et le calcul dans la vie quotidienne." },
-          { term: "Analphabétisme", desc: "L'état d'une personne qui n'a jamais appris à lire ni à écrire, souvent par manque de scolarisation." },
-          { term: "Illettrisme", desc: "Désigne des personnes qui ont été scolarisées mais ne maîtrisent pas suffisamment la lecture et l'écriture pour faire face aux exigences de la vie courante." }
+          { term: "Un analphabète", desc: "Une personne qui ne sait ni lire, ni écrire parce qu'elle ne l'a jamais appris.", icon: <User size={18} /> },
+          { term: "L'analphabétisme", desc: "Est l'état d'une personne analphabète.", icon: <BookOpen size={18} /> },
+          { term: "Un illettré", desc: "Une personne qui a appris à lire et écrire mais qui a des difficultés, ils ne maîtrisent pas suffisamment pour être autonomes dans la vie quotidienne. C'est le cas de beaucoup de personnes qui ont étudié mais n'ont pas fini les études élémentaires telles que l'école primaire.", icon: <PenTool size={18} /> },
+          { term: "Alphabétisation", desc: "Est toute activité qui vise à enseigner la lecture et l'écriture à une population analphabète. C'est un processus d'apprentissage qui, selon L&L, doit durer au moins deux ans, temps minimum nécessaire pour permettre à une personne d'acquérir la lecture et l'écriture aisées. L'alphabétisation inclut souvent l'enseignement des bases du calcul.", icon: <GraduationCap size={18} /> }
         ]
       : isEs 
         ? [
-            { term: "Alfabetización", desc: "La capacidad de utilizar la lectura, la escritura y el cálculo de manera efectiva en la vida diaria." },
-            { term: "Analfabetismo", desc: "El estado de no saber leer ni escribir debido a la falta de escolarización." },
-            { term: "Analfabetismo funcional", desc: "Cuando una persona ha sido escolarizada pero ha perdido la capacidad de leer o escribir lo suficientemente bien como para hacer frente a las demandas de la vida diaria." }
+            { term: "Un analfabeto", desc: "Una persona que no sabe leer ni escribir porque nunca lo ha aprendido.", icon: <User size={18} /> },
+            { term: "El analfabetismo", desc: "Es el estado de una persona analfabeta.", icon: <BookOpen size={18} /> },
+            { term: "Un analfabeto funcional", desc: "Una persona que ha aprendido a leer y escribir pero tiene dificultades, no dominándolas lo suficiente para ser autónoma en la vida diaria. Este es el caso de muchas personas que estudiaron pero no terminaron los estudios elementales como la escuela primaria.", icon: <PenTool size={18} /> },
+            { term: "Alfabetización", desc: "Es cualquier actividad que tenga como objetivo enseñar a leer y escribir a una población analfabeta. Es un proceso de aprendizaje que, según L&L, debe durar al menos dos años, tiempo mínimo necesario para permitir a una persona adquirir una lectura y escritura fluidas. La alfabetización a menudo incluye la enseñanza de las bases del cálculo.", icon: <GraduationCap size={18} /> }
           ]
         : [
-            { term: "Literacy", desc: "The capability to use reading, writing, and numbers effectively in daily life." },
-            { term: "Illiteracy", desc: "The state of not knowing how to read or write due to lack of schooling." },
-            { term: "Functional Illiteracy", desc: "When a person has been schooled but lost the ability to read or write well enough to cope with daily life demands." }
+            { term: "An illiterate person", desc: "A person who cannot read or write because they have never learned.", icon: <User size={18} /> },
+            { term: "Illiteracy", desc: "Is the state of an illiterate person.", icon: <BookOpen size={18} /> },
+            { term: "A functionally illiterate person", desc: "A person who has learned to read and write but has difficulties, not mastering them enough to be autonomous in daily life. This is the case for many people who studied but did not finish elementary studies such as primary school.", icon: <PenTool size={18} /> },
+            { term: "Literacy", desc: "Is any activity aimed at teaching reading and writing to an illiterate population. It is a learning process that, according to L&L, must last at least two years, the minimum time necessary to enable a person to acquire fluent reading and writing. Literacy often includes teaching the basics of calculation.", icon: <GraduationCap size={18} /> }
           ];
 
-    const box7Title = isFr ? "7 - Le saviez-vous ?" : isEs ? "7 - ¿Sabías que?" : "7 - Did You Know?";
+    const box7Title = isFr ? "Le saviez-vous ?" : isEs ? "¿Sabías que?" : "Did You Know?";
     const box7Items = isFr
       ? [
-          "Les deux tiers des 750 millions d'adultes analphabètes dans le monde sont des femmes.",
-          "Plus de 141 millions de femmes analphabètes vivent en Afrique subsaharienne.",
-          "L'alphabétisation augmente le revenu des femmes et améliore la santé et la nutrition de leurs enfants."
+          { text: "L'analphabétisme a été défini en 1949 lors de la conférence internationale sur l'éducation des adultes au Danemark.", icon: <Globe size={22} /> },
+          { text: "Chaque pays a sa propre définition de l'alphabétisation, même si toutes les définitions se ressemblent, il peut y avoir des différences.", icon: <FileText size={22} /> },
+          { text: "L'alphabétisation n'est pas une fin mais un moyen de mettre les aptitudes acquises au service de son développement propre mais aussi celui de la communauté et participer activement à la vie de son pays.", icon: <Users size={22} /> },
+          { text: "La journée internationale de l'alphabétisation est le 8 Septembre, proclamée par l'UNESCO : Organisation des Nations unies pour l'éducation, la science et la culture le 17 novembre 1965.", icon: <Calendar size={22} /> },
+          { text: "L'alphabétisation est un droit : le droit à l'éducation est inscrit dans la déclaration universelle des droits de l'homme en 1948.", icon: <CheckCircle size={22} /> }
         ]
       : isEs 
         ? [
-            "Dos tercios de los 750 millones de adultos analfabetos en el mundo son mujeres.",
-            "Más de 141 millones de mujeres analfabetas vivent en el África subsahariana.",
-            "La alfabetización aumenta los ingresos de las mujeres y mejora la salud y la nutrición de sus hijos."
+            { text: "El analfabetismo fue definido en 1949 durante la conferencia internacional sobre educación de adultos en Dinamarca.", icon: <Globe size={22} /> },
+            { text: "Cada país tiene su propia definición de alfabetización; aunque todas las definiciones se parecen, puede haber diferencias.", icon: <FileText size={22} /> },
+            { text: "La alfabetización no es un fin sino un medio para poner las habilidades adquiridas al servicio del desarrollo propio y de la comunidad, y participar activamente en la vida de su país.", icon: <Users size={22} /> },
+            { text: "El Día Internacional de la Alfabetización es el 8 de septiembre, proclamado por la UNESCO: Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura el 17 de noviembre de 1965.", icon: <Calendar size={22} /> },
+            { text: "La alfabetización es un derecho: el derecho a la educación está inscrito en la Declaración Universal de los Derechos Humanos de 1948.", icon: <CheckCircle size={22} /> }
           ]
         : [
-            "Two-thirds of the world's 750 million illiterate adults are women.",
-            "Over 141 million illiterate women live in Sub-Saharan Africa.",
-            "Literacy increases women's incomes and improves their children's health and nutrition."
+            { text: "Illiteracy was defined in 1949 during the international conference on adult education in Denmark.", icon: <Globe size={22} /> },
+            { text: "Each country has its own definition of literacy; even though all definitions are similar, there can be differences.", icon: <FileText size={22} /> },
+            { text: "Literacy is not an end but a means to put acquired skills at the service of one's own development as well as that of the community and to participate actively in the life of one's country.", icon: <Users size={22} /> },
+            { text: "International Literacy Day is September 8, proclaimed by UNESCO: United Nations Educational, Scientific and Cultural Organization on November 17, 1965.", icon: <Calendar size={22} /> },
+            { text: "Literacy is a right: the right to education is inscribed in the Universal Declaration of Human Rights in 1948.", icon: <CheckCircle size={22} /> }
           ];
 
     // Banner CTA
-    const bannerTitle = isFr ? "Soutenez notre mission" : isEs ? "Apoye nuestra misión" : "Support Our Mission";
+    const bannerTitle = isFr ? "L'alphabétisation change des vies" : isEs ? "La alfabetización cambia vidas" : "Literacy changes lives";
     const bannerText = isFr 
-      ? "Votre contribution finance directement les classes, les navettes sécurisées et les tablettes d’apprentissage."
+      ? "Soutenir l'alphabétisation, c'est investir dans un avenir plus équitable, où chacun peut apprendre, comprendre et s'épanouir."
       : isEs 
-        ? "Su contribución financia directamente las aulas, transporte seguro, guardería y tabletas de estudio."
-        : "Your contribution directly funds classrooms, secure shuttles, child-care, and learning tablets.";
-    const bannerBtn = isFr ? "Faire un don" : isEs ? "Donar" : "Donate";
+        ? "Apoyar la alfabetización es invertir en un futuro más equitativo, donde todos puedan aprender, comprender y prosperar."
+        : "Supporting literacy means investing in a more equitable future, where everyone can learn, understand, and thrive.";
+    const bannerBtn = isFr ? "AGIR MAINTENANT" : isEs ? "ACTUAR AHORA" : "ACT NOW";
 
     return (
       <div className="illiteracy-custom-container animate-fade-in">
@@ -514,7 +527,7 @@ function App() {
             ))}
           </div>
 
-          {/* Right Column Stack: Cards 6 and 7 */}
+          {/* Right Column Stack: Card 6 */}
           <div className="illiteracy-right-column">
             {/* Box 6: Quelques définitions */}
             <div className="illiteracy-def-box">
@@ -525,36 +538,44 @@ function App() {
               <div className="illiteracy-def-list">
                 {box6Items.map((item, idx) => (
                   <div key={idx} className="illiteracy-def-item">
-                    <strong>{item.term} : </strong>
-                    <span>{item.desc}</span>
+                    <div className="def-item-icon">{item.icon}</div>
+                    <div className="def-item-text">
+                      <strong>{item.term}</strong>
+                      <span>{item.desc}</span>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Box 7: Le saviez-vous ? */}
-            <div className="illiteracy-dyk-box">
-              <h4 className="illiteracy-box-title">
-                <Calendar size={18} style={{ marginRight: '8px', verticalAlign: 'middle', color: 'var(--primary)' }} />
-                {box7Title}
-              </h4>
-              <ul className="illiteracy-dyk-list">
-                {box7Items.map((item, idx) => (
-                  <li key={idx} className="illiteracy-dyk-item">
-                    <CheckCircle size={14} className="dyk-check-icon" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
+        </div>
+
+        {/* Box 7: Le saviez-vous ? - Placed horizontally outside the grid */}
+        <div className="illiteracy-dyk-box">
+          <h4 className="illiteracy-box-title">
+            <Calendar size={18} style={{ marginRight: '8px', verticalAlign: 'middle', color: 'var(--primary)' }} />
+            {box7Title}
+          </h4>
+          <ul className="illiteracy-dyk-list">
+            {box7Items.map((item, idx) => (
+              <li key={idx} className="illiteracy-dyk-item">
+                <div className="dyk-item-icon">{item.icon}</div>
+                <span className="dyk-item-text">{item.text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Bottom Banner Action CTA */}
         <div className="illiteracy-bottom-banner">
-          <div className="illiteracy-banner-content">
-            <h4 className="illiteracy-banner-title">{bannerTitle}</h4>
-            <p className="illiteracy-banner-text">{bannerText}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div className="illiteracy-banner-icon-circle">
+              <Heart size={20} />
+            </div>
+            <div className="illiteracy-banner-content">
+              <h4 className="illiteracy-banner-title">{bannerTitle}</h4>
+              <p className="illiteracy-banner-text">{bannerText}</p>
+            </div>
           </div>
           <button 
             className="illiteracy-banner-btn"
