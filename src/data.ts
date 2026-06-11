@@ -230,6 +230,12 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       subtitle: 'Likro & Lihtov means "Read and Write" in Hebrew.',
       sidebarTitle: 'Our Story',
       sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), which means "Read and Write" in Hebrew, was inspired by a life-changing moment in 2016 in Kinshasa, Democratic Republic of the Congo. While stuck in traffic, I witnessed two young girls selling oil in the street. The taxi driver explained that many children like them do not attend school because they need to help support their families financially. I could hardly believe it. This was the beginning of my discovery of a difficult reality faced by many women and children who lack access to education and opportunities. Two years later, what started as a simple idea gradually evolved into a project dedicated to literacy, empowerment and community development. Today, we work to help illiterate women gain the knowledge, confidence and skills needed to build a better future for themselves, their families and their communities.',
+      quickInfoTitle: 'Our Vision',
+      quickInfoItems: [
+        'Free literacy education for all',
+        'Respect and dignity for every individual',
+        'Work, self-reliance, and opportunities'
+      ],
       mainParagraphs: [
         'Founded in Congo DR in 2018, our organization believes that education is one of the most powerful tools for transforming lives and communities.',
         'We work to promote literacy, support women’s empowerment and contribute to sustainable development projects.',
@@ -309,9 +315,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statNumber: '141M',
       statLabel: 'WOMEN IN SUB-SAHARAN AFRICA',
       sidebarTitle: 'Facts',
-      sidebarText: 'In Sub-Saharan Africa, around 141 million adult women could not read and write.\n\nReference: UNESCO Institute for Statistics, 2016/2017.',
+      sidebarText: 'Approximately **141 million** women in Sub-Saharan Africa are illiterate, limiting their access to employment, economic independence, and basic information.\n\n**Reference:** UNESCO Institute for Statistics (UIS), latest available estimate based on 2016–2017 data.',
       quickInfoTitle: 'Consequences',
-      quickInfoItems: ['Loss of autonomy', 'Economic dependence', 'Social isolation'],
+      quickInfoItems: ['Low self-esteem', 'Economic dependence', 'Social isolation'],
       mainParagraphs: [
         'Illiteracy prevents people from having full access to economic and legal independence. Being able to read is an essential factor for empowerment.'
       ],
@@ -502,6 +508,12 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       subtitle: 'Likro & Lihtov signifie « Lire et Écrire » en hébreu.',
       sidebarTitle: 'Notre histoire',
       sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), qui signifie « Lire et Écrire » en hébreu, est né d’un événement marquant vécu en 2016 à Kinshasa, en République Démocratique du Congo. Alors que j’étais bloqué dans les embouteillages, j’ai aperçu deux jeunes filles vendant de l’huile dans la rue. Le chauffeur de taxi m’a expliqué que de nombreux enfants comme elles ne fréquentent pas l’école parce qu’ils doivent contribuer financièrement aux revenus de leur famille. J’avais du mal à le croire. Ce fut le début de ma découverte d’une réalité difficile vécue par de nombreuses femmes et de nombreux enfants privés d’accès à l’éducation et aux opportunités. Deux ans plus tard, ce qui n’était au départ qu’une simple idée s’est progressivement transformé en un projet dédié à l’alphabétisation, à l’autonomisation et au développement des communautés. Aujourd’hui, nous travaillons pour aider les femmes analphabètes à acquérir les connaissances, la confiance et les compétences nécessaires pour construire un avenir meilleur pour elles-mêmes, leurs familles et leurs communautés.',
+      quickInfoTitle: 'Notre vision',
+      quickInfoItems: [
+        'Alphabétisation gratuite pour tous',
+        'Respect et dignité pour chaque personne',
+        'Travail, autonomie et opportunités'
+      ],
       mainParagraphs: [
         'Fondée en RD Congo en 2018, notre organisation estime que l\'éducation est l\'un des outils les plus puissants pour transformer les vies et les communautés.',
         'Nous travaillons à promouvoir l\'alphabétisation, à soutenir l\'autonomisation des femmes et à contribuer à des projets de développement durable.',
@@ -558,9 +570,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statNumber: '141M',
       statLabel: 'FEMMES EN AFRIQUE SUBSAHARIENNE',
       sidebarTitle: 'Facts',
-      sidebarText: 'En Afrique subsaharienne, environ 141 millions de femmes adultes ne savaient pas lire et écrire.\n\nRéférence : UNESCO Institute for Statistics, 2016/2017.',
+      sidebarText: 'Environ **141 millions** de femmes en Afrique subsaharienne sont analphabètes, ce qui limite leur accès à l’emploi, à l’indépendance économique et à l’information de base.\n\n**Référence :** Institut de statistique de l’UNESCO (UIS), dernière estimation disponible basée sur les données de 2016–2017.',
       quickInfoTitle: 'Conséquences',
-      quickInfoItems: ['Perte d’autonomie', 'Dépendance économique', 'Isolement social'],
+      quickInfoItems: ['Manque de confiance en soi', 'Dépendance économique', 'Isolement social'],
       mainParagraphs: [
         'L’analphabétisme empêche les personnes d’avoir pleinement accès à l’indépendance économique et juridique. Savoir lire est un facteur essentiel d’autonomisation.'
       ],
@@ -710,6 +722,12 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       subtitle: 'Likro & Lihtov significa "Leer y Escribir" en hebreo.',
       sidebarTitle: 'Nuestra historia',
       sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), que significa "Leer y Escribir" en hebreo, se inspiró en un momento trascendental en 2016 en Kinshasa, República Democrática del Congo. Mientras estaba atrapado en el tráfico, vi a dos niñas vendiendo aceite en la calle. El taxista me explicó que muchos niños como ellos no asisten a la escuela porque necesitan ayudar económicamente a sus familias. Apenas podía creerlo. Este fue el comienzo de mi descubrimiento de una difícil realidad que enfrentan muchas mujeres y niños que carecen de acceso a la educación y a las oportunidades. Dos años más tarde, lo que comenzó como una simple idea evolucionó gradualmente hacia un proyecto dedicado a la alfabetización, el empoderamiento y el desarrollo comunitario. Hoy trabajamos para ayudar a las mujeres analfabetas a adquirir el conocimiento, la confianza y las habilidades necesarias para construir un futuro mejor para ellas, sus familias y sus comunidades.',
+      quickInfoTitle: 'Nuestra visión',
+      quickInfoItems: [
+        'Alfabetización gratuita para todos',
+        'Respeto y dignidad para cada individuo',
+        'Trabajo, autosuficiencia y oportunidades'
+      ],
       mainParagraphs: [
         'Fundada en RD Congo en 2018, nuestra organización cree que la educación es una de las herramientas más poderosas para transformar vidas y comunidades.',
         'Trabajamos para promover la alfabetización, apoyar el empoderamiento de las mujeres y contribuir a proyectos de desarrollo sostenible.',
@@ -766,9 +784,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statNumber: '141M',
       statLabel: 'MUJERES EN ÁFRICA SUBSAHARIANA',
       sidebarTitle: 'Facts',
-      sidebarText: 'En el África subsahariana, alrededor de 141 millones de mujeres adultas no sabían leer ni escribir.\n\nReferencia: Instituto de Estadística de la UNESCO, 2016/2017.',
+      sidebarText: 'Aproximadamente **141 millones** de mujeres en el África subsahariana son analfabetas, lo que limita su acceso al empleo, la independencia económica y la información básica.\n\n**Referencia:** Instituto de Estadística de la UNESCO (UIS), última estimación disponible basada en datos de 2016–2017.',
       quickInfoTitle: 'Consecuencias',
-      quickInfoItems: ['Pérdida de autonomía', 'Dependencia económica', 'Aislamiento social'],
+      quickInfoItems: ['Baja autoestima', 'Dependencia económica', 'Aislamiento social'],
       mainParagraphs: [
         'El analfabetismo impide que las personas tengan pleno acceso a la independencia económica y legal. Ser capaz de leer es un factor esencial para el empoderamiento.'
       ],

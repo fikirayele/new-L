@@ -16,7 +16,13 @@ import {
   Image as ImageIcon,
   ChevronRight,
   Sparkles,
-  CreditCard
+  CreditCard,
+  User,
+  PenTool,
+  GraduationCap,
+  HelpCircle,
+  FileText,
+  Calendar
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -139,9 +145,39 @@ const faqItems: Array<{
   }
 ];
 
+const isValidEmail = (email: string): boolean => {
+  if (!email) return false;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+};
+
+const hasNumbers = (text: string): boolean => {
+  return /\d/.test(text);
+};
+
+const hasLetters = (text: string): boolean => {
+  return /[a-zA-Z]/.test(text);
+};
+
+const renderParsedText = (text: string) => {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
+
 function App() {
   // Language & Translation State
-  const [lang, setLang] = useState<'EN' | 'FR' | 'ES'>('EN');
+  const [lang, setLang] = useState<'EN' | 'FR' | 'ES'>(() => {
+    const path = window.location.pathname.toLowerCase();
+    if (path.startsWith('/fr')) return 'FR';
+    if (path.startsWith('/es')) return 'ES';
+    return 'EN';
+  });
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const t = translations[lang];
 
@@ -228,6 +264,20 @@ function App() {
     detectCountry();
   }, []);
 
+  // Synchronize language state with URL pathname prefix
+  useEffect(() => {
+    const currentPath = window.location.pathname.toLowerCase();
+    const currentHash = window.location.hash;
+    const langPath = `/${lang.toLowerCase()}`;
+    if (currentPath === '/' || currentPath === '/en' || currentPath === '/fr' || currentPath === '/es') {
+      if (currentPath !== langPath) {
+        window.history.replaceState(null, '', langPath + currentHash);
+      }
+    } else {
+      window.history.replaceState(null, '', langPath + currentHash);
+    }
+  }, [lang]);
+
   // Listen for hashchange to show/hide sections when Contact form is accessed
   useEffect(() => {
     const handleHashChange = () => {
@@ -287,18 +337,237 @@ function App() {
   const closeDrawer = () => {
     setIsDrawerOpen(false);
     document.body.style.overflow = '';
+    window.location.hash = '';
+    setShowContactOnly(false);
   };
 
   // Submit Newsletter (Footer)
   const handleFooterNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!footerEmail || !footerEmail.includes('@')) {
+    if (!isValidEmail(footerEmail)) {
       triggerToast(lang === 'FR' ? 'Adresse email non valide' : lang === 'ES' ? 'Dirección de correo no válida' : 'Please enter a valid email address.');
       return;
     }
     const msg = t.newsSuccess.replace('{name}', footerEmail.split('@')[0]);
     triggerToast(msg);
     setFooterEmail('');
+  };
+
+  const renderCustomIlliteracyLayout = () => {
+    if (!selectedSection) return null;
+
+    const isFr = lang === 'FR';
+    const isEs = lang === 'ES';
+
+    // Intro texts
+    const introTitle = isFr 
+      ? "1 - Comprendre l'analphabétisme" 
+      : isEs 
+        ? "1 - Comprender el analfabetismo" 
+        : "1 - Understanding Illiteracy";
+
+    const introSub = isFr 
+      ? "Pourquoi l'alphabétisation est un droit fondamental" 
+      : isEs 
+        ? "Por qué la alfabetización es un derecho fundamental" 
+        : "Why literacy is a fundamental human right";
+
+    const introParagraphs = isFr 
+      ? [
+          "Savoir lire et écrire est bien plus qu'une compétence scolaire. C'est une condition essentielle pour accéder à l'information, comprendre ses droits, prendre des décisions éclairées, soutenir sa famille et participer pleinement à la vie économique, sociale et citoyenne.",
+          "L'analphabétisme touche des millions de personnes dans le monde. Il limite leur autonomie, renforce les inégalités et freine le développement des individus et des communautés."
+        ]
+      : isEs 
+        ? [
+            "Saber leer y escribir es mucho más que una habilidad escolar. Es una condición esencia para acceder a la información, comprender sus derechos, tomar decisiones informadas, apoyar a su familia y participar plenamente en la vida económica, social y ciudadana.",
+            "El analfabetismo afecta a millones de personas en el mundo. Limita su autonomía, refuerza las desigualdades y frena el desarrollo de las personas y de las comunidades."
+          ]
+        : [
+            "Knowing how to read and write is much more than an academic skill. It is an essential condition for accessing information, understanding one's rights, making informed decisions, supporting one's family, and fully participating in economic, social, and civic life.",
+            "Illiteracy affects millions of people worldwide. It limits their autonomy, reinforces inequalities, and hinders the development of individuals and communities."
+          ];
+
+    // Left stack cards content (Cards 2 to 5)
+    const cards = [
+      {
+        id: 2,
+        title: isFr ? "2 - Définition" : isEs ? "2 - Definición" : "2 - Definition",
+        text: isFr 
+          ? "L'analphabétisme est l'incapacité de lire et d'écrire une phrase simple, de comprendre un court texte ou d'effectuer des calculs de base."
+          : isEs 
+            ? "El analfabetismo es la incapacidad de leer y escribir una oración simple, comprender un texto corto o realizar cálculos básicos."
+            : "Illiteracy is the inability to read and write a simple sentence, understand a short text, or perform basic calculations.",
+        icon: <PenTool size={20} />
+      },
+      {
+        id: 3,
+        title: isFr ? "3 - Causes" : isEs ? "3 - Causas" : "3 - Causes",
+        text: isFr 
+          ? "Alimenté par la pauvreté structurelle, le manque d'infrastructures scolaires dans les zones reculées, les biais de genre et les responsabilités familiales précoces."
+          : isEs 
+            ? "Impulsado por la pobreza estructural, la falta de infraestructura escolar en zonas remotas, los prejuicios de género y las responsabilidades familiares tempranas."
+            : "Driven by structural poverty, lack of school infrastructure in remote areas, gender bias, and early family care responsibilities.",
+        icon: <HelpCircle size={20} />
+      },
+      {
+        id: 4,
+        title: isFr ? "4 - Alphabétisé vs Analphabète" : isEs ? "4 - Alfabetizado vs Analfabeto" : "4 - Literate vs. Illiterate",
+        text: isFr 
+          ? "Une personne alphabétisée peut lire, écrire et gérer ses démarches administratives. Une personne analphabète est exclue de l'information de base, de la signature de contrats et de l'autonomie économique."
+          : isEs 
+            ? "Una persona alfabetizada puede leer, escribir y gestionar trámites administrativos. Una persona analfabeta está excluida de la información básica, la firma de contratos y la autonomía económica."
+            : "A literate person can read, write, and navigate daily administration. An illiterate person is excluded from basic information, contract signatures, and economic autonomy.",
+        icon: <GraduationCap size={20} />
+      },
+      {
+        id: 5,
+        title: isFr ? "5 - Conséquences psychologiques" : isEs ? "5 - Consecuencias psicológicas" : "5 - Psychological Consequences",
+        text: isFr 
+          ? "L'analphabétisme entraîne une perte d'estime de soi, une anxiété constante d'être démasquée, une dépendance envers les proches et un isolement social."
+          : isEs 
+            ? "El analfabetismo conduce a una pérdida de autoestima, una ansiedad constante de ser expuesto, la dependencia de familiares y el aislamiento social."
+            : "Illiteracy leads to severe loss of self-esteem, constant anxiety of exposure, dependence on relatives, and social isolation.",
+        icon: <User size={20} />
+      }
+    ];
+
+    // Right grid boxes (6 & 7)
+    const box6Title = isFr ? "6 - Quelques définitions" : isEs ? "6 - Algunas definiciones" : "6 - Some Definitions";
+    const box6Items = isFr 
+      ? [
+          { term: "Littératie", desc: "La capacité d'utiliser la lecture, l'écriture et le calcul dans la vie quotidienne." },
+          { term: "Analphabétisme", desc: "L'état d'une personne qui n'a jamais appris à lire ni à écrire, souvent par manque de scolarisation." },
+          { term: "Illettrisme", desc: "Désigne des personnes qui ont été scolarisées mais ne maîtrisent pas suffisamment la lecture et l'écriture pour faire face aux exigences de la vie courante." }
+        ]
+      : isEs 
+        ? [
+            { term: "Alfabetización", desc: "La capacidad de utilizar la lectura, la escritura y el cálculo de manera efectiva en la vida diaria." },
+            { term: "Analfabetismo", desc: "El estado de no saber leer ni escribir debido a la falta de escolarización." },
+            { term: "Analfabetismo funcional", desc: "Cuando una persona ha sido escolarizada pero ha perdido la capacidad de leer o escribir lo suficientemente bien como para hacer frente a las demandas de la vida diaria." }
+          ]
+        : [
+            { term: "Literacy", desc: "The capability to use reading, writing, and numbers effectively in daily life." },
+            { term: "Illiteracy", desc: "The state of not knowing how to read or write due to lack of schooling." },
+            { term: "Functional Illiteracy", desc: "When a person has been schooled but lost the ability to read or write well enough to cope with daily life demands." }
+          ];
+
+    const box7Title = isFr ? "7 - Le saviez-vous ?" : isEs ? "7 - ¿Sabías que?" : "7 - Did You Know?";
+    const box7Items = isFr
+      ? [
+          "Les deux tiers des 750 millions d'adultes analphabètes dans le monde sont des femmes.",
+          "Plus de 141 millions de femmes analphabètes vivent en Afrique subsaharienne.",
+          "L'alphabétisation augmente le revenu des femmes et améliore la santé et la nutrition de leurs enfants."
+        ]
+      : isEs 
+        ? [
+            "Dos tercios de los 750 millones de adultos analfabetos en el mundo son mujeres.",
+            "Más de 141 millones de mujeres analfabetas vivent en el África subsahariana.",
+            "La alfabetización aumenta los ingresos de las mujeres y mejora la salud y la nutrición de sus hijos."
+          ]
+        : [
+            "Two-thirds of the world's 750 million illiterate adults are women.",
+            "Over 141 million illiterate women live in Sub-Saharan Africa.",
+            "Literacy increases women's incomes and improves their children's health and nutrition."
+          ];
+
+    // Banner CTA
+    const bannerTitle = isFr ? "Soutenez notre mission" : isEs ? "Apoye nuestra misión" : "Support Our Mission";
+    const bannerText = isFr 
+      ? "Votre contribution finance directement les classes, les navettes sécurisées et les tablettes d’apprentissage."
+      : isEs 
+        ? "Su contribución financia directamente las aulas, transporte seguro, guardería y tabletas de estudio."
+        : "Your contribution directly funds classrooms, secure shuttles, child-care, and learning tablets.";
+    const bannerBtn = isFr ? "Faire un don" : isEs ? "Donar" : "Donate";
+
+    return (
+      <div className="illiteracy-custom-container animate-fade-in">
+        {/* Section 1: Intro Panel */}
+        <div className="illiteracy-intro-panel">
+          <div className="illiteracy-intro-text-box">
+            <h2 className="illiteracy-section-title">{introTitle}</h2>
+            <h3 className="illiteracy-section-subtitle">{introSub}</h3>
+            {introParagraphs.map((para, idx) => (
+              <p key={idx} className="illiteracy-paragraph">{para}</p>
+            ))}
+          </div>
+          <div className="illiteracy-intro-image-wrapper">
+            <img 
+              src="/assets/ladies_studying.png" 
+              alt="Ladies studying in classroom" 
+              className="illiteracy-intro-image"
+            />
+          </div>
+        </div>
+
+        {/* Multi-Grid layout for remaining items */}
+        <div className="illiteracy-grid">
+          {/* Left Column Stack: Cards 2 to 5 */}
+          <div className="illiteracy-left-column">
+            {cards.map(card => (
+              <div key={card.id} className="illiteracy-card">
+                <div className="illiteracy-card-header">
+                  <div className="illiteracy-card-icon">{card.icon}</div>
+                  <h4 className="illiteracy-card-title">{card.title}</h4>
+                </div>
+                <p className="illiteracy-card-text">{card.text}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Column Stack: Cards 6 and 7 */}
+          <div className="illiteracy-right-column">
+            {/* Box 6: Quelques définitions */}
+            <div className="illiteracy-def-box">
+              <h4 className="illiteracy-box-title">
+                <FileText size={18} style={{ marginRight: '8px', verticalAlign: 'middle', color: 'var(--primary)' }} />
+                {box6Title}
+              </h4>
+              <div className="illiteracy-def-list">
+                {box6Items.map((item, idx) => (
+                  <div key={idx} className="illiteracy-def-item">
+                    <strong>{item.term} : </strong>
+                    <span>{item.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Box 7: Le saviez-vous ? */}
+            <div className="illiteracy-dyk-box">
+              <h4 className="illiteracy-box-title">
+                <Calendar size={18} style={{ marginRight: '8px', verticalAlign: 'middle', color: 'var(--primary)' }} />
+                {box7Title}
+              </h4>
+              <ul className="illiteracy-dyk-list">
+                {box7Items.map((item, idx) => (
+                  <li key={idx} className="illiteracy-dyk-item">
+                    <CheckCircle size={14} className="dyk-check-icon" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Banner Action CTA */}
+        <div className="illiteracy-bottom-banner">
+          <div className="illiteracy-banner-content">
+            <h4 className="illiteracy-banner-title">{bannerTitle}</h4>
+            <p className="illiteracy-banner-text">{bannerText}</p>
+          </div>
+          <button 
+            className="illiteracy-banner-btn"
+            onClick={() => {
+              closeDrawer();
+              setShowDonateModal(true);
+            }}
+          >
+            {bannerBtn}
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const renderSiteFooter = () => (
@@ -414,7 +683,11 @@ function App() {
       triggerToast(lang === 'FR' ? 'Veuillez saisir votre nom' : lang === 'ES' ? 'Por favor ingrese su nombre' : 'Please enter your name.');
       return;
     }
-    if (!newsEmail || !newsEmail.includes('@')) {
+    if (hasNumbers(newsName)) {
+      triggerToast(lang === 'FR' ? 'Le nom ne peut pas contenir de chiffres' : lang === 'ES' ? 'El nombre no puede contener números' : 'Name cannot contain numbers.');
+      return;
+    }
+    if (!isValidEmail(newsEmail)) {
       triggerToast(lang === 'FR' ? 'Email non valide' : lang === 'ES' ? 'Correo no válido' : 'Please enter a valid email.');
       return;
     }
@@ -438,7 +711,11 @@ function App() {
       triggerToast(lang === 'FR' ? 'Veuillez saisir votre nom complet' : lang === 'ES' ? 'Por favor ingrese su nombre completo' : 'Please enter your full name.');
       return;
     }
-    if (!donateEmail || !donateEmail.includes('@')) {
+    if (hasNumbers(donateName)) {
+      triggerToast(lang === 'FR' ? 'Le nom complet ne peut pas contenir de chiffres' : lang === 'ES' ? 'El nombre completo no puede contener números' : 'Full name cannot contain numbers.');
+      return;
+    }
+    if (!isValidEmail(donateEmail)) {
       triggerToast(lang === 'FR' ? 'Adresse email non valide' : lang === 'ES' ? 'Correo no válido' : 'Please enter a valid email address.');
       return;
     }
@@ -474,15 +751,31 @@ function App() {
     }
 
     // 1. Client-side Validation
-    if (!contactFirstName.trim() || !contactLastName.trim() || !contactEmail.includes('@') || !contactMessage.trim()) {
+    if (!contactFirstName.trim() || !contactLastName.trim() || !contactEmail.trim() || !contactMessage.trim()) {
       triggerToast(lang === 'FR' ? 'Veuillez remplir tous les champs requis' : lang === 'ES' ? 'Por favor complete todos los campos requeridos' : 'Please fill in all required fields.');
       return;
     }
 
-    // Optional phone validation if number is provided
-    if (contactPhone && !isValidPhoneNumber(contactPhone)) {
-      triggerToast(lang === 'FR' ? 'Numéro de téléphone invalide' : lang === 'ES' ? 'Número de teléfono no válido' : 'Please enter a valid international phone number.');
+    if (hasNumbers(contactFirstName) || hasNumbers(contactLastName)) {
+      triggerToast(lang === 'FR' ? 'Les noms ne peuvent pas contenir de chiffres' : lang === 'ES' ? 'Los nombres no pueden contener números' : 'Names cannot contain numbers.');
       return;
+    }
+
+    if (!isValidEmail(contactEmail)) {
+      triggerToast(lang === 'FR' ? 'Adresse email non valide' : lang === 'ES' ? 'Correo no válido' : 'Please enter a valid email address.');
+      return;
+    }
+
+    // Optional phone validation if number is provided
+    if (contactPhone) {
+      if (hasLetters(contactPhone)) {
+        triggerToast(lang === 'FR' ? 'Le numéro de téléphone ne peut pas contenir de lettres' : lang === 'ES' ? 'El número de teléfono no puede contener letras' : 'Phone number cannot contain letters.');
+        return;
+      }
+      if (!isValidPhoneNumber(contactPhone)) {
+        triggerToast(lang === 'FR' ? 'Numéro de téléphone invalide' : lang === 'ES' ? 'Número de teléfono no válido' : 'Please enter a valid international phone number.');
+        return;
+      }
     }
 
     setIsSending(true);
@@ -1073,14 +1366,17 @@ function App() {
       {/* DEDICATED CONTACT US SECTION */}
       <section id="contacts-section" className="contacts-section">
         <div className="container">
+          {/* Centered Main Page Heading */}
+          <div className="contact-header" style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h2 className="section-title" style={{ fontSize: '36px', marginBottom: '16px' }}>{t.conTitle}</h2>
+            <p className="section-description" style={{ fontSize: '16px', maxWidth: '640px', margin: '0 auto', whiteSpace: 'pre-line', color: 'var(--text-muted)' }}>
+              {t.conSub}
+            </p>
+          </div>
+
           <div className="contact-layout">
             {/* Left side info panel */}
             <div className="contact-info-side">
-              <h2 className="section-title" style={{ fontSize: '32px' }}>{t.conTitle}</h2>
-              <p className="section-description" style={{ fontSize: '15px', marginTop: '8px', whiteSpace: 'pre-line' }}>
-                {t.conSub}
-              </p>
-
               <div className="contact-card-box">
                 <div className="contact-info-card">
                   <div className="contact-icon-wrapper">
@@ -1338,7 +1634,9 @@ function App() {
           </div>
 
           <div className="overlay-body" style={{ padding: '48px 0 0 0' }}>
-            {selectedSection && (
+            {selectedSection && selectedSection.id === 'illiteracy-definition' ? (
+              renderCustomIlliteracyLayout()
+            ) : selectedSection && (
               <>
                 <div className="container" style={{ padding: '0 24px 80px 24px' }}>
                   <div className="drawer-layout animate-fade-in">
@@ -1350,7 +1648,7 @@ function App() {
                           (lang === 'FR' ? 'Impact' : lang === 'ES' ? 'Impacto' : 'Impact')}
                       </h4>
                       {selectedSection.sidebarText && (
-                        <p className="sidebar-card-text">{selectedSection.sidebarText}</p>
+                        <p className="sidebar-card-text" style={{ whiteSpace: 'pre-line' }}>{renderParsedText(selectedSection.sidebarText)}</p>
                       )}
                       {selectedSection.statNumber && (
                         <div className="sidebar-stat">{selectedSection.statNumber}</div>
