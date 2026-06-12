@@ -386,8 +386,12 @@ function App() {
     }
     setFooterEmailError(null);
     setFooterEmailSuccess(t.newsSuccess);
-    triggerToast(t.newsSuccess);
     setFooterEmail('');
+    
+    // Auto-clear success message after 5 seconds
+    setTimeout(() => {
+      setFooterEmailSuccess(null);
+    }, 5000);
   };
 
   const renderSiteFooter = () => (
