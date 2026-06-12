@@ -141,6 +141,39 @@ const faqItems: Array<{
 
 const isValidEmail = (email: string): boolean => {
   if (!email) return false;
+  
+  // No spaces are allowed anywhere in the email
+  if (email.includes(' ') || /\s/.test(email)) return false;
+
+  // Must contain @
+  if (!email.includes('@')) return false;
+
+  // Split on @ (must have exactly one @)
+  const parts = email.split('@');
+  if (parts.length !== 2) return false;
+
+  const localPart = parts[0];
+  const domainPart = parts[1];
+
+  // Must have text before @
+  if (!localPart) return false;
+
+  // Must have domain name after @
+  if (!domainPart) return false;
+
+  // Must include a dot (.) like .com, .org in the domain
+  if (!domainPart.includes('.')) return false;
+
+  // The email must belong to one of the allowed providers: Gmail, Outlook, Hotmail (case-insensitive)
+  const lowerDomain = domainPart.toLowerCase();
+  const startsWithProvider = 
+    lowerDomain.startsWith('gmail.') || 
+    lowerDomain.startsWith('outlook.') || 
+    lowerDomain.startsWith('hotmail.');
+
+  if (!startsWithProvider) return false;
+
+  // Final check for general valid format (e.g. no illegal characters, valid TLD length)
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 };
@@ -227,6 +260,7 @@ function App() {
   const [contactRobotVerified, setContactRobotVerified] = useState(false);
   const [robotError, setRobotError] = useState(false);
   const [footerEmailError, setFooterEmailError] = useState<string | null>(null);
+  const [footerEmailSuccess, setFooterEmailSuccess] = useState<string | null>(null);
 
   // States for sending and geo-ip country detection
   const [isSending, setIsSending] = useState(false);
@@ -341,15 +375,17 @@ function App() {
     e.preventDefault();
     if (!isValidEmail(footerEmail)) {
       const errMsg = lang === 'FR' 
-        ? 'Adresse email non valide' 
+        ? 'L\'adresse e-mail doit appartenir à Gmail, Outlook ou Hotmail et ne doit pas contenir d\'espaces.' 
         : lang === 'ES' 
-          ? 'Dirección de correo no válida' 
-          : 'Please enter a valid email address.';
+          ? 'El correo debe ser de Gmail, Outlook o Hotmail y no debe contener espacios.' 
+          : 'Email must belong to Gmail, Outlook, or Hotmail, and contain no spaces.';
       setFooterEmailError(errMsg);
+      setFooterEmailSuccess(null);
       triggerToast(errMsg);
       return;
     }
     setFooterEmailError(null);
+    setFooterEmailSuccess(t.newsSuccess);
     triggerToast(t.newsSuccess);
     setFooterEmail('');
   };
@@ -436,6 +472,11 @@ function App() {
                   {footerEmailError}
                 </div>
               )}
+              {footerEmailSuccess && (
+                <div className="form-success-msg" style={{ marginTop: '0', marginBottom: '12px' }}>
+                  {footerEmailSuccess}
+                </div>
+              )}
               <form onSubmit={handleFooterNewsletterSubmit} className="subscribe-form">
                 <input 
                   type="email" 
@@ -444,6 +485,7 @@ function App() {
                   onChange={(e) => {
                     setFooterEmail(e.target.value);
                     if (footerEmailError) setFooterEmailError(null);
+                    if (footerEmailSuccess) setFooterEmailSuccess(null);
                   }}
                   className="subscribe-input"
                   required

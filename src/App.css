@@ -2442,3 +2442,11 @@
   font-weight: 500;
 }
 
+.form-success-msg {
+  color: #4ade80; /* bright green for high visibility */
+  font-size: 13px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
