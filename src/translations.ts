@@ -225,7 +225,7 @@ export const translations: Record<string, TranslationSet> = {
     newsEmail: 'Email',
     newsConsent: 'I agree to receive updates about Likro & Lihtov\'s projects and activities.',
     newsSubmit: 'Subscribe',
-    newsSuccess: 'Congratulations, {name}! You have subscribed to the Likro & Lihtov monthly updates.',
+    newsSuccess: 'Subscription confirmed! You will soon receive updates about our news and project progress.',
 
     cookieText: 'We use cookies, pixels, and similar tracking technologies to optimize website performance, analyze visitor traffic patterns, remember your language preferences, and support our educational advocacy missions. By clicking "Accept", you agree to our',
     cookieAccept: 'Accept',
@@ -281,7 +281,7 @@ export const translations: Record<string, TranslationSet> = {
     footDesc: 'Apprendre à lire et à écrire est un droit humain.',
     footNav: 'Liens rapides',
     footContact: 'Contact',
-    footStay: 'Rejoignez notre communauté',
+    footStay: 'Rejoignez\u00a0notre\u00a0communauté',
     footSubText: 'Inscrivez-vous à notre newsletter pour suivre nos projets et nos résultats.',
     footSubPlaceholder: 'Votre adresse email',
     footSubBtn: 'S’abonner',
@@ -336,7 +336,7 @@ export const translations: Record<string, TranslationSet> = {
     newsEmail: 'Email',
     newsConsent: 'J\'accepte de recevoir des informations sur les projets et les activités de Likro & Lihtov.',
     newsSubmit: 'S\'abonner',
-    newsSuccess: 'Félicitations, {name}! Vous êtes maintenant abonné aux mises à jour de Likro & Lihtov.',
+    newsSuccess: 'Inscription confirmée ! Vous recevrez bientôt nos actualités et l\'avancement de nos projets.',
 
     cookieText: 'Nous utilisons des cookies, des pixels et des technologies de suivi similaires pour optimiser les performances du site, analyser la fréquentation, mémoriser vos préférences linguistiques et soutenir nos missions d\'alphabétisation. En cliquant sur « Accepter », vous consentez à l\'utilisation de ces cookies conformément à notre',
     cookieAccept: 'Accepter',
@@ -447,7 +447,7 @@ export const translations: Record<string, TranslationSet> = {
     newsEmail: 'Email',
     newsConsent: 'Acepto recibir actualizaciones sobre los proyectos y actividades de Likro & Lihtov.',
     newsSubmit: 'Suscribirse',
-    newsSuccess: '¡Felicitaciones, {name}! Se ha suscrito exitosamente a las actualizaciones mensuales de Likro & Lihtov.',
+    newsSuccess: '¡Suscripción confirmada! Pronto recibirá noticias sobre nuestra actualidad y el progreso de nuestros proyectos.',
 
     cookieText: 'Utilizamos cookies, píxeles y tecnologías de seguimiento similares para optimizar el rendimiento del sitio web, analizar el tráfico de visitantes, recordar sus preferencias de idioma y apoyar nuestras misiones educativas. Al hacer clic en "Aceptar", acepta el uso de estas cookies en su dispositivo de conformidad con nuestra',
     cookieAccept: 'Aceptar',

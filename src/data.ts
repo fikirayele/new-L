@@ -432,9 +432,10 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statLabel: 'Active Grants',
       sidebarText: 'Our curriculum aligns with the European Framework for Adult Learning and Gender Equality guidelines.',
       mainParagraphs: [
-        'Likro & Lihtov proudly collaborates with European educational associations and gender equality networks. These cross-border partnerships enable us to exchange pedagogical research, import modern teaching methods, and secure structural matching grants.',
-        'Through co-funded European social initiatives, we have optimized our teacher training programs. This ensures our teaching staff is equipped with state-of-the-art adult educational psychology and trauma-informed care methods.',
-        'Our project reporting standards comply fully with EU transparency requirements, assuring all stakeholders of complete fiscal responsibility.'
+        'We believe that literacy is more than access to a classroom—it is the foundation of opportunity, economic growth, and social development.',
+        'In the Democratic Republic of Congo, low literacy rates are often linked to deeper challenges such as poverty, limited infrastructure, inadequate educational resources, and barriers that affect vulnerable communities. Addressing these challenges requires more than building schools alone; it requires a comprehensive approach that strengthens education systems, improves infrastructure, and creates sustainable opportunities for learning.',
+        'Through collaboration between the Democratic Republic of Congo and European institutions, organizations, and companies, we support initiatives that expand access to quality education, develop schools and public infrastructure, and empower communities for long-term success.',
+        'Our mission is to help create a future where every child and adult has the opportunity to learn, grow, and contribute to a more prosperous society.'
       ],
       cards: [
         { title: 'Curriculum Exchange', text: 'We regularly host and participate in joint research workshops with European adult-learning networks.' },
@@ -451,9 +452,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statLabel: 'Built/Upgraded',
       sidebarText: 'Our schools are architectural spaces designed to feel open, welcoming, well-lit, and thoroughly secure.',
       mainParagraphs: [
-        'A massive obstacle to adult education in poor areas is the lack of physical infrastructure. Learning in cramped, poorly lit, or unsafe spaces leads to high drop-out rates. Likro & Lihtov addresses this by constructing custom-designed school units.',
-        'Each school building features spacious classrooms, dynamic floor plans with ample natural light, a fully equipped child-care play area, secure clean washrooms, and solar panel arrays to guarantee continuous electrical power.',
-        'We hire local builders, craftspeople, and technicians for all construction projects, pumping vital resources directly back into the local community economy.'
+        'Education is not only about classrooms and teachers—it also depends on the infrastructure that makes learning possible. In many regions of the Democratic Republic of Congo, the quality of school facilities and public infrastructure remains a major challenge. Many schools lack proper classrooms, safe buildings, sanitation, and essential learning resources. In addition, poor road networks make it difficult for students and teachers to reach schools, especially in rural communities.',
+        'Improving education therefore means investing in both schools and the infrastructure that supports access to them. Building and renovating schools, as well as developing roads and transportation systems, are essential steps toward ensuring that every child can access quality education.',
+        'Our organization is committed to addressing these challenges by raising funds to support the construction of schools and the development of public infrastructure. Through these efforts, we aim to remove barriers to education and create safer, more accessible learning environments for all communities.'
       ],
       cards: [
         { title: 'Solar Powered', text: 'Independent green energy grids protect our classrooms from rolling blackouts, keeping air conditioning and lighting running.' },
@@ -674,7 +675,10 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statLabel: 'Subventions actives',
       sidebarText: 'Nos programmes pédagogiques intègrent les meilleures pratiques européennes.',
       mainParagraphs: [
-        'Cette collaboration nous permet de financer nos infrastructures et d’offrir une formation pédagogique de pointe.'
+        'Nous pensons que l\'alphabétisation est bien plus que l\'accès à une salle de classe — c\'est le fondement de l\'égalité des chances, de la croissance économique et du développement social.',
+        'En République Démocratique du Congo, les faibles taux d\'alphabétisation sont souvent liés à des défis plus profonds tels que la pauvreté, des infrastructures limitées, des ressources éducatives insuffisantes et des obstacles qui touchent les communautés vulnérables. Relever ces défis exige plus que la simple construction d\'écoles ; cela nécessite une approche globale qui renforce les systèmes éducatifs, améliore les infrastructures et crée des opportunités durables d\'apprentissage.',
+        'Grâce à la collaboration entre la République Démocratique du Congo et les institutions, organisations et entreprises européennes, nous soutenons des initiatives qui élargissent l\'accès à une éducation de qualité, développent les écoles et les infrastructures publiques, et autonomisent les communautés pour un succès à long terme.',
+        'Notre mission est de contribuer à créer un avenir où chaque enfant et chaque adulte a la possibilité d\'apprendre, de grandir et de contribuer à une société plus prospère.'
       ]
     },
     'projects-construction': {
@@ -686,7 +690,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statLabel: 'Classes Construites',
       sidebarText: 'Des espaces ouverts, lumineux, équipés de crèches et alimentés par énergie solaire.',
       mainParagraphs: [
-        'La construction de structures adaptées et sûres supprime les obstacles d’accès aux cours et favorise la réussite des femmes.'
+        'L\'éducation ne se résume pas aux salles de classe et aux enseignants — elle dépend également des infrastructures qui rendent l\'apprentissage possible. Dans de nombreuses régions de la République Démocratique du Congo, la qualité des installations scolaires et des infrastructures publiques reste un défi majeur. De nombreuses écoles manquent de salles de classe adaptées, de bâtiments sûrs, d\'installations sanitaires et de ressources d\'apprentissage essentielles. De plus, le mauvais état des réseaux routiers rend difficile l\'accès des élèves et des enseignants aux écoles, en particulier dans les communautés rurales.',
+        'Améliorer l\'éducation signifie donc investir à la fois dans les écoles et dans les infrastructures qui en favorisent l\'accès. La construction et la rénovation des écoles, ainsi que le développement des routes et des systèmes de transport, sont des étapes essentielles pour garantir que chaque enfant puisse accéder à une éducation de qualité.',
+        'Notre organisation s\'engage à relever ces défis en collectant des fonds pour soutenir la construction d\'écoles et le développement d\'infrastructures publiques. À travers ces efforts, nous visons à éliminer les barrières à l\'éducation et à créer des environnements d\'apprentissage plus sûrs et plus accessibles pour toutes les communautés.'
       ]
     },
     'projects-security': {
@@ -888,7 +894,10 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statLabel: 'Fondos Activos',
       sidebarText: 'Alineamos nuestra pedagogía con los marcos de igualdad de la UE.',
       mainParagraphs: [
-        'La alianza con agencias europeas nos permite dotar a los centros de tabletas y materiales actualizados.'
+        'Creemos que la alfabetización es más que el acceso a un aula de clases: es la base de la igualdad de oportunidades, el crecimiento económico y el desarrollo social.',
+        'En la República Democrática del Congo, las bajas tasas de alfabetización suelen estar relacionadas con desafíos más profundos como la pobreza, la infraestructura limitada, los recursos educativos suficientes y los obstáculos que afectan a las comunidades vulnerables. Abordar estos desafíos requiere más que la simple construcción de escuelas; requiere un enfoque integral que fortalezca los sistemas educativos, mejore la infraestructura y cree oportunidades de aprendizaje sostenibles.',
+        'A través de la colaboración entre la República Democrática del Congo y las instituciones, organizaciones y empresas europeas, apoyamos iniciativas que amplían el acceso a una educación de calidad, desarrollan escuelas e infraestructuras públicas y empoderan a las comunidades para lograr el éxito a largo plazo.',
+        'Nuestra misión es contribuir a crear un futuro donde cada niño y adulto tenga la oportunidad de aprender, crecer y contribuir a una sociedad más próspera.'
       ]
     },
     'projects-construction': {
@@ -900,7 +909,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       statLabel: 'Aulas Equipadas',
       sidebarText: 'Aulas solares, climatizadas y con guarderías integradas.',
       mainParagraphs: [
-        'Dotar a las comunidades de centros propios y seguros es vital para motivar la asistencia constante.'
+        'La educación no se limita a las aulas y los maestros; también depende de la infraestructura que hace posible el aprendizaje. En muchas regiones de la República Democrática del Congo, la calidad de las instalaciones escolares y de la infraestructura pública sigue siendo un desafío importante. Muchas escuelas carecen de aulas adecuadas, edificios seguros, servicios sanitarios y recursos de aprendizaje esenciales. Además, las deficientes redes de carreteras dificultan que los estudiantes y los maestros lleguen a las escuelas, especialmente en las comunidades rurales.',
+        'Mejorar la educación significa, por lo tanto, invertir tanto en las escuelas como en la infraestructura que facilita el acceso a ellas. La construcción y renovación de escuelas, así como el desarrollo de carreteras y sistemas de transporte, son pasos esenciales para garantizar que todos los niños puedan acceder a una educación de calidad.',
+        'Nuestra organización se compromete a abordar estos desafíos recaudando fondos para apoyar la construcción de escuelas y el desarrollo de la infraestructura pública. A través de estos esfuerzos, nuestro objetivo es eliminar las barreras a la educación y crear entornos de aprendizaje más seguros y accesibles para todas las comunidades.'
       ]
     },
     'projects-security': {
