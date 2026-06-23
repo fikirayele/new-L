@@ -21,7 +21,10 @@ import {
   Calculator,
   Scale,
   Network,
-  Calendar
+  Calendar,
+  Briefcase,
+  Award,
+  GraduationCap
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -146,25 +149,41 @@ const faqItems: Array<{
 
 const isValidEmail = (email: string): boolean => {
   if (!email) return false;
+  
+  // No spaces are allowed anywhere in the email
+  if (email.includes(' ') || /\s/.test(email)) return false;
 
-  const trimmedEmail = email.trim();
+  // Must contain @
+  if (!email.includes('@')) return false;
 
-  // Reject whitespace anywhere in the address
-  if (trimmedEmail !== email || /\s/.test(trimmedEmail)) return false;
-
-  // Must contain exactly one @
-  const parts = trimmedEmail.split('@');
+  // Split on @ (must have exactly one @)
+  const parts = email.split('@');
   if (parts.length !== 2) return false;
 
-  const [localPart, domainPart] = parts;
-  if (!localPart || !domainPart) return false;
+  const localPart = parts[0];
+  const domainPart = parts[1];
 
-  // Basic structure check for all valid domains
-  if (domainPart.startsWith('.') || domainPart.endsWith('.') || domainPart.includes('..')) return false;
-  if (localPart.startsWith('.') || localPart.endsWith('.')) return false;
+  // Must have text before @
+  if (!localPart) return false;
 
-  const emailRegex = /^(?!.*\.\.)[A-Za-z0-9._%+\-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  return emailRegex.test(trimmedEmail);
+  // Must have domain name after @
+  if (!domainPart) return false;
+
+  // Must include a dot (.) like .com, .org in the domain
+  if (!domainPart.includes('.')) return false;
+
+  // The email must belong to one of the allowed providers: Gmail, Outlook, Hotmail (case-insensitive)
+  const lowerDomain = domainPart.toLowerCase();
+  const startsWithProvider = 
+    lowerDomain.startsWith('gmail.') || 
+    lowerDomain.startsWith('outlook.') || 
+    lowerDomain.startsWith('hotmail.');
+
+  if (!startsWithProvider) return false;
+
+  // Final check for general valid format (e.g. no illegal characters, valid TLD length)
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
 };
 
 const hasNumbers = (text: string): boolean => {
@@ -197,8 +216,20 @@ const getIconComponent = (iconName: string, size = 20) => {
     case 'Heart': return <Heart size={size} />;
     case 'CheckCircle': return <CheckCircle size={size} />;
     case 'Network': return <Network size={size} />;
+    case 'Briefcase': return <Briefcase size={size} />;
+    case 'Award': return <Award size={size} />;
+    case 'GraduationCap': return <GraduationCap size={size} />;
     default: return null;
   }
+};
+
+const apiFetch = (input: string | Request | URL, init?: RequestInit) => {
+  const baseUrl = import.meta.env.VITE_API_URL || "";
+  let url = input;
+  if (typeof input === "string" && input.startsWith("/api")) {
+    url = `${baseUrl}${input}`;
+  }
+  return fetch(url, init);
 };
 
 function App() {
@@ -483,6 +514,14 @@ function App() {
             </a>
             <p className="footer-desc">{t.footDesc}</p>
             
+            <div className="footer-bank-details">
+              <span className="bank-title">{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'ES' ? 'Datos Bancarios' : 'Bank Account Details'}</span>
+              <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'ES' ? 'Nombre de la cuenta' : 'Account Name'}:</strong> Likro & Lihtov</p>
+              <p><strong>IBAN:</strong> BE68 3630 1234 5678</p>
+              <p><strong>BIC:</strong> LIKRBE2BXXX</p>
+              <p><strong>{lang === 'FR' ? 'Pays' : lang === 'ES' ? 'País' : 'Country'}:</strong> {lang === 'FR' ? 'Belgique' : lang === 'ES' ? 'Bélgica' : 'Belgium'}</p>
+            </div>
+            
             <div className="footer-socials">
               <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="Facebook">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
@@ -506,7 +545,7 @@ function App() {
               <li><a onClick={() => { closeDrawer(); openDrawer('about-organization'); }}>{t.navAboutOrg}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('about-goals'); }}>{t.navAboutGoals}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('projects-construction'); }}>{t.navProjectsConst}</a></li>
-              <li><a href="#contacts-section" onClick={() => closeDrawer()}>{t.navContacts}</a></li>
+              <li><a href="#contacts-section" onClick={() => closeDrawer()}>{lang === 'FR' ? 'Contactez-nous' : lang === 'ES' ? 'Contáctenos' : 'Contact us'}</a></li>
             </ul>
           </div>
 
@@ -635,7 +674,7 @@ function App() {
     setIsSending(true);
 
     try {
-      const response = await fetch("/api/subscribe", {
+      const response = await apiFetch("/api/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -794,7 +833,7 @@ function App() {
     setIsSending(true);
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await apiFetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -839,7 +878,7 @@ function App() {
       return;
     }
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await apiFetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: adminUsernameInput, password: adminPasswordInput }),
@@ -883,7 +922,7 @@ function App() {
 
   const handleAdminLogout = async () => {
     try {
-      await fetch("/api/admin/logout", { method: "POST" });
+      await apiFetch("/api/admin/logout", { method: "POST" });
     } catch (err) {
       console.error(err);
     }
@@ -897,7 +936,7 @@ function App() {
   const fetchAdminStats = async (token = adminToken) => {
     if (!token) return;
     try {
-      const res = await fetch("/api/admin/dashboard", {
+      const res = await apiFetch("/api/admin/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -928,7 +967,7 @@ function App() {
       const query = new URLSearchParams();
       if (search) query.append("search", search);
       if (status) query.append("status", status);
-      const res = await fetch(`/api/admin/messages?${query.toString()}`, {
+      const res = await apiFetch(`/api/admin/messages?${query.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -999,7 +1038,7 @@ function App() {
       const query = new URLSearchParams();
       if (search) query.append("search", search);
       if (status) query.append("status", status);
-      const res = await fetch(`/api/admin/subscribers?${query.toString()}`, {
+      const res = await apiFetch(`/api/admin/subscribers?${query.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -1057,7 +1096,7 @@ function App() {
   const handleUpdateMessageStatus = async (id: number, status: string) => {
     if (!adminToken) return;
     try {
-      const res = await fetch(`/api/admin/messages/${id}`, {
+      const res = await apiFetch(`/api/admin/messages/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -1078,7 +1117,7 @@ function App() {
     if (!adminToken) return;
     if (!window.confirm("Are you sure you want to delete this message?")) return;
     try {
-      const res = await fetch(`/api/admin/messages/${id}`, {
+      const res = await apiFetch(`/api/admin/messages/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${adminToken}` },
       });
@@ -1099,7 +1138,7 @@ function App() {
     e.preventDefault();
     if (!adminToken || !adminReplyText.trim()) return;
     try {
-      const res = await fetch(`/api/admin/messages/${id}/reply`, {
+      const res = await apiFetch(`/api/admin/messages/${id}/reply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1129,7 +1168,7 @@ function App() {
   const handleUpdateSubscriberStatus = async (id: number, status: string) => {
     if (!adminToken) return;
     try {
-      const res = await fetch(`/api/admin/subscribers/${id}`, {
+      const res = await apiFetch(`/api/admin/subscribers/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -1154,7 +1193,7 @@ function App() {
     if (!adminToken) return;
     if (!window.confirm("Are you sure you want to delete this subscriber?")) return;
     try {
-      const res = await fetch(`/api/admin/subscribers/${id}`, {
+      const res = await apiFetch(`/api/admin/subscribers/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${adminToken}` },
       });
@@ -1180,7 +1219,7 @@ function App() {
       return;
     }
     try {
-      const res = await fetch("/api/admin/users", {
+      const res = await apiFetch("/api/admin/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1219,7 +1258,7 @@ function App() {
   const handleExportSubscribers = async () => {
     if (!adminToken) return;
     try {
-      const res = await fetch("/api/admin/subscribers/export", {
+      const res = await apiFetch("/api/admin/subscribers/export", {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       if (res.ok) {
@@ -2275,9 +2314,6 @@ function App() {
             <ul className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
               <li className="mobile-menu-header">
                 <span className="logo">Likro <span>&</span> Lihtov</span>
-                <button className="mobile-close-btn" onClick={() => setMobileMenuOpen(false)}>
-                  <X size={24} />
-                </button>
               </li>
 
               {/* ABOUT / WHO WE ARE */}
@@ -2308,7 +2344,7 @@ function App() {
                 </span>
                 <div className="dropdown-menu">
                   <span className="dropdown-item" onClick={() => openDrawer('illiteracy-definition')}>{t.navIlliteracyDef}</span>
-                  <span className="dropdown-item" onClick={() => openDrawer('illiteracy-statistics')}>{t.navIlliteracyStats}</span>
+                  <span className="dropdown-item" onClick={() => openDrawer('illiteracy-school-program')}>{t.navIlliteracyProg}</span>
                   <span className="dropdown-item" onClick={() => openDrawer('illiteracy-consequences')}>{t.navIlliteracyCons}</span>
                 </div>
               </li>
@@ -2374,8 +2410,19 @@ function App() {
               <ChevronRight size={16} />
             </button>
 
-            <button className="mobile-toggle" onClick={() => setMobileMenuOpen(true)}>
-              <Menu size={26} />
+            <button 
+              className="mobile-toggle" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Menu"
+            >
+              {mobileMenuOpen ? (
+                <X size={26} />
+              ) : (
+                <>
+                  <Menu size={26} />
+                  <span className="mobile-toggle-text">Menu</span>
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -2878,6 +2925,36 @@ function App() {
                         </div>
                       )}
                     </>
+                  ) : selectedSection.id === 'illiteracy-school-program' ? (
+                    <>
+                      {/* School Program Sidebar */}
+                      <div className="sidebar-card">
+                        <h4 className="sidebar-card-title">
+                          {lang === 'FR' ? 'Programme' : lang === 'ES' ? 'Programa' : 'Program'}
+                        </h4>
+                        <div className="sidebar-stat">{selectedSection.statNumber}</div>
+                        <div className="sidebar-stat-label">{selectedSection.statLabel}</div>
+                        <p className="sidebar-card-text" style={{ marginTop: '16px', fontSize: '13px', color: '#475569', lineHeight: '1.5' }}>
+                          {selectedSection.sidebarText}
+                        </p>
+                      </div>
+
+                      {selectedSection.listItems && (
+                        <div className="sidebar-quickinfo">
+                          <h4 className="quickinfo-title">
+                            {selectedSection.listTitle || (lang === 'FR' ? 'Le programme comprend' : lang === 'ES' ? 'El programa incluye' : 'Program includes')}
+                          </h4>
+                          <ul className="quickinfo-list">
+                            {selectedSection.listItems.map((item, index) => (
+                              <li key={index}>
+                                <CheckCircle size={14} />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <>
                       {(selectedSection.sidebarText || selectedSection.statNumber) && (
@@ -2995,23 +3072,52 @@ function App() {
                             {selectedSection.didYouKnow.items.map((item, index) => (
                               <div key={index} className="illiteracy-dyk-card-item">
                                 <div className="illiteracy-dyk-icon-circle">
-                                  {getIconComponent(item.iconName, 18)}
+                                  {getIconComponent(item.iconName, 24)}
                                 </div>
-                                <div className="illiteracy-dyk-card-content">
+                                <div className="illiteracy-dyk-content">
                                   {item.title && <h5 className="illiteracy-dyk-card-title">{item.title}</h5>}
-                                  {item.bullets && item.bullets.length > 0 ? (
-                                    <ul className="illiteracy-dyk-bullets">
-                                      {item.bullets.map((bullet, bulletIndex) => (
-                                        <li key={bulletIndex}>{bullet}</li>
+                                  {item.list ? (
+                                    <ul className="illiteracy-dyk-list">
+                                      {item.list.map((listItem, listIdx) => (
+                                        <li key={listIdx}>{listItem}</li>
                                       ))}
                                     </ul>
-                                  ) : item.text ? (
-                                    <p className="illiteracy-dyk-text">{item.text}</p>
-                                  ) : null}
+                                  ) : (
+                                    item.text && <span className="illiteracy-dyk-text">{item.text}</span>
+                                  )}
                                 </div>
                               </div>
                             ))}
                           </div>
+                        </div>
+                      )}
+                    </>
+                  ) : selectedSection.id === 'illiteracy-school-program' ? (
+                    <>
+                      {selectedSection.mainParagraphs.map((para, index) => (
+                        <p key={index} className="drawer-text" style={{ marginBottom: '40px' }}>{renderParsedText(para)}</p>
+                      ))}
+
+                      {selectedSection.programSteps && (
+                        <div className="school-program-steps">
+                          {selectedSection.programSteps.map((step, idx) => (
+                            <div key={idx} className="school-program-step-row animate-fade-in">
+                              <div className="school-program-step-text">
+                                <div className="school-program-step-num">0{step.num}</div>
+                                <div className="school-program-step-header">
+                                  <div className="school-program-step-icon-circle">
+                                    {getIconComponent(step.iconName, 18)}
+                                  </div>
+                                  <h4 className="school-program-step-title">{step.title}</h4>
+                                </div>
+                                <h5 className="school-program-step-tagline">{step.tagline}</h5>
+                                <p className="school-program-step-desc">{step.desc}</p>
+                              </div>
+                              <div className="school-program-step-image-container">
+                                <img src={step.image} alt={step.title} className="school-program-step-img" />
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       )}
                     </>

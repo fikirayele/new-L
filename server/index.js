@@ -6,6 +6,11 @@ import rateLimit from "express-rate-limit";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import pool from "./config/db.js";
 import { runMigrations } from "./database/migrate.js";
@@ -102,15 +107,22 @@ async function logSecurityEvent(type, ip, details) {
 }
 
 // 6. Validation Helpers
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const nameRegex = /^[a-zA-Z\s'-]+$/;
+
 function isValidEmail(email) {
-  if (!email || typeof email !== "string") return false;
-
-  const trimmed = email.trim();
-
-  const emailRegex =
-    /^(?!.*\.\.)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  return emailRegex.test(trimmed);
+  if (!email || email.includes(" ")) return false;
+  
+  // Gmail/Outlook/Hotmail provider checks
+  const domainPart = email.split("@")[1];
+  if (!domainPart || !domainPart.includes(".")) return false;
+  const lowerDomain = domainPart.toLowerCase();
+  const validProvider =
+    lowerDomain.startsWith("gmail.") ||
+    lowerDomain.startsWith("outlook.") ||
+    lowerDomain.startsWith("hotmail.");
+  
+  return validProvider && emailRegex.test(email);
 }
 
 // ================= PUBLIC ENDPOINTS =================
@@ -428,11 +440,9 @@ app.post("/api/admin/messages/:id/reply", authenticateAdmin, async (req, res) =>
 
     // Send email using Nodemailer
     const mailOptions = {
-      from: process.env.SMTP_FROM || '"Likro & Lihtov Organization" <support@likrolihtov.com>',
-      replyTo: process.env.SMTP_REPLY_TO || process.env.SMTP_FROM || '"Likro & Lihtov Organization" <support@likrolihtov.com>',
+      from: '"Likro & Lihtov Organization" <support@likrolihtov.com>',
       to: originalMsg.email,
       subject: `Reply to your message: ${originalMsg.first_name} ${originalMsg.last_name}`,
-      text: `Dear ${originalMsg.first_name},\n\nThank you for contacting Likro & Lihtov. Below is our response to your message:\n\n${replyText}\n\nOriginal Message:\n${originalMsg.message}`,
       html: `
         <p>Dear ${originalMsg.first_name},</p>
         <p>Thank you for contacting Likro & Lihtov. Below is our response to your message:</p>
@@ -445,8 +455,7 @@ app.post("/api/admin/messages/:id/reply", authenticateAdmin, async (req, res) =>
       `,
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Reply email sent successfully:", info.messageId);
+    await transporter.sendMail(mailOptions);
 
     // Update status to 'Replied'
     await pool.query("UPDATE contact_messages SET status = 'Replied' WHERE id = ?", [id]);
@@ -579,9 +588,12 @@ app.post("/api/admin/users", authenticateAdmin, async (req, res) => {
   }
 });
 
-// Default Fallback Route
-app.get("/", (req, res) => {
-  res.send("Likro & Lihtov Enterprise Backend running 🚀");
+// Serve static files from React build directory
+app.use(express.static(path.join(__dirname, "../dist")));
+
+// Fallback Route to serve index.html for SPA routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 app.listen(PORT, () => {

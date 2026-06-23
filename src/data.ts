@@ -46,8 +46,16 @@ export interface DetailSection {
   }[];
   didYouKnow?: {
     title: string;
-    items: { iconName: string; title?: string; text?: string; bullets?: string[] }[];
+    items: { iconName: string; text?: string; title?: string; list?: string[] }[];
   };
+  programSteps?: {
+    num: number;
+    iconName: string;
+    title: string;
+    tagline: string;
+    desc: string;
+    image: string;
+  }[];
 }
 
 export interface CountryData {
@@ -426,22 +434,27 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           {
             iconName: "Users",
             title: "Impact on Women",
-            text: "Limited access to employment, difficulty accessing basic information, financial insecurity, and reduced participation in community life."
-          },
-          {
-            iconName: "Globe",
-            title: "Reading and Writing Change Lives",
-            text: "Being able to read and write is more than a skill. It is a path to confidence, opportunity, and independence. Supporting literacy helps build a fairer future."
-          },
-          {
-            iconName: "Users",
-            title: "Challenge",
-            text: "Literacy is not an end in itself. It allows individuals to develop their autonomy, contribute to their community, and participate actively in social life."
+            list: [
+              "Limited access to employment",
+              "Difficulty accessing basic information",
+              "Financial insecurity",
+              "Reduced participation in community life"
+            ]
           },
           {
             iconName: "BookOpen",
+            title: "Reading and Writing Change Lives",
+            text: "Being able to read and write is more than a skill. It is a path to confidence, opportunity and independence. Supporting literacy means helping build a fairer future."
+          },
+          {
+            iconName: "GraduationCap",
             title: "Our school",
-            text: "It is designed for women who did not have the opportunity to attend school or complete their education. Through literacy, mathematics, and practical learning, we help students become more independent in their daily lives."
+            text: "Is designed for women who did not have the opportunity to attend school or complete their education. Through literacy, mathematics and practical learning, we help students become more independent in their daily lives."
+          },
+          {
+            iconName: "Award",
+            title: "Challenge",
+            text: "Literacy is not an end in itself. It allows individuals to develop their autonomy, contribute to their community, and participate actively in social life."
           },
           {
             iconName: "Scale",
@@ -459,23 +472,62 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     'illiteracy-school-program': {
       id: 'illiteracy-school-program',
       path: 'Illiteracy / School Program',
-      title: 'Our School Curriculum & Structure',
-      subtitle: 'A custom, slow-paced educational model designed specifically for adult female learners.',
-      statNumber: '9 Months',
-      statLabel: 'Core Program Length',
-      sidebarText: 'Classes are held in small, highly encouraging cohorts. We offer flexible schedules to accommodate household duties.',
+      title: 'Our School Program',
+      subtitle: 'Building independence through education.',
+      statNumber: '15-18 Months',
+      statLabel: 'AVERAGE PROGRAM DURATION',
+      sidebarText: 'We provide literacy, mathematics, life education and critical thinking skills to women who never had the opportunity to complete their education.',
       mainParagraphs: [
-        'Our signature educational program is divided into three consecutive quarters, taking a student from complete letter non-recognition to functional reading, writing, and simple accounting. The pace is carefully monitored to ensure no student feels overwhelmed.',
-        'We combine classical phonetic teaching with modern, everyday practical scenarios. For instance, writing lessons involve filling out real application forms, reading simple local news, and understanding basic legal tenant rights.',
-        'A key component of our program is peer-based learning. Students learn in close circles of 8-12, creating deep bonds of community support, reducing anxiety, and establishing mutual accountability.'
+        'Our program is designed for women who never had the opportunity to attend school or complete their education. Over a period of approximately 15 to 18 months, students follow a progressive learning journey that helps them gain the essential skills needed to become more independent in their daily lives.'
       ],
-      galleryType: 'curriculum',
-      listTitle: 'Program Highlights:',
+      listTitle: 'Program Includes',
       listItems: [
-        'Free safe shuttle transport from remote areas directly to campuses.',
-        'Integrated on-site nursery and child-care for children under 5 years.',
-        'Healthy hot meals and nutritional tracking provided daily.',
-        'Graduation certificate and post-school vocational guidance.'
+        'Literacy',
+        'Mathematics',
+        'Life Education',
+        'Chess'
+      ],
+      programSteps: [
+        {
+          num: 1,
+          iconName: "BookOpen",
+          title: "Literacy",
+          tagline: "Learn to read, write and understand everyday information.",
+          desc: "Students learn to read simple texts, write messages, complete administrative documents, and better understand the world around them.",
+          image: "/assets/writing_on_blackboard.png"
+        },
+        {
+          num: 2,
+          iconName: "Calculator",
+          title: "Mathematics",
+          tagline: "Develop practical calculation and money-management skills.",
+          desc: "Mathematics plays an important role in everyday life. Our courses cover basic arithmetic, money management, simple calculations, and practical skills that help students make informed financial decisions.",
+          image: "/assets/writing_math.jpg"
+        },
+        {
+          num: 3,
+          iconName: "Users",
+          title: "Life Education",
+          tagline: "Gain knowledge that supports health, citizenship and personal development.",
+          desc: "Education goes beyond reading and writing. We address topics such as hygiene, health, nutrition, environmental awareness, citizenship, and personal development to support successful integration into society.",
+          image: "/assets/ladies_studying_classroom.png"
+        },
+        {
+          num: 4,
+          iconName: "Award",
+          title: "Chess",
+          tagline: "Strengthen concentration, logic and strategic thinking.",
+          desc: "Chess helps develop concentration, logic, patience, and strategic thinking. It encourages self-confidence and strengthens problem-solving abilities.",
+          image: "/assets/chess.png"
+        },
+        {
+          num: 5,
+          iconName: "Briefcase",
+          title: "Building a Better Future",
+          tagline: "Our vision goes beyond literacy.",
+          desc: "Our mission goes beyond literacy. Through partnerships and future initiatives, we aim to provide vocational training opportunities and partnerships that help women access employment, generate income and build sustainable futures.",
+          image: "/assets/graduate_with_certificate.png"
+        }
       ]
     },
     'illiteracy-photos-videos': {
@@ -777,7 +829,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           {
             iconName: "Users",
             title: "Impact sur les femmes",
-            bullets: [
+            list: [
               "Accès limité à l'emploi",
               "Difficulté à accéder aux informations de base",
               "Précarité financière",
@@ -785,24 +837,24 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
             ]
           },
           {
-            iconName: "Globe",
+            iconName: "BookOpen",
             title: "Lire et Écrire changent des vies",
             text: "Savoir lire et écrire est bien plus qu'une compétence. C'est un chemin vers la confiance en soi, les opportunités et l'autonomie. Soutenir l'alphabétisation, c'est contribuer à construire un avenir plus juste."
           },
           {
-            iconName: "BookOpen",
+            iconName: "GraduationCap",
             title: "Notre école",
             text: "Notre école est conçue pour les femmes qui n'ont pas eu la possibilité d'aller à l'école ou de terminer leur scolarité. Grâce à l'alphabétisation, aux mathématiques et à un apprentissage pratique, nous aidons nos étudiantes à devenir plus autonomes dans leur vie quotidienne."
           },
           {
-            iconName: "Users",
+            iconName: "Award",
             title: "Défi",
             text: "L'alphabétisation n'est pas une fin en soi. Elle permet aux individus de développer leur autonomie, de contribuer à leur communauté et de participer activement à la vie sociale."
           },
           {
             iconName: "Scale",
             title: "Un droit",
-            text: "L'alphabétisation est un droit, reconnu par la Déclaration universelle des droits de l'Homme (1948)."
+            text: "L'alphabétisation est un droit, reconnu par la Déclaration universelle des droits de l’Homme (1948)."
           }
         ]
       },
@@ -815,15 +867,63 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     'illiteracy-school-program': {
       id: 'illiteracy-school-program',
       path: 'Analphabétisme / Programme',
-      title: 'Structure de Notre Programme Éducatif',
-      subtitle: 'Un parcours d’apprentissage adapté, bienveillant et progressif.',
-      statNumber: '9 Mois',
-      statLabel: 'Durée du Programme',
-      sidebarText: 'Les cours ont lieu en petits groupes de 8 à 12 étudiantes pour favoriser l’entraide.',
+      title: 'Notre programme scolaire',
+      subtitle: 'Construire son autonomie par l\'éducation.',
+      statNumber: '15-18 Mois',
+      statLabel: 'DURÉE MOYENNE DU PROGRAMME',
+      sidebarText: 'Notre programme est conçu pour aider les femmes qui n\'ont jamais eu l\'opportunité d\'aller à l\'école ou de terminer leur scolarité.',
       mainParagraphs: [
-        'Notre programme phare s’organise sur trois trimestres successifs pour maîtriser la lecture, l’écriture et le calcul usuel.'
+        'Notre programme est conçu pour aider les femmes qui n\'ont jamais eu l\'opportunité d\'aller à l\'école ou de terminer leur scolarité. Pendant environ 15 à 18 mois, les étudiantes suivent un parcours progressif qui leur permet d\'acquérir les compétences essentielles pour devenir plus autonomes dans leur vie quotidienne.'
       ],
-      galleryType: 'curriculum'
+      listTitle: 'Le programme comprend',
+      listItems: [
+        'Alphabétisation',
+        'Mathématiques',
+        'Éducation à la vie',
+        'Jeu d\'échecs'
+      ],
+      programSteps: [
+        {
+          num: 1,
+          iconName: "BookOpen",
+          title: "Alphabétisation",
+          tagline: "Apprendre à lire, écrire et comprendre les informations quotidiennes.",
+          desc: "Apprendre à lire et à écrire est la première étape vers l'autonomie. Les étudiantes apprennent à lire des textes simples, à écrire des messages, à remplir des documents administratifs et à mieux comprendre le monde qui les entoure.",
+          image: "/assets/writing_on_blackboard.png"
+        },
+        {
+          num: 2,
+          iconName: "Calculator",
+          title: "Mathématiques",
+          tagline: "Développer des compétences pratiques de calcul et de gestion de l'argent.",
+          desc: "Les mathématiques sont indispensables dans la vie quotidienne. Nos cours couvrent les bases du calcul, la gestion de l'argent, les opérations simples et les compétences nécessaires pour prendre des décisions financières en toute confiance.",
+          image: "/assets/writing_math.jpg"
+        },
+        {
+          num: 3,
+          iconName: "Users",
+          title: "Éducation à la vie",
+          tagline: "Acquérir des connaissances qui soutiennent la santé, la citoyenneté et le développement personnel.",
+          desc: "L'éducation va au-delà de la lecture et de l'écriture. Nous abordons des sujets tels que l'hygiène, la santé, la nutrition, le respect de l'environnement, la citoyenneté et le développement personnel afin de favoriser une meilleure intégration dans la société.",
+          image: "/assets/ladies_studying_classroom.png"
+        },
+        {
+          num: 4,
+          iconName: "Award",
+          title: "Jeu d'échecs",
+          tagline: "Renforcer la concentration, la logique et la réflexion stratégique.",
+          desc: "Le jeu d'échecs développe la concentration, la logique, la patience et la réflexion stratégique. Il aide les étudiantes à renforcer leur confiance en elles et leurs capacités de résolution de problèmes.",
+          image: "/assets/chess.png"
+        },
+        {
+          num: 5,
+          iconName: "Briefcase",
+          title: "Préparer l'avenir",
+          tagline: "Notre ambition va au-delà de l'alphabétisation.",
+          desc: "Notre ambition ne s'arrête pas à l'alphabétisation. À travers des partenariats et des programmes futurs, nous souhaitons offrir des formations professionnelles permettant aux femmes de développer des compétences utiles pour accéder à un emploi ou créer leur propre activité.",
+          image: "/assets/graduate_with_certificate.png"
+        }
+      ]
     },
     'illiteracy-photos-videos': {
       id: 'illiteracy-photos-videos',
@@ -1094,45 +1194,103 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         title: "¿Sabías que?",
         items: [
           {
-            iconName: "Calendar",
-            text: "El analfabetismo se definió oficialmente en 1949 durante la Conferencia Internacional sobre Educación de Adultos celebrada en Dinamarca."
-          },
-          {
-            iconName: "Globe",
-            text: "Cada país tiene su propia definición de alfabetización. Aunque los principios son similares, pueden existir algunas diferencias."
-          },
-          {
             iconName: "Users",
+            title: "Impacto en las mujeres",
+            list: [
+              "Acceso limitado al empleo",
+              "Dificultad para acceder a información básica",
+              "Inseguridad financiera",
+              "Participación reducida en la vida comunitaria"
+            ]
+          },
+          {
+            iconName: "BookOpen",
+            title: "Leer y escribir cambian vidas",
+            text: "Saber leer y escribir es más que una habilidad. Es un camino hacia la confianza, la oportunidad y la independencia. Apoyar la alfabetización significa ayudar a construir un futuro más justo."
+          },
+          {
+            iconName: "GraduationCap",
+            title: "Nuestra escuela",
+            text: "Está diseñada para mujeres que no tuvieron la oportunidad de asistir a la escuela o completar su educación. A través de la alfabetización, las matemáticas y el aprendizaje práctico, ayudamos a las estudiantes a ser más independientes en su vida diaria."
+          },
+          {
+            iconName: "Award",
+            title: "Desafío",
             text: "La alfabetización no es un fin en sí misma. Permite a las personas desarrollar su autonomía, contribuir a su comunidad y participar activamente en la vida social."
           },
           {
-            iconName: "Calendar",
-            text: "El Día Internacional de la Alfabetización se celebra cada año el 8 de septiembre. Fue proclamado por la UNESCO el 17 de noviembre de 1965."
-          },
-          {
             iconName: "Scale",
-            text: "La alfabetización es un derecho fundamental estrechamente vinculado al derecho a la educación, reconocido por la Declaración Universal de los Derechos Humanos adoptada en 1948."
+            title: "Un derecho",
+            text: "La alfabetización es un derecho fundamental, reconocido por la Declaración Universal de los Derechos Humanos (1948)."
           }
         ]
       },
       bottomBanner: {
         title: "La alfabetización cambia vidas",
-        text: "Apoyar la alfabetización significa invertir en un futuro más equitativo donde todos puedan aprender, comprender, participar y prosperar.",
+        text: "Apoyar la alfabetización significa luchar por un mundo más justo.",
         buttonText: "APOYAR NUESTRA MISIÓN >"
       }
     },
     'illiteracy-school-program': {
       id: 'illiteracy-school-program',
       path: 'Analfabetismo / Programa',
-      title: 'Diseño de Nuestro Plan de Estudios',
-      subtitle: 'Un método adaptado, respetuoso y centrado en la alumna.',
-      statNumber: '9 Meses',
-      statLabel: 'Duración del Programa',
-      sidebarText: 'Clases dinámicas en grupos pequeños de 8 a 12 participantes.',
+      title: 'Nuestro programa escolar',
+      subtitle: 'Construyendo independencia a través de la educación.',
+      statNumber: '15-18 Meses',
+      statLabel: 'DURACIÓN PROMEDIO DEL PLAN',
+      sidebarText: 'Nuestro programa está diseñado para mujeres que nunca tuvieron la oportunidad de asistir a la escuela o completar su educación.',
       mainParagraphs: [
-        'El plan consta de tres trimestres: fonética básica, escritura y matemáticas comerciales útiles.'
+        'Nuestro programa está diseñado para mujeres que nunca tuvieron la oportunidad de asistir a la escuela o completar su educación. Durante un período de aproximadamente 15 a 18 meses, las estudiantes siguen un viaje de aprendizaje progresivo que las ayuda a adquirir las habilidades esenciales necesarias para ser más independientes en su vida diaria.'
       ],
-      galleryType: 'curriculum'
+      listTitle: 'El programa incluye',
+      listItems: [
+        'Alfabetización',
+        'Matemáticas',
+        'Educación para la vida',
+        'Ajedrez'
+      ],
+      programSteps: [
+        {
+          num: 1,
+          iconName: "BookOpen",
+          title: "Alfabetización",
+          tagline: "Aprender a leer, escribir y comprender la información cotidiana.",
+          desc: "Aprender a leer y escribir es el primer paso hacia la independencia. Las estudiantes aprenden a leer textos sencillos, escribir mensajes, completar documentos administrativos y comprender mejor el mundo que las rodea.",
+          image: "/assets/writing_on_blackboard.png"
+        },
+        {
+          num: 2,
+          iconName: "Calculator",
+          title: "Matemáticas",
+          tagline: "Desarrollar habilidades prácticas de cálculo y gestión del dinero.",
+          desc: "Las matemáticas juegan un papel importante en la vida cotidiana. Nuestros cursos cubren aritmética básica, gestión del dinero, cálculos sencillos y habilidades prácticas que ayudan a las estudiantes a tomar decisiones financieras informadas.",
+          image: "/assets/writing_math.jpg"
+        },
+        {
+          num: 3,
+          iconName: "Users",
+          title: "Educación para la vida",
+          tagline: "Adquirir conocimientos que apoyen la salud, la ciudadanía y el desarrollo personal.",
+          desc: "La educación va más allá de la lectura y la escritura. Tratamos temas como higiene, salud, nutrición, conciencia ambiental, ciudadanía y desarrollo personal para apoyar una integración exitosa en la sociedad.",
+          image: "/assets/ladies_studying_classroom.png"
+        },
+        {
+          num: 4,
+          iconName: "Award",
+          title: "Ajedrez",
+          tagline: "Fortalecer la concentración, la lógica y el pensamiento estratégico.",
+          desc: "El ajedrez ayuda a desarrollar la concentración, la lógica, la paciencia y el pensamiento estratégico. Fomenta la autoconfianza y fortalece las habilidades de resolución de problemas.",
+          image: "/assets/chess.png"
+        },
+        {
+          num: 5,
+          iconName: "Briefcase",
+          title: "Construyendo un futuro mejor",
+          tagline: "Nuestra visión va más allá de la alfabetización.",
+          desc: "Nuestra misión va más allá de la alfabetización. A través de alianzas y futuras iniciativas, nuestro objetivo es brindar oportunidades de capacitación vocacional y alianzas que ayuden a las mujeres a acceder al empleo, generar ingresos y construir un futuro sostenible.",
+          image: "/assets/graduate_with_certificate.png"
+        }
+      ]
     },
     'illiteracy-photos-videos': {
       id: 'illiteracy-photos-videos',
