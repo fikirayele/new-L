@@ -172,14 +172,7 @@ const isValidEmail = (email: string): boolean => {
   // Must include a dot (.) like .com, .org in the domain
   if (!domainPart.includes('.')) return false;
 
-  // The email must belong to one of the allowed providers: Gmail, Outlook, Hotmail (case-insensitive)
-  const lowerDomain = domainPart.toLowerCase();
-  const startsWithProvider = 
-    lowerDomain.startsWith('gmail.') || 
-    lowerDomain.startsWith('outlook.') || 
-    lowerDomain.startsWith('hotmail.');
 
-  if (!startsWithProvider) return false;
 
   // Final check for general valid format (e.g. no illegal characters, valid TLD length)
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -689,6 +682,7 @@ function App() {
 
       if (response.ok && data.success) {
         setFooterEmailSuccess(t.newsSuccess);
+        triggerToast(t.newsSuccess);
         setTimeout(() => {
           setFooterEmailSuccess(null);
         }, 5000);
@@ -703,6 +697,7 @@ function App() {
     } catch (err) {
       console.warn("API offline, falling back to successful newsletter subscription state:", err);
       setFooterEmailSuccess(t.newsSuccess);
+      triggerToast(t.newsSuccess);
       setTimeout(() => {
         setFooterEmailSuccess(null);
       }, 5000);

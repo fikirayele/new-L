@@ -110,6 +110,8 @@ async function logSecurityEvent(type, ip, details) {
 const emailRegex =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+const nameRegex = /^[a-zA-Z\s'-]+$/;
+
 function isValidEmail(email) {
   if (!email || typeof email !== "string") return false;
   if (email.includes(" ")) return false;
