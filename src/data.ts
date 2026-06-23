@@ -492,9 +492,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           num: 1,
           iconName: "BookOpen",
           title: "Literacy",
-          tagline: "Learn to read, write and understand everyday information.",
+          tagline: "Learning to read and write is the first step toward independence.",
           desc: "Students learn to read simple texts, write messages, complete administrative documents, and better understand the world around them.",
-          image: "/assets/writing_on_blackboard.png"
+          image: "/assets/ladies_studying_classroom.png"
         },
         {
           num: 2,
@@ -502,7 +502,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Mathematics",
           tagline: "Develop practical calculation and money-management skills.",
           desc: "Mathematics plays an important role in everyday life. Our courses cover basic arithmetic, money management, simple calculations, and practical skills that help students make informed financial decisions.",
-          image: "/assets/writing_math.jpg"
+          image: "/assets/math.png"
         },
         {
           num: 3,
@@ -510,7 +510,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Life Education",
           tagline: "Gain knowledge that supports health, citizenship and personal development.",
           desc: "Education goes beyond reading and writing. We address topics such as hygiene, health, nutrition, environmental awareness, citizenship, and personal development to support successful integration into society.",
-          image: "/assets/ladies_studying_classroom.png"
+          image: "/assets/life.png"
         },
         {
           num: 4,
@@ -518,7 +518,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Chess",
           tagline: "Strengthen concentration, logic and strategic thinking.",
           desc: "Chess helps develop concentration, logic, patience, and strategic thinking. It encourages self-confidence and strengthens problem-solving abilities.",
-          image: "/assets/chess.png"
+          image: "/assets/chess.webp"
         },
         {
           num: 5,
@@ -526,7 +526,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Building a Better Future",
           tagline: "Our vision goes beyond literacy.",
           desc: "Our mission goes beyond literacy. Through partnerships and future initiatives, we aim to provide vocational training opportunities and partnerships that help women access employment, generate income and build sustainable futures.",
-          image: "/assets/graduate_with_certificate.png"
+          image: "/assets/writing_on_blackboard.png"
         }
       ]
     },
@@ -887,9 +887,9 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           num: 1,
           iconName: "BookOpen",
           title: "Alphabétisation",
-          tagline: "Apprendre à lire, écrire et comprendre les informations quotidiennes.",
+          tagline: "Apprendre à lire et à écrire est la première étape vers l'autonomie.",
           desc: "Apprendre à lire et à écrire est la première étape vers l'autonomie. Les étudiantes apprennent à lire des textes simples, à écrire des messages, à remplir des documents administratifs et à mieux comprendre le monde qui les entoure.",
-          image: "/assets/writing_on_blackboard.png"
+          image: "/assets/ladies_studying_classroom.png"
         },
         {
           num: 2,
@@ -897,7 +897,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Mathématiques",
           tagline: "Développer des compétences pratiques de calcul et de gestion de l'argent.",
           desc: "Les mathématiques sont indispensables dans la vie quotidienne. Nos cours couvrent les bases du calcul, la gestion de l'argent, les opérations simples et les compétences nécessaires pour prendre des décisions financières en toute confiance.",
-          image: "/assets/writing_math.jpg"
+          image: "/assets/math.png"
         },
         {
           num: 3,
@@ -905,7 +905,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Éducation à la vie",
           tagline: "Acquérir des connaissances qui soutiennent la santé, la citoyenneté et le développement personnel.",
           desc: "L'éducation va au-delà de la lecture et de l'écriture. Nous abordons des sujets tels que l'hygiène, la santé, la nutrition, le respect de l'environnement, la citoyenneté et le développement personnel afin de favoriser une meilleure intégration dans la société.",
-          image: "/assets/ladies_studying_classroom.png"
+          image: "/assets/life.png"
         },
         {
           num: 4,
@@ -913,7 +913,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Jeu d'échecs",
           tagline: "Renforcer la concentration, la logique et la réflexion stratégique.",
           desc: "Le jeu d'échecs développe la concentration, la logique, la patience et la réflexion stratégique. Il aide les étudiantes à renforcer leur confiance en elles et leurs capacités de résolution de problèmes.",
-          image: "/assets/chess.png"
+          image: "/assets/chess.webp"
         },
         {
           num: 5,
@@ -921,7 +921,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Préparer l'avenir",
           tagline: "Notre ambition va au-delà de l'alphabétisation.",
           desc: "Notre ambition ne s'arrête pas à l'alphabétisation. À travers des partenariats et des programmes futurs, nous souhaitons offrir des formations professionnelles permettant aux femmes de développer des compétences utiles pour accéder à un emploi ou créer leur propre activité.",
-          image: "/assets/graduate_with_certificate.png"
+          image: "/assets/writing_on_blackboard.png"
         }
       ]
     },
@@ -1256,7 +1256,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Alfabetización",
           tagline: "Aprender a leer, escribir y comprender la información cotidiana.",
           desc: "Aprender a leer y escribir es el primer paso hacia la independencia. Las estudiantes aprenden a leer textos sencillos, escribir mensajes, completar documentos administrativos y comprender mejor el mundo que las rodea.",
-          image: "/assets/writing_on_blackboard.png"
+          image: "/assets/ladies_studying_classroom.png"
         },
         {
           num: 2,
@@ -1264,7 +1264,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Matemáticas",
           tagline: "Desarrollar habilidades prácticas de cálculo y gestión del dinero.",
           desc: "Las matemáticas juegan un papel importante en la vida cotidiana. Nuestros cursos cubren aritmética básica, gestión del dinero, cálculos sencillos y habilidades prácticas que ayudan a las estudiantes a tomar decisiones financieras informadas.",
-          image: "/assets/writing_math.jpg"
+          image: "/assets/math.png"
         },
         {
           num: 3,
@@ -1272,7 +1272,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Educación para la vida",
           tagline: "Adquirir conocimientos que apoyen la salud, la ciudadanía y el desarrollo personal.",
           desc: "La educación va más allá de la lectura y la escritura. Tratamos temas como higiene, salud, nutrición, conciencia ambiental, ciudadanía y desarrollo personal para apoyar una integración exitosa en la sociedad.",
-          image: "/assets/ladies_studying_classroom.png"
+          image: "/assets/life.png"
         },
         {
           num: 4,
@@ -1280,7 +1280,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Ajedrez",
           tagline: "Fortalecer la concentración, la lógica y el pensamiento estratégico.",
           desc: "El ajedrez ayuda a desarrollar la concentración, la lógica, la paciencia y el pensamiento estratégico. Fomenta la autoconfianza y fortalece las habilidades de resolución de problemas.",
-          image: "/assets/chess.png"
+          image: "/assets/chess.webp"
         },
         {
           num: 5,
@@ -1288,7 +1288,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
           title: "Construyendo un futuro mejor",
           tagline: "Nuestra visión va más allá de la alfabetización.",
           desc: "Nuestra misión va más allá de la alfabetización. A través de alianzas y futuras iniciativas, nuestro objetivo es brindar oportunidades de capacitación vocacional y alianzas que ayuden a las mujeres a acceder al empleo, generar ingresos y construir un futuro sostenible.",
-          image: "/assets/graduate_with_certificate.png"
+          image: "/assets/writing_on_blackboard.png"
         }
       ]
     },
