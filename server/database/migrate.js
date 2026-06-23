@@ -128,6 +128,14 @@ export async function runMigrations() {
       console.log("👤 Default admin created successfully.");
     } else {
       console.log("👤 Admin already exists. Skipping seed.");
+      const defaultUser = process.env.ADMIN_USER || "admin";
+      const defaultPass = process.env.ADMIN_PASS || "AdminSecret123!";
+      const hashedPass = await bcrypt.hash(defaultPass, 12);
+      await pool.query(
+        "UPDATE admin_users SET password_hash = ? WHERE username = ?",
+        [hashedPass, defaultUser]
+      );
+      console.log("👤 Default admin password verified/updated.");
     }
   } catch (error) {
     console.error("❌ Migration error:", error.message);

@@ -1458,6 +1458,18 @@ function App() {
             </div>
           </header>
 
+          {/* Mock Mode Alert */}
+          {adminToken === "mock_admin_token_123!" && (
+            <div className="mb-6 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-xl p-4 text-sm font-medium flex items-center gap-3">
+              <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div>
+                <strong>Running in Offline / Mock Data Mode:</strong> Unable to connect to the backend server. Please make sure your server is running on port 5000, then log out and sign in with your correct admin credentials to see live database records.
+              </div>
+            </div>
+          )}
+
           {/* TAB 1: OVERVIEW */}
           {adminActiveTab === 'overview' && (
             <div className="space-y-8 animate-fade-in">
