@@ -164,8 +164,8 @@ export const translations: Record<string, TranslationSet> = {
     discMore: 'More',
 
     sponTag: 'OUR SPONSORS',
-    sponTitle: 'Trust & Partnership',
-    sponSub: 'They believe in us and sponsor classrooms, security fleets, and materials.',
+    sponTitle: 'Supporting Education and Development Projects',
+    sponSub: 'Supporting our schools and the development projects we carry out for local communities.',
 
     footDesc: 'Learning to Read and Write is a Human Right',
     footNav: 'Quick Links',
@@ -275,8 +275,8 @@ export const translations: Record<string, TranslationSet> = {
     discMore: 'Plus',
 
     sponTag: 'NOS SPONSORS',
-    sponTitle: 'Confiance & Partenariat',
-    sponSub: 'Ils croient en nous et parrainent nos classes, nos flottes de sécurité et notre matériel.',
+    sponTitle: 'Soutien à l\'éducation et aux projets de développement',
+    sponSub: 'Ils soutiennent nos écoles et les projets de développement que nous menons au bénéfice des communautés locales.',
 
     footDesc: 'Apprendre à lire et à écrire est un droit humain.',
     footNav: 'Liens rapides',
@@ -386,8 +386,8 @@ export const translations: Record<string, TranslationSet> = {
     discMore: 'Meer',
 
     sponTag: 'ONZE SPONSORS',
-    sponTitle: 'Vertrouwen & Partnerschap',
-    sponSub: 'Zij geloven in ons en sponsoren klaslokalen, beveiligingsvoertuigen en materialen.',
+    sponTitle: 'Ondersteuning van onderwijs en ontwikkelingsprojecten',
+    sponSub: 'Ondersteuning van onze scholen en de ontwikkelingsprojecten die wij uitvoeren ten voordele van lokale gemeenschappen.',
 
     footDesc: 'Leren lezen en schrijven is een mensenrecht',
     footNav: 'Snelle links',

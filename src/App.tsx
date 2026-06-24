@@ -2422,9 +2422,9 @@ function App() {
               </button>
               {showLangDropdown && (
                 <div className="lang-dropdown">
-                  <div className="lang-option" onClick={() => { setLang('EN'); setShowLangDropdown(false); }}>EN (English)</div>
-                  <div className="lang-option" onClick={() => { setLang('FR'); setShowLangDropdown(false); }}>FR (Français)</div>
-                  <div className="lang-option" onClick={() => { setLang('NL'); setShowLangDropdown(false); }}>NL (Nederlands)</div>
+                  <div className="lang-option" onClick={() => { setLang('EN'); setShowLangDropdown(false); }}>EN</div>
+                  <div className="lang-option" onClick={() => { setLang('FR'); setShowLangDropdown(false); }}>FR</div>
+                  <div className="lang-option" onClick={() => { setLang('NL'); setShowLangDropdown(false); }}>NL</div>
                 </div>
               )}
             </div>
@@ -2578,7 +2578,7 @@ function App() {
 
           <div className="logos-strip">
             {[
-              { id: 'EVERE', name: 'EVERE', type: lang === 'EN' ? 'municipality' : lang === 'FR' ? 'commune' : 'gemeente', logo: '/assets/evere_logo.png' },
+              { id: 'EVERE', name: 'EVERE', type: lang === 'EN' ? 'Municipality' : lang === 'FR' ? 'Commune' : 'Gemeente', logo: '/assets/evere_logo.png' },
               { id: 'SOLARIS', name: 'SOLARIS', type: 'group' },
               { id: 'OCEANIA', name: 'OCEANIA', type: 'group' },
               { id: 'VECTORA', name: 'VECTORA', type: 'group' },
@@ -2586,7 +2586,17 @@ function App() {
               { id: 'ALTRIUM', name: 'ALTRIUM', type: 'consulting' },
               { id: 'GREENWAY', name: 'GREENWAY', type: 'initiative' }
             ].map((sponsor, idx) => (
-              <div key={sponsor.id} className="sponsor-logo" onClick={() => openDrawer('about-sponsors')}>
+              <div 
+                key={sponsor.id} 
+                className="sponsor-logo" 
+                onClick={() => {
+                  if (sponsor.id === 'EVERE') {
+                    window.open('https://www.evere.brussels', '_blank');
+                  } else {
+                    openDrawer('about-sponsors');
+                  }
+                }}
+              >
                 <div className="sponsor-icon-wrapper">
                   {sponsor.logo ? (
                     <img src={sponsor.logo} alt={sponsor.name} className="sponsor-logo-img" style={{ height: '40px', objectFit: 'contain' }} />
