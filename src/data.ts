@@ -1049,370 +1049,370 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
       ]
     }
   },
-  ES: {
+  NL: {
     'about-organization': {
       id: 'about-organization',
-      path: 'Quiénes somos / Organización',
-      title: 'Nuestra Organización',
-      subtitle: 'Likro & Lihtov significa "Leer y Escribir" en hebreo.',
-      sidebarTitle: 'Nuestra historia',
-      sidebarText: 'Likro & Lihtov (לקרוא ולכתוב), que significa "Leer y Escribir" en hebreo, se inspiró en un momento trascendental en 2016 en Kinshasa, República Democrática del Congo. Mientras estaba atrapado en el tráfico, vi a dos niñas vendiendo aceite en la calle. El taxista me explicó que muchos niños como ellos no asisten a la escuela porque necesitan ayudar económicamente a sus familias. Apenas podía creerlo. Este fue el comienzo de mi descubrimiento de una difícil realidad que enfrentan muchas mujeres y niños que carecen de acceso a la educación y a las oportunidades. Dos años más tarde, lo que comenzó como una simple idea evolucionó gradualmente hacia un proyecto dedicado a la alfabetización, el empoderamiento y el desarrollo comunitario. Hoy trabajamos para ayudar a las mujeres analfabetas a adquirir el conocimiento, la confianza y las habilidades necesarias para construir un futuro mejor para ellas, sus familias y sus comunidades.',
-      quickInfoTitle: 'Nuestra visión',
+      path: 'Wie zijn we / Organisatie',
+      title: 'Onze Organisatie',
+      subtitle: 'Likro & Lihtov betekent "Lezen & Schrijven" in het Hebreeuws.',
+      sidebarTitle: 'Ons verhaal',
+      sidebarText: 'Likro & Lihtov (לקroא ולכתוב), wat "Lezen en Schrijven" betekent in het Hebreeuws, is geïnspireerd op een levensveranderend moment in 2016 in Kinshasa, Democratische Republiek Congo. Terwijl ik vaststond in de file, zag ik twee jonge meisjes olie verkopen op straat. De taxichauffeur legde uit dat veel kinderen zoals zij niet naar school gaan omdat ze hun gezin financieel moeten ondersteunen. Ik kon het nauwelijks geloven. Dit was het begin van mijn ontdekking van een harde realiteit waarmee veel vrouwen en kinderen worden geconfronteerd die geen toegang hebben tot onderwijs en kansen. Twee jaar later ontwikkelde wat begon als een eenvoudig idee zich geleidelijk tot een project gewijd aan alfabetisering, empowerment en gemeenschapsontwikkeling. Vandaag de dag werken we om analfabete vrouwen te helpen de kennis, het zelfvertrouwen en de vaardigheden te verwerven die nodig zijn om een betere toekomst op te bouwen voor zichzelf, hun gezinnen en hun gemeenschappen.',
+      quickInfoTitle: 'Onze visie',
       quickInfoItems: [
-        'Alfabetización gratuita para todos',
-        'Respeto y dignidad para cada individuo',
-        'Trabajo, autosuficiencia y oportunidades'
+        'Gratis alfabetiseringsonderwijs voor iedereen',
+        'Respect en waardigheid voor elk individu',
+        'Werk, zelfredzaamheid en kansen'
       ],
       mainParagraphs: [
-        'Fundada en RD Congo en 2018, nuestra organización cree que la educación es una de las herramientas más poderosas para transformar vidas y comunidades.',
-        'Trabajamos para promover la alfabetización, apoyar el empoderamiento de las mujeres y contribuir a proyectos de desarrollo sostenible.',
-        'Nuestra misión es brindar a las personas el conocimiento, las habilidades y las oportunidades que necesitan para construir un futuro mejor para ellas, sus familias y sus comunidades.',
-        'Cada proyecto que emprendemos está guiado por una idea simple: cuando las personas tienen acceso a la educación, obtienen el poder de generar cambios.'
+        'Onze organisatie is opgericht in DR Congo in 2018 en gelooft dat onderwijs een van de krachtigste instrumenten is om levens en gemeenschappen te transformeren.',
+        'We werken aan het bevorderen van alfabetisering, het ondersteunen van de empowerment van vrouwen en het bijdragen aan duurzame ontwikkelingsprojecten.',
+        'Onze missie is om mensen de kennis, vaardigheden en kansen te geven die ze nodig hebben om een betere toekomst op te bouwen voor zichzelf, hun gezinnen en hun gemeenschappen.',
+        'Elk project dat we ondernemen wordt geleid door een eenvoudig idee: wanneer mensen toegang krijgen tot onderwijs, krijgen ze de kracht om verandering te creëren.'
       ],
       cards: [
-        { title: 'Nuestra visión', text: 'Quienquiera que seas, de dondequiera que vengas y cualquiera que sea el camino que elijas, esfuérzate por hacer de nuestro mundo un lugar mejor.' },
-        { title: 'Nuestros valores', text: 'Trata a los demás con el mismo respeto, dignidad y amabilidad que esperas para ti mismo.' }
+        { title: 'Onze visie', text: 'Wie u ook bent, waar u ook vandaan komt en welk pad u ook kiest, streef ernaar om onze wereld een betere plek te maken.' },
+        { title: 'Onze waarden', text: 'Behandel anderen met hetzelfde respect, dezelfde waardigheid en vriendelijkheid die u voor uzelf verwacht.' }
       ]
     },
     'about-goals': {
       id: 'about-goals',
-      path: 'Quiénes somos / Programa escolar',
-      title: 'Métricas de Impacto & Programa Escolar',
-      subtitle: 'Medir el éxito en función de la autonomía de nuestras alumnas.',
-      statNumber: '5,000+',
-      statLabel: 'Graduadas Planificadas',
-      sidebarText: 'Buscamos un desarrollo cognitivo integral y la inserción laboral.',
+      path: 'Wie zijn we / Schoolprogramma',
+      title: 'Impactmetingen & Schoolprogramma',
+      subtitle: 'Succes meten op basis van de zelfstandigheid van onze studenten.',
+      statNumber: '5.000+',
+      statLabel: 'Geplande Gediplomeerden',
+      sidebarText: 'We sterven naar een integrale cognitieve ontwikkeling en arbeidsintegratie.',
       mainParagraphs: [
-        'La educación de las madres genera un efecto multiplicador positivo en la escolarización y salud de sus hijos.'
+        'De opvoeding van moeders heeft een direct, versterkend effect op de schoolgang en de gezondheid van hun kinderen.'
       ]
     },
     'about-team': {
       id: 'about-team',
-      path: 'Quiénes somos / Equipo',
-      title: 'Nuestro Equipo Comprometido',
-      subtitle: 'Docentes, coordinadores y expertos dedicados al aprendizaje seguro.',
+      path: 'Wie zijn we / Team',
+      title: 'Ons Toegewijde Team',
+      subtitle: 'Docenten, coördinatoren en experts die zich inzetten voor veilig leren.',
       statNumber: '48',
-      statLabel: 'Equipo Profesional',
-      sidebarText: 'Capacitamos trimestralmente a nuestros docentes en andragogía.',
+      statLabel: 'Professioneel Team',
+      sidebarText: 'We trainen onze docenten elk kwartaal in de andragogiek.',
       mainParagraphs: [
-        'Ofrecemos un entorno seguro y libre de juicios para eliminar la ansiedad ante el aprendizaje.'
+        'We bieden een veilige en oordeelvrije omgeving om leerangst weg te nemen.'
       ],
       galleryType: 'team'
     },
     'about-sponsors': {
       id: 'about-sponsors',
-      path: 'Quiénes somos / Patrocinadores',
-      title: 'Socios & Patrocinadores Corporativos',
-      subtitle: 'Financiar aulas mediante alianzas corporativas transparentes.',
+      path: 'Wie zijn we / Sponsors',
+      title: 'Partners & Bedrijfssponsors',
+      subtitle: 'Klaslokalen financieren via transparante bedrijfspartnerschappen.',
       statNumber: '100%',
-      statLabel: 'Transparencia de Auditoría',
-      sidebarText: 'Nuestros patrocinadores hacen posible que la enseñanza sea 100% gratuita.',
+      statLabel: 'Audit Transparantie',
+      sidebarText: 'Onze sponsors maken het mogelijk dat ons onderwijs 100% gratis is.',
       mainParagraphs: [
-        'Las donaciones financian el transporte, los almuerzos diarios y los materiales didácticos de las alumnas.'
+        'Donaties financieren het vervoer, de dagelijkse maaltijden en de leermaterialen van de studenten.'
       ]
     },
     "illiteracy-definition": {
       id: "illiteracy-definition",
-      path: "Analfabetismo / Definición",
-      title: "Comprender el analfabetismo",
-      subtitle: "ALGUNAS DEFINICIONES",
+      path: "Analfabetisme / Definitie",
+      title: "Analfabetisme begrijpen",
+      subtitle: "ENKELE DEFINITIES",
       mainParagraphs: [],
       factsCard: {
-        title: "Datos",
-        text: "Aproximadamente 141 millones de mujeres en África subsahariana son analfabetas.",
-        ref: "Ref: UNESCO (2016–2017)",
+        title: "Feiten",
+        text: "Ongeveer 141 miljoen vrouwen in Sub-Sahara Afrika zijn analfabeet.",
+        ref: "Bron: UNESCO (2016–2017)",
         statNumber: "141M",
-        statLabel: "MUJERES EN ÁFRICA SUBSAHARIANA"
+        statLabel: "VROUWEN IN SUB-SAHARA AFRIKA"
       },
       consequencesCard: {
-        title: "Consecuencias",
+        title: "Consequenties",
         items: [
-          "Falta de confianza en una misma",
-          "Dependencia económica",
-          "Aislamiento social"
+          "Gebrek aan zelfvertrouwen",
+          "Economische afhankelijkheid",
+          "Sociaal isolement"
         ]
       },
       definitions: [
         {
-          term: "Persona analfabeta",
-          desc: "Que no sabe leer ni escribir, a menudo porque nunca ha aprendido."
+          term: "Een analfabeet persoon",
+          desc: "Die niet kan lezen of schrijven, vaak omdat hij/zij het nooit heeft geleerd."
         },
         {
-          term: "Analfabeta funcional",
-          desc: "Que ha aprendido a leer y escribir pero tiene dificultades. Este suele ser el caso de muchas personas que asistieron a la escuela pero no completaron la educación primaria."
+          term: "Functioneel analfabeet",
+          desc: "Die wel heeft geleerd te lezen en schrijven, maar er moeite mee heeft. Dit is vaak het geval bij mensen die wel naar school zijn geweest maar hun basisonderwijs niet hebben afgemaakt."
         }
       ],
       causes: {
-        title: "Causas del analfabetismo",
-        intro: "El analfabetismo rara vez es una opción. Suele ser el resultado de un conjunto de factores:",
+        title: "Oorzaken van analfabetisme",
+        intro: "Analfabetisme is zelden een keuze. Het is meestal het resultaat van een combinatie van factoren:",
         items: [
           {
-            title: "Pobreza",
-            text: "Las familias más pobres no siempre tienen los medios para enviar a sus hijos a la escuela o para financiar los útiles escolares."
+            title: "Armoede",
+            text: "De armste gezinnen hebben niet altijd de middelen om hun kinderen naar school te sturen of schoolbenodigdheden te betalen."
           },
           {
-            title: "Falta de acceso a la educación",
-            text: "En algunas regiones, las escuelas están demasiado alejadas, son insuficientes o inexistantes."
+            title: "Gebrek aan toegang tot onderwijs",
+            text: "In sommige regio's zijn scholen te ver weg, ontoereikend of onbestaand."
           },
           {
-            title: "Desigualdad de género",
-            text: "En muchos países, las niñas tienen menos acceso a la educación que los niños y están más expuestas al abandono escolar."
+            title: "Genderongelijkheid",
+            text: "In veel landen hebben meisjes minder toegang tot onderwijs dan jongens en lopen ze meer risico op schooluitval."
           },
           {
-            title: "Conflictos e inestabilidad",
-            text: "Las guerras, las crisis políticas y los desplazamientos de población suelen interrumpir la escolaridad."
+            title: "Conflict en instabiliteit",
+            text: "Oorlogen, politieke crises en bevolkingsverschuivingen onderbreken vaak de schoolgang."
           },
           {
-            title: "Trabajo infantil",
-            text: "Algunos niños deben trabajar para ayudar a sus familias en lugar de ir a la escuela."
+            title: "Kinderarbeid",
+            text: "Sommige kinderen moeten werken om hun gezin te helpen in plaats van naar school te gaan."
           }
         ]
       },
       gridCards: [
         {
           iconName: "BookOpen",
-          title: "Leer y escribir",
-          text: "La alfabetización es aprender a leer pero también a escribir en un idioma."
+          title: "Lezen en schrijven",
+          text: "Alfabetisering is leren lezen maar ook schrijven in een taal."
         },
         {
           iconName: "Calculator",
-          title: "Calcular",
-          text: "La alfabetización incluye matemáticas elementales: aritmética básica."
+          title: "Rekenen",
+          text: "Alfabetisering omvat elementaire wiskunde: basisrekenen."
         },
         {
           iconName: "Users",
-          title: "Educación para la vida",
-          text: "La alfabetización también consiste en abordar temas sociales: conocer mejor el propio cuerpo, tratar temas sociales como el voto o la amistad."
+          title: "Levenslooponderwijs",
+          text: "Alfabetisering gaat ook over maatschappelijke thema's: uw lichaam beter kennen, sociale onderwerpen bespreken zoals stemmen of vriendschap."
         },
         {
           iconName: "Network",
-          title: "Vida social activa",
-          text: "La alfabetización no es un fin en sí misma: tiene como objetivo llevar a alguien a ser activo en la sociedad."
+          title: "Actief sociaal leven",
+          text: "Alfabetisering is geen doel op zich: het is bedoeld om iemand actief te laten deelnemen aan de samenleving."
         }
       ],
       didYouKnow: {
-        title: "¿Sabías que?",
+        title: "Wist u dat?",
         items: [
           {
             iconName: "Users",
-            title: "Impacto en las mujeres",
+            title: "Impact op vrouwen",
             list: [
-              "Acceso limitado al empleo",
-              "Dificultad para acceder a información básica",
-              "Inseguridad financiera",
-              "Participación reducida en la vida comunitaria"
+              "Beperkte toegang tot werk",
+              "Moeite met toegang tot basisinformatie",
+              "Financiële onzekerheid",
+              "Verminderde deelname aan het gemeenschapsleven"
             ]
           },
           {
             iconName: "BookOpen",
-            title: "Leer y escribir cambian vidas",
-            text: "Saber leer y escribir es más que una habilidad. Es un camino hacia la confianza, la oportunidad y la independencia. Apoyar la alfabetización significa ayudar a construir un futuro más justo."
+            title: "Lezen en schrijven veranderen levens",
+            text: "Kunnen lezen en schrijven is meer dan een vaardigheid. Het is een weg naar zelfvertrouwen, kansen en onafhankelijkheid. Alfabetisering ondersteunen betekent helpen bouwen aan een rechtvaardiger toekomst."
           },
           {
             iconName: "GraduationCap",
-            title: "Nuestra escuela",
-            text: "Está diseñada para mujeres que no tuvieron la oportunidad de asistir a la escuela o completar su educación. A través de la alfabetización, las matemáticas y el aprendizaje práctico, ayudamos a las estudiantes a ser más independientes en su vida diaria."
+            title: "Ons schoolprogramma",
+            text: "Is ontworpen voor vrouwen die nooit de kans hebben gehad om naar school te gaan of hun opleiding af te maken. Door middel van alfabetisering, wiskunde en praktisch leren helpen we studenten zelfstandiger te worden in hun dagelijks leven."
           },
           {
             iconName: "Award",
-            title: "Desafío",
-            text: "La alfabetización no es un fin en sí misma. Permite a las personas desarrollar su autonomía, contribuir a su comunidad y participar activamente en la vida social."
+            title: "Uitdaging",
+            text: "Alfabetisering is geen doel op zich. Het stelt mensen in staat om hun autonomie te ontwikkelen, bij te dragen aan hun gemeenschap en actief deel te nemen aan het sociale leven."
           },
           {
             iconName: "Scale",
-            title: "Un derecho",
-            text: "La alfabetización es un derecho fundamental, reconocido por la Declaración Universal de los Derechos Humanos (1948)."
+            title: "Een recht",
+            text: "Alfabetisering is een fundamenteel recht, erkend door de Universele Verklaring van de Rechten van de Mens (1948)."
           }
         ]
       },
       bottomBanner: {
-        title: "La alfabetización cambia vidas",
-        text: "Apoyar la alfabetización significa luchar por un mundo más justo.",
-        buttonText: "APOYAR NUESTRA MISIÓN >"
+        title: "Alfabetisering verandert levens",
+        text: "Alfabetisering ondersteunen betekent vechten voor een rechtvaardiger wereld.",
+        buttonText: "STEUN ONZE MISSIE >"
       }
     },
     'illiteracy-school-program': {
       id: 'illiteracy-school-program',
-      path: 'Analfabetismo / Programa',
-      title: 'Nuestro programa escolar',
-      subtitle: 'Construyendo independencia a través de la educación.',
-      statNumber: '15-18 Meses',
-      statLabel: 'DURACIÓN PROMEDIO DEL PLAN',
-      sidebarText: 'Nuestro programa está diseñado para mujeres que nunca tuvieron la oportunidad de asistir a la escuela o completar su educación.',
+      path: 'Analfabetisme / Programma',
+      title: 'Ons schoolprogramma',
+      subtitle: 'Zelfstandigheid opbouwen via onderwijs.',
+      statNumber: '15-18 Maanden',
+      statLabel: 'GEMIDDELDE DUUR PROGRAMMA',
+      sidebarText: 'Ons programma is ontworpen voor vrouwen die nooit de kans hebben gehad om naar school te gaan of hun opleiding af te maken.',
       mainParagraphs: [
-        'Nuestro programa está diseñado para mujeres que nunca tuvieron la oportunidad de asistir a la escuela o completar su educación. Durante un período de aproximadamente 15 a 18 meses, las estudiantes siguen un viaje de aprendizaje progresivo que las ayuda a adquirir las habilidades esenciales necesarias para ser más independientes en su vida diaria.'
+        'Ons programma is ontworpen voor vrouwen die nooit de kans hebben gehad om naar school te gaan of hun opleiding af te maken. Gedurende een periode van ongeveer 15 tot 18 maanden volgen de studenten een progressief leertraject dat hen helpt de essentiële vaardigheden te verwerven die nodig zijn om zelfstandiger te worden in hun dagelijks leven.'
       ],
-      listTitle: 'El programa incluye',
+      listTitle: 'Het programma omvat',
       listItems: [
-        'Alfabetización',
-        'Matemáticas',
-        'Educación para la vida',
-        'Ajedrez'
+        'Alfabetisering',
+        'Wiskunde',
+        'Levenslooponderwijs',
+        'Schaken'
       ],
       programSteps: [
         {
           num: 1,
           iconName: "BookOpen",
-          title: "Alfabetización",
-          tagline: "Aprender a leer, escribir y comprender la información cotidiana.",
-          desc: "Aprender a leer y escribir es el primer paso hacia la independencia. Las estudiantes aprenden a leer textos sencillos, escribir mensajes, completar documentos administrativos y comprender mejor el mundo que las rodea.",
+          title: "Alfabetisering",
+          tagline: "Leren lezen, schrijven en begrijpen van alledaagse informatie.",
+          desc: "Leren lezen en schrijven is de eerste stap naar onafhankelijkheid. Studenten leren eenvoudige teksten lezen, berichten schrijven, administratieve formulieren invullen en de wereld om hen heen beter begrijpen.",
           image: "/assets/ladies_studying_classroom.png"
         },
         {
           num: 2,
           iconName: "Calculator",
-          title: "Matemáticas",
-          tagline: "Desarrollar habilidades prácticas de cálculo y gestión del dinero.",
-          desc: "Las matemáticas juegan un papel importante en la vida cotidiana. Nuestros cursos cubren aritmética básica, gestión del dinero, cálculos sencillos y habilidades prácticas que ayudan a las estudiantes a tomar decisiones financieras informadas.",
+          title: "Wiskunde",
+          tagline: "Praktische rekenvaardigheden en geldbeheer ontwikkelen.",
+          desc: "Wiskunde speelt een belangrijke rol in het dagelijks leven. Onze cursussen omvatten basisrekenen, geldbeheer, eenvoudige berekeningen en praktische vaardigheden die studenten helpen weloverwogen financiële beslissingen te nemen.",
           image: "/assets/math.png"
         },
         {
           num: 3,
           iconName: "Users",
-          title: "Educación para la vida",
-          tagline: "Adquirir conocimientos que apoyen la salud, la ciudadanía y el desarrollo personal.",
-          desc: "La educación va más allá de la lectura y la escritura. Tratamos temas como higiene, salud, nutrición, conciencia ambiental, ciudadanía y desarrollo personal para apoyar una integración exitosa en la sociedad.",
+          title: "Levenslooponderwijs",
+          tagline: "Kennis opdoen ter ondersteuning van gezondheid, burgerschap en persoonlijke ontwikkeling.",
+          desc: "Onderwijs gaat verder dan lezen en schrijven. We behandelen onderwerpen als hygiëne, gezondheid, voeding, milieubewustzijn, burgerschap en persoonlijke ontwikkeling om een succesvolle integratie in de samenleving te ondersteunen.",
           image: "/assets/life.png"
         },
         {
           num: 4,
           iconName: "Award",
-          title: "Ajedrez",
-          tagline: "Fortalecer la concentración, la lógica y el pensamiento estratégico.",
-          desc: "El ajedrez ayuda a desarrollar la concentración, la lógica, la paciencia y el pensamiento estratégico. Fomenta la autoconfianza y fortalece las habilidades de resolución de problemas.",
+          title: "Schaken",
+          tagline: "Concentratie, logica en strategisch denken versterken.",
+          desc: "Schaken helpt concentratie, logica, geduld en strategisch denken te ontwikkelen. Het bevordert het zelfvertrouwen en versterkt probleemoplossende vaardigheden.",
           image: "/assets/chess.webp"
         },
         {
           num: 5,
           iconName: "Briefcase",
-          title: "Construyendo un futuro mejor",
-          tagline: "Nuestra visión va más allá de la alfabetización.",
-          desc: "Nuestra misión va más allá de la alfabetización. A través de alianzas y futuras iniciativas, nuestro objetivo es brindar oportunidades de capacitación vocacional y alianzas que ayuden a las mujeres a acceder al empleo, generar ingresos y construir un futuro sostenible.",
+          title: "Bouwen aan een betere toekomst",
+          tagline: "Onze visie reikt verder dan alfabetisering.",
+          desc: "Onze missie reikt verder dan alfabetisering. Door middel van partnerschappen en toekomstige initiatieven willen we mogelijkheden bieden voor beroepsopleiding en allianties die vrouwen helpen toegang te krijgen tot werk, een inkomen te genereren en een duurzame toekomst op te bouwen.",
           image: "/assets/writing_on_blackboard.png"
         }
       ]
     },
     'illiteracy-photos-videos': {
       id: 'illiteracy-photos-videos',
-      path: 'Analfabetismo / Fotos & Videos',
-      title: 'Galería Digital de Logros',
-      subtitle: 'Reviva el orgullo de las graduaciones y el día a día en el aula.',
+      path: "Analfabetisme / Foto's & Video's",
+      title: 'Digitale Galerij van Prestaties',
+      subtitle: 'Reviva el pride de las graduadas y el día a día en el aula.',
       statNumber: '150+',
-      statLabel: 'Videos de Graduadas',
-      sidebarText: 'Imágenes testimoniales de suparación personal.',
+      statLabel: "Video's van Gediplomeerden",
+      sidebarText: 'Getuigenissen in beelden van persoonlijke groei.',
       mainParagraphs: [
-        'Explore las aulas, actividades al aire libre y las graduaciones de nuestras valientes estudiantes.'
+        'Ontdek de klaslokalen, buitenactiviteiten en diploma-uitreikingen van onze moedige studenten.'
       ],
       galleryType: 'photos'
     },
     'illiteracy-statistics': {
       id: 'illiteracy-statistics',
-      path: 'Analfabetismo / Estadísticas',
-      title: 'Estadísticas sobre el analfabetismo',
-      subtitle: 'Comprender los números detrás de la brecha educativa global.',
+      path: 'Analfabetisme / Statistieken',
+      title: 'Statistieken over analfabetisme',
+      subtitle: 'Begrijp de cijfers achter de wereldwijde onderwijskloof.',
       statNumber: '773M',
-      statLabel: 'Adultos Analfabetos',
-      sidebarText: 'El analfabetismo no se distribuye de manera uniforme. Las mujeres representan más del 60% de la población analfabeta mundial.',
+      statLabel: 'Analfabete Volwassenen',
+      sidebarText: 'Analfabetisme is niet gelijkmatig verdeeld. Vrouwen vertegenwoordigen meer dan 60% van de wereldwijde analfabete bevolking.',
       mainParagraphs: [
-        'A nivel mundial, cientos de millones de adultos carecen de habilidades básicas de lectura y escritura. Dos tercios de ellos son mujeres, una proporción que ha permanecido prácticamente sin cambios durante décadas.',
-        'En regiones de extrema pobreza, las tasas de analfabetismo femenino pueden superar el 50%. El impacto económico es grave: las familias con madres analfabetas tienen muchas más probabilidades de experimentar pobreza crónica.',
-        'Los estudios demuestran que cuando una mujer aprende a leer y escribir, esto tiene un impacto positivo directo en la salud, la nutrición y los ingresos de su familia, rompiendo el ciclo intergeneracional de desventaja educativa.'
+        'Wereldwijd missen honderden miljoenen volwassenen basisvaardigheden in lezen en schrijven. Twee derde van hen zijn vrouwen, een aandeel dat al decennia vrijwel ongewijzigd is gebleven.',
+        "In regio's met extreme armoede kan het percentage analfabetisme onder vrouwen oplopen tot boven de 50%. De economische impact is ernstig: gezinnen met analfabete moeders hebben een veel grotere kans om chronische armoede te ervaren.",
+        'Studies tonen aan dat wanneer een vrouw leert lezen en schrijven, dit een direct positief effect heeft op de gezondheid, voeding en inkomsten van haar gezin, waardoor de intergenerationele cyclus van onderwijsachterstand wordt doorbroken.'
       ],
       cards: [
-        { title: 'Disparidad de género', text: 'El 63% de la población analfabeta mundial son mujeres, lo que refleja barreras sociales históricas.' },
-        { title: 'Impacto económico', text: 'Los países con tasas de alfabetización más altas disfrutan de una mayor productividad económica.' }
+        { title: 'Genderongelijkheid', text: '63% van de wereldwijde analfabete bevolking bestaat uit vrouwen, wat historische maatschappelijke barrières weerspiegelt.' },
+        { title: 'Economische impact', text: 'Landen met hogere alfabetiseringsgraden genieten van een hogere economische productiviteit.' }
       ]
     },
     'illiteracy-consequences': {
       id: 'illiteracy-consequences',
-      path: 'Analfabetismo / Consecuencias',
-      title: 'Consecuencias del analfabetismo',
-      subtitle: 'Cómo afecta la falta de lectura y escritura a las vidas y comunidades.',
+      path: 'Analfabetisme / Gevolgen',
+      title: 'Gevolgen van analfabetisme',
+      subtitle: 'Hoe het gebrek aan lezen en schrijven levens en gemeenschappen beïnvloedt.',
       statNumber: '2.5x',
-      statLabel: 'Brecha de Ingresos',
-      sidebarText: 'Sin alfabetización, las personas enfrentan vulnerabilidad legal, explotación financiera y menor acceso a la salud.',
+      statLabel: 'Inkomenskloof',
+      sidebarText: 'Zonder alfabetisering worden mensen geconfronteerd met juridische kwetsbaarheid, financiële uitbuiting en minder toegang tot gezondheidszorg.',
       mainParagraphs: [
-        'Las consecuencias del analfabetismo en adultos son de gran alcance y afectan la seguridad personal, los derechos legales y la estabilidad financiera. Una persona analfabeta no puede verificar el contenido de un contrato legal, lo que la deja vulnerable a la explotación.',
-        'En la vida cotidiana, tareas sencillas como usar el transporte público o leer las señales de tránsito se convierten en grandes obstáculos.',
-        'Al abordar el analfabetismo, restauramos la autonomía personal, permitimos la participación cívica y empoderamos a las mujeres para tomar el control de sus decisiones en salud, finanzas y derechos.'
+        'De gevolgen van analfabetisme bij volwassenen zijn verstrekkend en beïnvloeden de persoonlijke veiligheid, juridische rechten en financiële stabiliteit. Een analfabeet persoon kan de inhoud van een juridisch contract niet controleren, wat hem/haar kwetsbaar maakt voor uitbuiting.',
+        'In het dagelijks leven worden eenvoudige taken zoals het gebruik van het openbaar vervoer of het lezen van verkeersborden grote obstakels.',
+        'Door analfabetisme aan te pakken, herstellen we de persoonlijke autonomie, maken we maatschappelijke participatie mogelijk en stellen we vrouwen in staat de controle te nemen over hun beslissingen op het gebied van gezondheid, financiën en rechten.'
       ],
       cards: [
-        { title: 'Vulnerabilidad legal', text: 'La incapacidad de leer contratos convierte a los adultos analfabetos en blancos fáciles de fraudes.' },
-        { title: 'Riesgos para la salud', text: 'La dificultad para leer las etiquetas médicas provoca mayores tasas de enfermedades prevenibles.' }
+        { title: 'Juridische kwetsbaarheid', text: 'Het onvermogen om contracten te lezen maakt analfabete volwassenen tot gemakkelijke doelwitten voor fraude.' },
+        { title: "Gezondheidsrisico's", text: "Moeite met het lezen van medische etiketten leidt tot hogere percentages van vermijdbare ziekten." }
       ]
     },
     'cookie-policy': {
       id: 'cookie-policy',
-      path: 'Quiénes somos / Política de cookies',
-      title: 'Política de cookies',
-      subtitle: 'Organización Likro & Lihtov',
+      path: 'Wie zijn we / Cookiebeleid',
+      title: 'Cookiebeleid',
+      subtitle: 'Likro & Lihtov Organisatie',
       statNumber: '100%',
-      statLabel: 'Conforme',
-      sidebarText: 'Valoramos su privacidad. Lea nuestra política para comprender qué datos recopilamos.',
+      statLabel: 'Conform',
+      sidebarText: 'Wij waarderen uw privacy. Lees ons beleid om te begrijpen welke gegevens we verzamelen.',
       mainParagraphs: [
-        'Likro & Lihtov Organization utiliza cookies y tecnologías similares para mejorar su experiencia de navegación, optimizar el rendimiento del sitio y entender cómo interactúa con el sitio.',
-        '¿Qué son las cookies? Las cookies son pequeños archivos almacenados en su dispositivo que facilitan un mejor funcionamiento del sitio.',
-        'Administrar cookies: Puede modificar o deshabilitar las cookies en las opciones de su navegador.',
-        'Modificaciones: Podemos actualizar esta política en cualquier momento. Las actualizaciones se publicarán en esta página.',
-        'Contacto: Si tiene preguntas, contáctenos por correo: contact@likrolihtov.com o en la web: https://new-l-plum.vercel.app/'
+        'Likro & Lihtov Organisatie gebruikt cookies en soortgelijke technologieën om uw browse-ervaring te verbeteren, de prestaties van de site te optimaliseren en te begrijpen hoe u met de site omgaat.',
+        'Wat zijn cookies? Cookies zijn kleine bestanden die op uw apparaat worden opgeslagen en die de werking van de website verbeteren.',
+        'Cookies beheren: U kunt cookies wijzigen of uitschakelen in uw browserinstellingen.',
+        'Wijzigingen: We kunnen dit beleid op elk moment bijwerken. Updates worden op deze pagina gepubliceerd.',
+        'Contact: Als u vragen heeft, neem dan contact met ons op via e-mail: contact@likrolihtov.com of op het web: https://new-l-plum.vercel.app/'
       ],
       cards: [
-        { title: 'Cookies necesarias', text: 'Requeridas para la funcionalidad del sitio web.' },
-        { title: 'Cookies funcionales', text: 'Recuerdan sus preferencias de usuario.' },
-        { title: 'Cookies analíticas', text: 'Ayudan a comprender el tráfico del sitio.' }
+        { title: 'Noodzakelijke cookies', text: 'Vereist voor de functionaliteit van de website.' },
+        { title: 'Functionele cookies', text: 'Onthouden uw gebruikersvoorkeuren.' },
+        { title: 'Analytische cookies', text: 'Helpen het websiteverkeer te begrijpen.' }
       ]
     },
     'projects-eu-collaboration': {
       id: 'projects-eu-collaboration',
-      path: 'Proyectos / Colaboración UE',
-      title: 'Colaboraciones con la Unión Europea',
-      subtitle: 'Fondos de desarrollo social europeo para expandir las oportunidades.',
+      path: 'Projecten / EU-samenwerking',
+      title: 'Samenwerking met de Europese Unie',
+      subtitle: 'Europese fondsen voor sociale ontwikkeling om kansen te vergroten.',
       statNumber: '€450K',
-      statLabel: 'Fondos Activos',
-      sidebarText: 'Alineamos nuestra pedagogía con los marcos de igualdad de la UE.',
+      statLabel: 'Actieve Fondsen',
+      sidebarText: 'We stemmen onze pedagogiek af op de EU-kaders voor gelijkheid.',
       mainParagraphs: [
-        'Creemos que la alfabetización es más que el acceso a un aula de clases: es la base de la igualdad de oportunidades, el crecimiento económico y el desarrollo social.',
-        'En la República Democrática del Congo, las bajas tasas de alfabetización suelen estar relacionadas con desafíos más profundos como la pobreza, la infraestructura limitada, los recursos educativos suficientes y los obstáculos que afectan a las comunidades vulnerables. Abordar estos desafíos requiere más que la simple construcción de escuelas; requiere un enfoque integral que fortalezca los sistemas educativos, mejore la infraestructura y cree oportunidades de aprendizaje sostenibles.',
-        'A través de la colaboración entre la República Democrática del Congo y las instituciones, organizaciones y empresas europeas, apoyamos iniciativas que amplían el acceso a una educación de calidad, desarrollan escuelas e infraestructuras públicas y empoderan a las comunidades para lograr el éxito a largo plazo.',
-        'Nuestra misión es contribuir a crear un futuro donde cada niño y adulto tenga la oportunidad de aprender, crecer y contribuir a una sociedad más próspera.'
+        'Wij geloven dat alfabetisering meer is dan toegang tot een klaslokaal: het is het fundament van gelijke kansen, economische groei en sociale ontwikkeling.',
+        'In de Democratische Republiek Congo zijn lage alfabetiseringsgraden vaak gekoppeld aan diepere uitdagingen zoals armoede, beperkte infrastructuur, ontoereikende onderwijsmiddelen en obstakels die kwetsbare gemeenschappen treffen. Het aanpakken van deze uitdagingen vereist meer dan alleen het bouwen van scholen; het vereist een integrale aanpak die onderwijssystemen versterkt, infrastructuur verbetert en duurzame leermogelijkheden creëert.',
+        'Door samenwerking tussen de Democratische Republiek Congo en Europese instellingen, organisaties en bedrijven ondersteunen we initiatieven die de toegang tot kwaliteitsonderwijs vergroten, scholen en openbare infrastructuur ontwikkelen en gemeenschappen in staat stellen om op lange termijn succes te boeken.',
+        'Onze missie is om bij te dragen aan een toekomst waarin elk kind en elke volwassene de kans krijgt om te leren, te groeien en bij te dragen aan een welvarendere samenleving.'
       ]
     },
     'projects-construction': {
       id: 'projects-construction',
-      path: 'Proyectos / Construcción',
-      title: 'Construcción y Desarrollo de Aulas',
-      subtitle: 'Aulas modernas, ecológicas y diseñadas para el estudio.',
-      statNumber: '6 Unidades',
-      statLabel: 'Aulas Equipadas',
-      sidebarText: 'Aulas solares, climatizadas y con guarderías integradas.',
+      path: 'Projecten / Bouw',
+      title: 'Bouw en Ontwikkeling van Klaslokalen',
+      subtitle: 'Moderne, ecologische klaslokalen ontworpen om te studeren.',
+      statNumber: '6 Units',
+      statLabel: 'Uitgeruste Klaslokalen',
+      sidebarText: 'Klaslokalen op zonne-energie met geïntegreerde crèches.',
       mainParagraphs: [
-        'La educación no se limita a las aulas y los maestros; también depende de la infraestructura que hace posible el aprendizaje. En muchas regiones de la República Democrática del Congo, la calidad de las instalaciones escolares y de la infraestructura pública sigue siendo un desafío importante. Muchas escuelas carecen de aulas adecuadas, edificios seguros, servicios sanitarios y recursos de aprendizaje esenciales. Además, las deficientes redes de carreteras dificultan que los estudiantes y los maestros lleguen a las escuelas, especialmente en las comunidades rurales.',
-        'Mejorar la educación significa, por lo tanto, invertir tanto en las escuelas como en la infraestructura que facilita el acceso a ellas. La construcción y renovación de escuelas, así como el desarrollo de carreteras y sistemas de transporte, son pasos esenciales para garantizar que todos los niños puedan acceder a una educación de calidad.',
-        'Nuestra organización se compromete a abordar estos desafíos recaudando fondos para apoyar la construcción de escuelas y el desarrollo de la infraestructura pública. A través de estos esfuerzos, nuestro objetivo es eliminar las barreras a la educación y crear entornos de aprendizaje más seguros y accesibles para todas las comunidades.'
+        "Onderwijs is niet alleen een kwestie van klaslokalen en leraren; het hangt ook af van de infrastructuur die leren mogelijk maakt. In veel regio's van de Democratische Republiek Congo blijft de kwaliteit van schoolgebouwen en openbare infrastructuur een grote uitdaging. Veel scholen hebben geen geschikte klaslokalen, veilige gebouwen, sanitaire voorzieningen en essentiële leermiddelen. Bovendien maken slechte wegennetten het moeilijk voor leerlingen en leraren om scholen te bereiken, vooral in plattelandsgemeenschappen.",
+        'Onderwijs verbeteren betekent daarom investeren in zowel scholen als de infrastructuur die de toegang daartoe vergemakkelijkt. De bouw en renovatie van scholen, alsmede de ontwikkeling van wegen en transportsystemen, zijn essentiële stappen om ervoor te zorgen dat elk kind toegang heeft tot kwaliteitsonderwijs.',
+        'Onze organisatie zet zich in om deze uitdagingen aan te pakken door fondsen te werven ter ondersteuning van schoolgebouwen en de ontwikkeling van openbare infrastructuur. Door deze inspanningen willen we barrières voor onderwijs wegnemen en veiligere en toegankelijkere leeromgevingen creëren voor alle gemeenschappen.'
       ]
     },
     'projects-security': {
       id: 'projects-security',
-      path: 'Projets / Seguridad',
-      title: 'Seguridad en el Campus y en Tránsito',
-      subtitle: 'Garantizar que ninguna alumna falte a clases por temores de seguridad.',
+      path: 'Projecten / Beveiliging',
+      title: 'Beveiliging op de Campus en tijdens Vervoer',
+      subtitle: 'Ervoor zorgen dat geen enkele student lessen mist uit angst voor de veiligheid.',
       statNumber: '100%',
-      statLabel: 'Seguridad Garantizada',
-      sidebarText: 'Ofrecemos rutas de transporte privado gratuito.',
+      statLabel: 'Gegarandeerde Veiligheid',
+      sidebarText: 'We bieden gratis privévervoer routes aan.',
       mainParagraphs: [
-        'Vallas perimetrales, iluminación LED en accesos y choferes dedicados resguardan la seguridad de cada alumna.'
+        'Hekken om het terrein, ledverlichting bij de ingangen en toegewijde chauffeurs beschermen de veiligheid van elke student.'
       ]
     },
     'projects-education': {
       id: 'projects-education',
-      path: 'Proyectos / Educación',
-      title: 'Metodologías Educativas Innovadoras',
-      subtitle: 'Metodologías de andragogía específicas para la superación personal.',
+      path: 'Projecten / Onderwijs',
+      title: 'Innovatieve Onderwijsmethoden',
+      subtitle: 'Specifieke andragogische methoden voor persoonlijke groei.',
       statNumber: '92%',
-      statLabel: 'Tasa de Graduación',
-      sidebarText: 'Uso de tecnologías interactivas para fomentar la autonomía.',
+      statLabel: 'Slaagpercentage',
+      sidebarText: 'Gebruik van interactieve technologieën om autonomie te bevorderen.',
       mainParagraphs: [
-        'Diseñamos metodologías participativas y emocionales, libres de la presión de los exámenes tradicionales.'
+        'We ontwerpen participatieve en emotionele methodologieën, vrij van de druk van traditionele examens.'
       ]
     }
   }
