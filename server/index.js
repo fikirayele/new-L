@@ -61,13 +61,13 @@ transporter.verify((err, success) => {
 });
 
 // 3. Rate Limiters
-// const loginLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 5,
-//   message: { error: "Too many login attempts. Please try again after 15 minutes." },
-//   standardHeaders: true,
-//   legacyHeaders: false,
-// });
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5,
+  message: { error: "Too many login attempts. Please try again after 15 minutes." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 const formLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
