@@ -534,7 +534,7 @@ function App() {
             
             <div className="footer-bank-details">
               <div className="bank-title-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <img src="/assets/bank_logo.png" alt="Bank Logo" style={{ height: '24px', width: 'auto', objectFit: 'contain' }} />
+                <img src="/assets/bank_logo.png" alt="Bank Logo" style={{ height: '48px', width: 'auto', objectFit: 'contain' }} />
                 <span className="bank-title" style={{ margin: 0, display: 'inline-block' }}>{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
               </div>
               <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'NL' ? 'Naam van de rekening' : 'Account Name'}:</strong> <span className="bank-value">Likro Lihtov ASBL</span></p>
