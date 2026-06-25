@@ -228,13 +228,22 @@ const apiFetch = (input: string | Request | URL, init?: RequestInit) => {
 function App() {
   // Language & Translation State
   const [lang, setLang] = useState<'EN' | 'FR' | 'NL'>(() => {
+    const savedLang = localStorage.getItem('user_lang') as 'EN' | 'FR' | 'NL' | null;
+    if (savedLang && ['EN', 'FR', 'NL'].includes(savedLang)) {
+      return savedLang;
+    }
     const path = window.location.pathname.toLowerCase();
     if (path.startsWith('/fr')) return 'FR';
     if (path.startsWith('/nl')) return 'NL';
-    return 'EN';
+    if (path.startsWith('/en')) return 'EN';
+    return 'FR';
   });
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const t = translations[lang];
+
+  useEffect(() => {
+    localStorage.setItem('user_lang', lang);
+  }, [lang]);
 
   // Navigation states
   const [isScrolled, setIsScrolled] = useState(false);
@@ -428,6 +437,23 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Redirect back to contact form after 4 seconds on success
+  useEffect(() => {
+    if (contactSubmitted) {
+      const timer = setTimeout(() => {
+        setContactSubmitted(false);
+        setContactSalutation('');
+        setContactFirstName('');
+        setContactLastName('');
+        setContactEmail('');
+        setContactMessage('');
+        setContactSubject('');
+        setContactPhone('');
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [contactSubmitted]);
+
   // Footer newsletter email input
   const [footerEmail, setFooterEmail] = useState('');
 
@@ -507,10 +533,13 @@ function App() {
             <p className="footer-desc">{t.footDesc}</p>
             
             <div className="footer-bank-details">
-              <span className="bank-title">{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
-              <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'NL' ? 'Naam van de rekening' : 'Account Name'}:</strong> Likro Lihtov</p>
-              <p><strong>IBAN:</strong> BE45000456296989</p>
-              <p><strong>BIC/SWIFT:</strong> GEBABEBB</p>
+              <div className="bank-title-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <img src="/assets/bank_logo.png" alt="Bank Logo" style={{ height: '24px', width: 'auto', objectFit: 'contain' }} />
+                <span className="bank-title" style={{ margin: 0, display: 'inline-block' }}>{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
+              </div>
+              <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'NL' ? 'Naam van de rekening' : 'Account Name'}:</strong> <span className="bank-value">Likro Lihtov ASBL</span></p>
+              <p><strong>IBAN:</strong> <span className="bank-value">BE45000456296989</span></p>
+              <p><strong>BIC/SWIFT:</strong> <span className="bank-value">GEBABEBB</span></p>
             </div>
             
             <div className="footer-socials">
@@ -2398,7 +2427,7 @@ function App() {
               </li>
 
               <li className="mobile-only-actions">
-                <button className="mobile-action-btn lang" onClick={() => setLang(lang === 'EN' ? 'FR' : lang === 'FR' ? 'NL' : 'EN')}>
+                <button className="mobile-action-btn lang" onClick={() => setLang(lang === 'FR' ? 'NL' : lang === 'NL' ? 'EN' : 'FR')}>
                   <Globe size={16} /> {t.btnLanguage}: {lang}
                 </button>
                 <button className="mobile-action-btn donate" onClick={() => {
@@ -2422,9 +2451,9 @@ function App() {
               </button>
               {showLangDropdown && (
                 <div className="lang-dropdown">
-                  <div className="lang-option" onClick={() => { setLang('EN'); setShowLangDropdown(false); }}>EN</div>
                   <div className="lang-option" onClick={() => { setLang('FR'); setShowLangDropdown(false); }}>FR</div>
                   <div className="lang-option" onClick={() => { setLang('NL'); setShowLangDropdown(false); }}>NL</div>
+                  <div className="lang-option" onClick={() => { setLang('EN'); setShowLangDropdown(false); }}>EN</div>
                 </div>
               )}
             </div>
@@ -2856,27 +2885,20 @@ function App() {
                   <div className="success-check-circle">
                     <CheckCircle size={32} />
                   </div>
-                  <h3 className="success-card-title">Message Transmitted</h3>
+                  <h3 className="success-card-title">
+                    {lang === 'FR' ? 'Message envoyé' : lang === 'NL' ? 'Bericht verzonden' : 'Message Sent'}
+                  </h3>
                   <p className="success-card-text">
-                    Thank you, <strong>{contactFirstName} {contactLastName}</strong>. Your query has been logged in our system. A coordinator will reach out to you within 24 hours.
+                    {lang === 'EN' && (
+                      <>Thank you, the user <strong>{contactFirstName} {contactLastName}</strong>. We have successfully received your message. One of our coordinators will review your request and get back to you in the coming days. For urgent matters, please contact us by phone.</>
+                    )}
+                    {lang === 'FR' && (
+                      <>Merci, <strong>{contactFirstName} {contactLastName}</strong>. Nous avons bien reçu votre message. Un de nos coordinateurs examinera votre demande et reviendra vers vous dans les prochains jours. Pour les demandes urgentes, veuillez nous contacter par téléphone.</>
+                    )}
+                    {lang === 'NL' && (
+                      <>Bedankt, <strong>{contactFirstName} {contactLastName}</strong>. Wij hebben uw bericht goed ontvangen. Een van onze coördinatoren zal uw aanvraag bekijken en binnen enkele dagen contact met u opnemen. Voor dringende vragen kunt u ons telefonisch contacteren.</>
+                    )}
                   </p>
-                  <button 
-                    onClick={() => {
-                      setContactSubmitted(false);
-                      setContactSalutation('');
-                      setContactFirstName('');
-                      setContactLastName('');
-                      setContactEmail('');
-                      setContactMessage('');
-                      setContactSubject('');
-                      setContactPhone('');
-
-                    }}
-                    className="btn-donate"
-                    style={{ marginTop: '16px' }}
-                  >
-                    <span>Write another message</span>
-                  </button>
                 </div>
               )}
             </div>

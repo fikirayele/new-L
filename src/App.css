@@ -541,6 +541,7 @@
   transition: var(--transition-smooth);
   width: 140px;
   text-align: center;
+  cursor: pointer;
 }
 
 .sponsor-logo:hover {
@@ -2869,6 +2870,10 @@
 
 .footer-bank-details p {
   margin: 2px 0;
+}
+
+.footer-bank-details .bank-value {
+  color: #ffffff;
 }
 
 /* Custom Did You Know Cards with list */
