@@ -34,115 +34,115 @@ import 'react-phone-number-input/style.css';
 import './App.css';
 
 const faqItems: Array<{
-  q: Record<'EN' | 'FR' | 'ES', string>;
-  a: Record<'EN' | 'FR' | 'ES', string>;
+  q: Record<'EN' | 'FR' | 'NL', string>;
+  a: Record<'EN' | 'FR' | 'NL', string>;
 }> = [
   {
     q: {
       EN: "Who is Likro & Lihtov? & What does “Likro & Lihtov” mean?",
       FR: "Que signifie « Likro & Lihtov » ?",
-      ES: "¿Qué significa «Likro & Lihtov»?"
+      NL: "Wat betekent “Likro & Lihtov”?"
     },
     a: {
       EN: "Likro & Lihtov is a non-profit organization dedicated to combating adult female illiteracy. The name is derived from the Hebrew words \"Likro\" (to read) and \"Lihtov\" (to write), reflecting our core mission of empowering individuals through literacy and education.",
       FR: "Likro & Lihtov est une organisation à but non lucratif dédiée à la lutte contre l'analphabétisme des femmes adultes. Le nom provient de l'hébreu « Likro » (lire) et « Lihtov » (écrire), reflétant notre mission principale d'autonomisation par l'éducation.",
-      ES: "Likro & Lihtov es una organización sin fines de lucro dedicada a combatir el analfabetismo de mujeres adultas. El nombre proviene de las palabras hebreas \"Likro\" (leer) y \"Lihtov\" (escribir), lo que refleja nuestra misión principal de empoderamiento a través de la educación."
+      NL: "Likro & Lihtov is een non-profitorganisatie die zich inzet voor de bestrijding van analfabetisme onder volwassen vrouwen. De naam is afgeleid van de Hebreeuwse woorden \"Likro\" (lezen) en \"Lihtov\" (schrijven), wat onze kernmissie weerspiegelt om individuen sterker te maken door middel van geletterdheid en onderwijs."
     }
   },
   {
     q: {
       EN: "What is your main activity?",
       FR: "Quelle est votre activité principale ?",
-      ES: "¿Cuál es su actividad principal?"
+      NL: "Wat is uw hoofdactiviteit?"
     },
     a: {
       EN: "Our main activity is providing tailored, slow-paced literacy and numeracy courses for adult women. To ensure success, we remove all barriers to education by providing digital learning tablets, free private transit/shuttles, and professional on-site child-care during classes.",
       FR: "Notre activité principale consiste à offrir des cours d'alphabétisation et de calcul adaptés aux femmes adultes. Pour garantir leur réussite, nous levons tous les obstacles en fournissant des tablettes numériques, un service de transport privé gratuit et une crèche sur place pendant les cours.",
-      ES: "Nuestra actividad principal es ofrecer cursos adaptados de lectura, escritura y cálculo para mujeres adultas. Para asegurar el éxito, eliminamos barreras proporcionando tabletas de aprendizaje, transporte privado gratuito y guardería profesional durante las clases."
+      NL: "Onze hoofdactiviteit is het aanbieden van op maat gemaakte, langzame alfabetiserings- en rekencursussen voor volwassen vrouwen. Om succes te garanderen, nemen we alle drempels voor onderwijs weg door te zorgen voor digitale leertablets, gratis privévervoer/shuttles en professionele kinderopvang ter plaatse tijdens de lessen."
     }
   },
   {
     q: {
       EN: "Where do you operate?",
       FR: "Où exercez-vous vos activités ?",
-      ES: "¿Dónde operan?"
+      NL: "Waar bent u actief?"
     },
     a: {
       EN: "Our head office is located in Brussels, Belgium. We manage local educational programs in Belgium and partner with international initiatives in developing regions to build classrooms, supply learning materials, and establish local support networks.",
       FR: "Notre siège social est situé à Bruxelles, en Belgique. Nous gérons des programmes éducatifs locaux en Belgique et collaborons avec des initiatives internationales dans les pays en développement pour construire des écoles, fournir du matériel et former des éducateurs locaux.",
-      ES: "Nuestra sede principal está en Bruselas, Bélgica. Gestionamos programas educativos locales en Bélgica y colaboramos con iniciativas internacionales en regiones en desarrollo para construir aulas, suministrar materiales y formar educadores."
+      NL: "Ons hoofdkantoor is gevestigd in Brussel, België. We beheren lokale educatieve programma's in België en werken samen met internationale initiatieven in ontwikkelingsregio's om klaslokalen te bouwen, leermaterialen te leveren en lokale ondersteuningsnetwerken op te zetten."
     }
   },
   {
     q: {
       EN: "How can I support your mission?",
       FR: "Comment puis-je soutenir votre mission ?",
-      ES: "¿Cómo puedo apoyar su misión?"
+      NL: "Hoe kan ik uw missie ondersteunen?"
     },
     a: {
       EN: "You can support our mission by making a financial donation (either general or dedicated to specific causes like shuttles or classroom construction), volunteering as an educator or coordinator, or forming a corporate partnership with your organization.",
       FR: "Vous pouvez soutenir notre mission en faisant un don financier (général ou dédié à des projets précis comme nos navettes ou la construction de classes), en devenant bénévole pour encadrer des sessions, ou en établissant un partenariat d'entreprise.",
-      ES: "Puede apoyar nuestra misión mediante donaciones financieras (generales o destinadas a causas específicas), trabajando como voluntario en clases o logística, o estableciendo una alianza corporativa."
+      NL: "U kunt onze missie ondersteunen door een financiële donatie te doen (algemeen of specifiek bestemd voor bijvoorbeeld shuttles of klaslokaalbouw), u aan te melden als vrijwilliger (docent of coördinator), of door een bedrijfspartnerschap aan te gaan."
     }
   },
   {
     q: {
       EN: "What types of donations do you accept?",
       FR: "Quel type de dons acceptez-vous ?",
-      ES: "¿Qué tipo de donaciones aceptan?"
+      NL: "Welke soorten donaties accepteert u?"
     },
     a: {
       EN: "We accept secure one-time or recurring financial donations via credit card, PayPal, or bank transfer through our donation portal. We also accept corporate sponsorships, educational equipment (such as tablets and laptops), and direct material support for our classrooms.",
       FR: "Nous acceptons les dons financiers ponctuels ou récurrents via carte de crédit, PayPal ou virement bancaire sur notre portail. Nous acceptons également les parrainages d'entreprises, le matériel informatique (tablettes, ordinateurs) et le soutien matériel pour nos classes.",
-      ES: "Aceptamos donaciones financieras seguras (únicas o recurrentes) a través de tarjeta de crédito, PayPal o transferencia bancaria en nuestro portal. También aceptamos patrocinios corporativos y equipos educativos (como tabletas o portátiles)."
+      NL: "We accepteren beveiligde eenmalige of terugkerende financiële donaties via creditcard, PayPal of bankoverschrijving via ons donatieportaal. We accepteren ook bedrijfssponsoring, educatief materiaal (zoals tablets en laptops) en directe materiële steun voor onze klaslokalen."
     }
   },
   {
     q: {
       EN: "How can I become a volunteer?",
       FR: "Comment devenir bénévole ?",
-      ES: "¿Cómo puedo ser voluntario?"
+      NL: "Hoe kan ik vrijwilliger worden?"
     },
     a: {
       EN: "You can become a volunteer by filling out the contact form on our website and selecting \"Volunteering\" as the subject. Our community team will contact you to discuss options like tutoring, event coordination, logistics, or administrative support.",
       FR: "Pour devenir bénévole, remplissez le formulaire de contact sur notre site en sélectionnant « Bénévolat » comme motif de contact. Notre équipe vous contactera pour discuter des opportunités (soutien scolaire, logistique, administration).",
-      ES: "Puede convertirse en voluntario completando el formulario de contacto en nuestro sitio web y seleccionando \"Voluntariado\" como asunto. Nuestro equipo se comunicará con usted para coordinar el apoyo."
+      NL: "U kunt vrijwilliger worden door het contactformulier op onze website in te vullen en \"Vrijwilligerswerk\" als onderwerp te selecteren. Ons gemeenschapsteam neemt dan contact met u op om de mogelijkheden te bespreken, zoals bijles geven, evenementencoördinatie, logistiek of administratieve ondersteuning."
     }
   },
   {
     q: {
       EN: "Can my organization become a partner?",
       FR: "Mon organisation peut-elle devenir partenaire ?",
-      ES: "¿Puede mi organización convertirse en socia/aliada?"
+      NL: "Kan mijn organisatie partner worden?"
     },
     a: {
       EN: "Yes, we highly encourage partnerships with NGOs, educational institutions, government agencies, and corporate sponsors. Please contact us via the contact form with the \"Partnership\" subject to discuss joint initiatives.",
       FR: "Oui, nous encourageons vivement les partenariats avec les ONG, les institutions éducatives, les entreprises et les organismes publics. Contactez-nous via le formulaire en choisissant le sujet « Partenariat » pour élaborer des projets communs.",
-      ES: "Sí, fomentamos activamente las alianzas con otras organizaciones, instituciones educativas y patrocinadores corporativos. Escríbanos a través del formulario de contacto seleccionando \"Alianza\" como asunto."
+      NL: "Ja, we moedigen partnerschappen met ngo's, onderwijsinstellingen, overheidsinstanties en bedrijfssponsors ten zeerste aan. Neem contact met ons op via het contactformulier met als onderwerp \"Partnerschap\" om gezamenlijke initiatieven te bespreken."
     }
   },
   {
     q: {
       EN: "Who can benefit from your programs?",
       FR: "Qui peut bénéficier de vos programmes ?",
-      ES: "¿Quién puede beneficiarse de sus programas?"
+      NL: "Wie heeft baat bij uw programma's?"
     },
     a: {
       EN: "Our educational programs are designed for adult women (aged 18 and older) who have had little to no access to formal schooling and wish to learn to read, write, and gain basic life skills for personal and professional autonomy.",
       FR: "Nos programmes s'adressent principalement aux femmes adultes (de 18 ans et plus) n'ayant pas ou peu bénéficié d'une scolarité formelle, et souhaitant apprendre à lire, écrire et compter pour acquérir leur autonomie.",
-      ES: "Nuestros programas educativos están diseñados para mujeres adultas (mayores de 18 años) que han tenido poco o ningún acceso previo a la educación formal y desean aprender a leer, escribir y contar."
+      NL: "Onze educatieve programma's zijn ontworpen voor volwassen vrouwen (18 jaar en ouder) die weinig of geen eerdere toegang hebben gehad tot formeel onderwijs en die willen leren lezen, schrijven en rekenen voor hun persoonlijke en professionele autonomie."
     }
   },
   {
     q: {
       EN: "How can I contact Likro & Lihtov?",
       FR: "Comment contacter Likro & Lihtov ?",
-      ES: "¿Cómo contactar a Likro & Lihtov?"
+      NL: "Hoe kan ik contact opnemen met Likro & Lihtov?"
     },
     a: {
       EN: "You can contact us using the contact form on this page, by emailing us directly at contact@likrolihtov.com, calling us at +32 497 15 36 36, or visiting our head office at Rue Edouard Dekoster 53, 1140 Brussels, Belgium.",
       FR: "Vous pouvez nous contacter en utilisant le formulaire ci-dessus, par e-mail à contact@likrolihtov.com, par téléphone au +32 497 15 36 36, ou à notre siège social Rue Edouard Dekoster 53, 1140 Bruxelles, Belgique.",
-      ES: "Puede contactarnos a través del formulario en esta página, por correo electrónico a contact@likrolihtov.com, llamando al +32 497 15 36 36, o visitando nuestra sede en Rue Edouard Dekoster 53, 1140 Bruselas, Bélgica."
+      NL: "U kunt contact met ons opnemen via het contactformulier op deze pagina, door rechtstreeks te mailen naar contact@likrolihtov.com, te bellen naar +32 497 15 36 36, of door ons hoofdkantoor te bezoeken aan de Rue Edouard Dekoster 53, 1140 Brussel, België."
     }
   }
 ];
@@ -227,10 +227,10 @@ const apiFetch = (input: string | Request | URL, init?: RequestInit) => {
 
 function App() {
   // Language & Translation State
-  const [lang, setLang] = useState<'EN' | 'FR' | 'ES'>(() => {
+  const [lang, setLang] = useState<'EN' | 'FR' | 'NL'>(() => {
     const path = window.location.pathname.toLowerCase();
     if (path.startsWith('/fr')) return 'FR';
-    if (path.startsWith('/es')) return 'ES';
+    if (path.startsWith('/nl')) return 'NL';
     return 'EN';
   });
   const [showLangDropdown, setShowLangDropdown] = useState(false);
@@ -285,8 +285,7 @@ function App() {
   const [contactPhone, setContactPhone] = useState('');
   const [contactMessage, setContactMessage] = useState('');
   const [contactSubmitted, setContactSubmitted] = useState(false);
-  const [contactRobotVerified, setContactRobotVerified] = useState(false);
-  const [robotError, setRobotError] = useState(false);
+
   const [footerEmailError, setFooterEmailError] = useState<string | null>(null);
   const [footerEmailSuccess, setFooterEmailSuccess] = useState<string | null>(null);
 
@@ -297,7 +296,7 @@ function App() {
   const [contactPhoneError, setContactPhoneError] = useState<string | null>(null);
   const [contactReasonError, setContactReasonError] = useState<string | null>(null);
   const [contactMessageError, setContactMessageError] = useState<string | null>(null);
-  const [contactRobotError, setContactRobotError] = useState<string | null>(null);
+
   const [contactFormError, setContactFormError] = useState<string | null>(null);
 
   // Validation States for Newsletter Modal Form
@@ -401,11 +400,11 @@ function App() {
     const cleanPath = (currentPath.length > 1 && currentPath.endsWith('/')) ? currentPath.slice(0, -1) : currentPath;
     const currentHash = window.location.hash;
     const langPath = `/${lang.toLowerCase()}`;
-    if (currentPath === '/' || currentPath === '/en' || currentPath === '/fr' || currentPath === '/es') {
+    if (currentPath === '/' || currentPath === '/en' || currentPath === '/fr' || currentPath === '/nl') {
       if (currentPath !== langPath) {
         window.history.replaceState(null, '', langPath + currentHash);
       }
-    } else if (cleanPath === '/admin' || cleanPath === '/en/admin' || cleanPath === '/fr/admin' || cleanPath === '/es/admin') {
+    } else if (cleanPath === '/admin' || cleanPath === '/en/admin' || cleanPath === '/fr/admin' || cleanPath === '/nl/admin') {
       window.history.replaceState(null, '', langPath + '#/admin');
       // Dispatch a popstate event to trigger hash/path listeners
       window.dispatchEvent(new Event('popstate'));
@@ -482,10 +481,10 @@ function App() {
     e.preventDefault();
     if (!isValidEmail(footerEmail)) {
       const errMsg = lang === 'FR' 
-        ? 'L\'adresse e-mail doit appartenir à Gmail, Outlook ou Hotmail et ne doit pas contenir d\'espaces.' 
-        : lang === 'ES' 
-          ? 'El correo debe ser de Gmail, Outlook o Hotmail y no debe contener espacios.' 
-          : 'Email must belong to Gmail, Outlook, or Hotmail, and contain no spaces.';
+        ? 'Veuillez entrer une adresse e-mail valide sans espaces.' 
+        : lang === 'NL' 
+          ? 'Voer een geldig e-mailadres in zonder spaties.' 
+          : 'Please enter a valid email address without spaces.';
       setFooterEmailError(errMsg);
       setFooterEmailSuccess(null);
       triggerToast(errMsg);
@@ -508,11 +507,10 @@ function App() {
             <p className="footer-desc">{t.footDesc}</p>
             
             <div className="footer-bank-details">
-              <span className="bank-title">{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'ES' ? 'Datos Bancarios' : 'Bank Account Details'}</span>
-              <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'ES' ? 'Nombre de la cuenta' : 'Account Name'}:</strong> Likro & Lihtov</p>
-              <p><strong>IBAN:</strong> BE68 3630 1234 5678</p>
-              <p><strong>BIC:</strong> LIKRBE2BXXX</p>
-              <p><strong>{lang === 'FR' ? 'Pays' : lang === 'ES' ? 'País' : 'Country'}:</strong> {lang === 'FR' ? 'Belgique' : lang === 'ES' ? 'Bélgica' : 'Belgium'}</p>
+              <span className="bank-title">{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
+              <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'NL' ? 'Naam van de rekening' : 'Account Name'}:</strong> Likro Lihtov</p>
+              <p><strong>IBAN:</strong> BE45000456296989</p>
+              <p><strong>BIC/SWIFT:</strong> GEBABEBB</p>
             </div>
             
             <div className="footer-socials">
@@ -538,7 +536,7 @@ function App() {
               <li><a onClick={() => { closeDrawer(); openDrawer('about-organization'); }}>{t.navAboutOrg}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('about-goals'); }}>{t.navAboutGoals}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('projects-construction'); }}>{t.navProjectsConst}</a></li>
-              <li><a href="#contacts-section" onClick={() => closeDrawer()}>{lang === 'FR' ? 'Contactez-nous' : lang === 'ES' ? 'Contáctenos' : 'Contact us'}</a></li>
+              <li><a href="#contacts-section" onClick={() => closeDrawer()}>{lang === 'FR' ? 'Contactez-nous' : lang === 'NL' ? 'Contact' : 'Contact us'}</a></li>
             </ul>
           </div>
 
@@ -614,9 +612,9 @@ function App() {
         <div className="footer-bottom">
           <span>{t.footCopy}</span>
           <div className="footer-bottom-links">
-            <a href="#privacy" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = '#privacy'; }}>{lang === 'EN' ? 'Privacy Policy' : lang === 'ES' ? 'Política de Privacidad' : 'Politique de Confidentialité'}</a>
+            <a href="#privacy" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = '#privacy'; }}>{lang === 'EN' ? 'Privacy Policy' : lang === 'NL' ? 'Privacybeleid' : 'Politique de Confidentialité'}</a>
             <span>|</span>
-            <a href="#terms" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = '#terms'; }}>{lang === 'EN' ? 'Terms of Use' : lang === 'ES' ? 'Términos de Uso' : 'Conditions d\'Utilisation'}</a>
+            <a href="#terms" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = '#terms'; }}>{lang === 'EN' ? 'Terms of Use' : lang === 'NL' ? 'Gebruiksvoorwaarden' : 'Conditions d\'Utilisation'}</a>
             <span>|</span>
             <a href="#faq" onClick={(e) => { e.preventDefault(); closeDrawer(); setShowFaqModal(true); }}>FAQ</a>
           </div>
@@ -714,15 +712,15 @@ function App() {
   const handleDonateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!donateName.trim()) {
-      triggerToast(lang === 'FR' ? 'Veuillez saisir votre nom complet' : lang === 'ES' ? 'Por favor ingrese su nombre completo' : 'Please enter your full name.');
+      triggerToast(lang === 'FR' ? 'Veuillez saisir votre nom complet' : lang === 'NL' ? 'Vul alstublieft uw volledige naam in.' : 'Please enter your full name.');
       return;
     }
     if (hasNumbers(donateName)) {
-      triggerToast(lang === 'FR' ? 'Le nom complet ne peut pas contenir de chiffres' : lang === 'ES' ? 'El nombre completo no puede contener números' : 'Full name cannot contain numbers.');
+      triggerToast(lang === 'FR' ? 'Le nom complet ne peut pas contenir de chiffres' : lang === 'NL' ? 'Volledige naam mag geen cijfers bevatten.' : 'Full name cannot contain numbers.');
       return;
     }
     if (!isValidEmail(donateEmail)) {
-      triggerToast(lang === 'FR' ? 'Adresse email non valide' : lang === 'ES' ? 'Correo no válido' : 'Please enter a valid email address.');
+      triggerToast(lang === 'FR' ? 'Adresse email non valide' : lang === 'NL' ? 'Ongeldig e-mailadres.' : 'Please enter a valid email address.');
       return;
     }
 
@@ -757,7 +755,7 @@ function App() {
     setContactPhoneError(null);
     setContactReasonError(null);
     setContactMessageError(null);
-    setContactRobotError(null);
+
     setContactFormError(null);
 
     // Validate First Name
@@ -808,17 +806,12 @@ function App() {
     if (!contactMessage.trim()) {
       setContactMessageError("Message is required.");
       hasError = true;
-    } else if (contactMessage.length < 20 || contactMessage.length > 1200) {
-      setContactMessageError("Message must be between 20 and 1200 characters.");
+    } else if (contactMessage.length < 12 || contactMessage.length > 1200) {
+      setContactMessageError("Message must be between 12 and 1200 characters.");
       hasError = true;
     }
 
-    // Validate robot check
-    if (!contactRobotVerified) {
-      setContactRobotError("reCAPTCHA must be completed before submission.");
-      setRobotError(true);
-      hasError = true;
-    }
+
 
     if (hasError) {
       triggerToast("Please correct the errors in the form before submitting.");
@@ -1309,6 +1302,26 @@ function App() {
     }
   }, [isAdminView, adminToken, adminSearchQuery, adminStatusFilter]);
 
+  // Mark subscribers as read when viewing the subscribers tab
+  useEffect(() => {
+    if (adminActiveTab === 'subscribers' && adminToken) {
+      const markSubscribersRead = async () => {
+        try {
+          const res = await apiFetch("/api/admin/subscribers/mark-read", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${adminToken}` },
+          });
+          if (res.ok) {
+            fetchAdminStats(adminToken);
+          }
+        } catch (err) {
+          console.error("Failed to mark subscribers as read:", err);
+        }
+      };
+      markSubscribersRead();
+    }
+  }, [adminActiveTab, adminToken]);
+
   const renderAdminDashboard = () => {
     if (!adminToken) {
       return (
@@ -1374,6 +1387,7 @@ function App() {
     }
 
     const unreadCount = adminStats?.unreadMessages || 0;
+    const newSubscribersCount = adminStats?.newSubscribers || 0;
     const totalMsg = adminStats?.totalMessages || 0;
     const totalSubs = adminStats?.totalSubscribers || 0;
     const repliedMsg = adminStats?.repliedMessages || 0;
@@ -1407,10 +1421,13 @@ function App() {
               </button>
               <button
                 onClick={() => setAdminActiveTab('subscribers')}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition duration-150 ${adminActiveTab === 'subscribers' ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition duration-150 ${adminActiveTab === 'subscribers' ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                Subscribers
+                <div className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  Subscribers
+                </div>
+                {newSubscribersCount > 0 && <span className="bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full font-extrabold">{newSubscribersCount}</span>}
               </button>
               {adminUser?.role === 'admin' && (
                 <button
@@ -2243,7 +2260,7 @@ function App() {
             </button>
             <div className="modal-header-box" style={{ marginBottom: '20px' }}>
               <Shield className="heart-icon animate-pulse" size={32} />
-              <h2>{lang === 'FR' ? 'Politique relative aux cookies' : lang === 'ES' ? 'Política de cookies' : 'Cookie Policy'}</h2>
+              <h2>{lang === 'FR' ? 'Politique relative aux cookies' : lang === 'NL' ? 'Cookiebeleid' : 'Cookie Policy'}</h2>
               <p style={{ fontSize: '12px' }}><strong>Likro & Lihtov Organization</strong></p>
             </div>
             <div className="faq-list" style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxHeight: '420px', overflowY: 'auto', paddingRight: '8px' }}>
@@ -2251,50 +2268,50 @@ function App() {
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6', marginBottom: '14px' }}>
                   {lang === 'FR' 
                     ? 'Likro & Lihtov Organization utilise des cookies et des technologies similaires pour améliorer votre expérience de navigation, optimiser les performances du site et comprendre comment les visiteurs utilisent notre site.' 
-                    : lang === 'ES' 
-                    ? 'Likro & Lihtov Organization utiliza cookies y tecnologías similares para mejorar su experiencia de navegación, optimizar el rendimiento del sitio y entender cómo interactúa con el sitio.' 
+                    : lang === 'NL' 
+                    ? 'Likro & Lihtov Organisatie gebruikt cookies en vergelijkbare technologieën om uw browse-ervaring te verbeteren, de prestaties van de site te optimaliseren en te begrijpen hoe bezoekers onze website gebruiken.' 
                     : 'Likro & Lihtov Organization uses cookies and similar technologies to improve your browsing experience, enhance website performance, remember your preferences, and better understand how visitors use our website.'}
                 </p>
                 <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Qu\'est-ce que les cookies ?' : lang === 'ES' ? '¿Qué son las cookies?' : 'What Are Cookies?'}
+                  {lang === 'FR' ? 'Qu\'est-ce que les cookies ?' : lang === 'NL' ? 'Wat zijn cookies?' : 'What Are Cookies?'}
                 </h4>
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '14px' }}>
                   {lang === 'FR' 
                     ? 'Les cookies sont de petits fichiers stockés sur votre appareil qui aident le site à fonctionner correctement et à vous offrir une navigation plus fluide.' 
-                    : lang === 'ES' 
-                    ? 'Las cookies son pequeños archivos almacenados en su dispositivo que facilitan un mejor funcionamiento del sitio y ofrecen una experiencia más fluida.' 
+                    : lang === 'NL' 
+                    ? 'Cookies zijn kleine bestanden die op uw apparaat worden opgeslagen wanneer u onze website bezoekt. Ze helpen onze website goed te functioneren en zorgen voor een soepelere gebruikerservaring.' 
                     : 'Cookies are small files stored on your device when you visit our website. They help our website function properly and provide a smoother user experience.'}
                 </p>
                 <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Les cookies que nous utilisons' : lang === 'ES' ? 'Las cookies que utilizamos' : 'Cookies We Use'}
+                  {lang === 'FR' ? 'Les cookies que nous utilisons' : lang === 'NL' ? 'Cookies die we gebruiken' : 'Cookies We Use'}
                 </h4>
                 <ul style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6', listStyleType: 'disc', paddingLeft: '20px', marginBottom: '14px' }}>
-                  <li><strong>{lang === 'FR' ? 'Cookies nécessaires' : lang === 'ES' ? 'Cookies necesarias' : 'Necessary Cookies'}</strong> – {lang === 'FR' ? 'Requis pour le fonctionnement du site.' : lang === 'ES' ? 'Requeridas para la funcionalidad.' : 'Required for website functionality and security.'}</li>
-                  <li><strong>{lang === 'FR' ? 'Cookies fonctionnels' : lang === 'ES' ? 'Cookies funcionales' : 'Functional Cookies'}</strong> – {lang === 'FR' ? 'Retiennent vos préférences.' : lang === 'ES' ? 'Recuerdan sus preferencias.' : 'Remember your preferences and settings.'}</li>
-                  <li><strong>{lang === 'FR' ? 'Cookies d\'analyse' : lang === 'ES' ? 'Cookies analíticas' : 'Analytics Cookies'}</strong> – {lang === 'FR' ? 'Aident à comprendre le trafic du site.' : lang === 'ES' ? 'Ayudan a comprender el tráfico del sitio.' : 'Help us improve our website by understanding visitor interactions.'}</li>
+                  <li><strong>{lang === 'FR' ? 'Cookies nécessaires' : lang === 'NL' ? 'Noodzakelijke cookies' : 'Necessary Cookies'}</strong> – {lang === 'FR' ? 'Requis pour le fonctionnement du site.' : lang === 'NL' ? 'Vereist voor de functionaliteit van de website.' : 'Required for website functionality and security.'}</li>
+                  <li><strong>{lang === 'FR' ? 'Cookies fonctionnels' : lang === 'NL' ? 'Functionele cookies' : 'Functional Cookies'}</strong> – {lang === 'FR' ? 'Retiennent vos préférences.' : lang === 'NL' ? 'Onthouden uw gebruikersvoorkeuren.' : 'Remember your preferences and settings.'}</li>
+                  <li><strong>{lang === 'FR' ? 'Cookies d\'analyse' : lang === 'NL' ? 'Analytische cookies' : 'Analytics Cookies'}</strong> – {lang === 'FR' ? 'Aident à comprendre le trafic du site.' : lang === 'NL' ? 'Helpen ons om de website te verbeteren door bezoekersinteracties te begrijpen.' : 'Help us improve our website by understanding visitor interactions.'}</li>
                 </ul>
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6', marginBottom: '14px' }}>
                   {lang === 'FR' 
                     ? 'Vous pouvez configurer ou désactiver les cookies dans les paramètres de votre navigateur. Notez que cela peut affecter certaines fonctionnalités.' 
-                    : lang === 'ES' 
-                    ? 'Puede modificar o deshabilitar las cookies en las opciones de su navegador. Tenga en cuenta que esto podría afectar el funcionamiento de algunas características.' 
+                    : lang === 'NL' 
+                    ? 'U kunt cookies beheren of uitschakelen via uw browserinstellingen. Houd er rekening mee dat het uitschakelen van sommige cookies invloed kan hebben op bepaalde websitefuncties.' 
                     : 'You can manage or disable cookies through your browser settings. Please note that disabling some cookies may affect certain website features.'}
                 </p>
                 <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Mises à jour de cette politique' : lang === 'ES' ? 'Modificaciones de esta política' : 'Changes to This Policy'}
+                  {lang === 'FR' ? 'Mises à jour de cette politique' : lang === 'NL' ? 'Updates van dit beleid' : 'Changes to This Policy'}
                 </h4>
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '14px' }}>
                   {lang === 'FR' 
                     ? 'Nous pouvons modifier cette politique à tout moment. Les mises à jour seront publiées sur cette page.' 
-                    : lang === 'ES' 
-                    ? 'Podemos actualizar esta política en cualquier momento. Las actualizaciones se publicarán en esta página.' 
+                    : lang === 'NL' 
+                    ? 'We kunnen dit cookiebeleid van tijd tot tijd bijwerken. Eventuele updates worden op deze pagina gepubliceerd.' 
                     : 'We may update this Cookie Policy from time to time. Any updates will be posted on this page.'}
                 </p>
                 <h4 style={{ color: 'var(--text-dark)', marginBottom: '6px', fontSize: '15px' }}>
-                  {lang === 'FR' ? 'Contactez-nous' : lang === 'ES' ? 'Contáctenos' : 'Contact Us'}
+                  {lang === 'FR' ? 'Contactez-nous' : lang === 'NL' ? 'Contact' : 'Contact Us'}
                 </h4>
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.5' }}>
-                  {lang === 'FR' ? 'Pour toute question :' : lang === 'ES' ? 'Si tiene preguntas :' : 'If you have questions about this Cookie Policy, contact us:'}<br />
+                  {lang === 'FR' ? 'Pour toute question :' : lang === 'NL' ? 'Als u vragen heeft over dit cookiebeleid, neem dan contact met ons op:' : 'If you have questions about this Cookie Policy, contact us:'}<br />
                   <strong>Email:</strong> <a href="mailto:contact@likrolihtov.com" style={{ color: 'var(--primary)' }}>contact@likrolihtov.com</a><br />
                   <strong>Website:</strong> <a href="https://new-l-plum.vercel.app/" target="_blank" rel="noreferrer" style={{ color: 'var(--primary)' }}>https://new-l-plum.vercel.app/</a>
                 </p>
@@ -2381,7 +2398,7 @@ function App() {
               </li>
 
               <li className="mobile-only-actions">
-                <button className="mobile-action-btn lang" onClick={() => setLang(lang === 'EN' ? 'FR' : lang === 'FR' ? 'ES' : 'EN')}>
+                <button className="mobile-action-btn lang" onClick={() => setLang(lang === 'EN' ? 'FR' : lang === 'FR' ? 'NL' : 'EN')}>
                   <Globe size={16} /> {t.btnLanguage}: {lang}
                 </button>
                 <button className="mobile-action-btn donate" onClick={() => {
@@ -2405,9 +2422,9 @@ function App() {
               </button>
               {showLangDropdown && (
                 <div className="lang-dropdown">
-                  <div className="lang-option" onClick={() => { setLang('EN'); setShowLangDropdown(false); }}>EN (English)</div>
-                  <div className="lang-option" onClick={() => { setLang('FR'); setShowLangDropdown(false); }}>FR (Français)</div>
-                  <div className="lang-option" onClick={() => { setLang('ES'); setShowLangDropdown(false); }}>ES (Español)</div>
+                  <div className="lang-option" onClick={() => { setLang('EN'); setShowLangDropdown(false); }}>EN</div>
+                  <div className="lang-option" onClick={() => { setLang('FR'); setShowLangDropdown(false); }}>FR</div>
+                  <div className="lang-option" onClick={() => { setLang('NL'); setShowLangDropdown(false); }}>NL</div>
                 </div>
               )}
             </div>
@@ -2423,10 +2440,10 @@ function App() {
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? (
-                <X size={26} />
+                <X size={36} />
               ) : (
                 <>
-                  <Menu size={26} />
+                  <Menu size={36} />
                   <span className="mobile-toggle-text">Menu</span>
                 </>
               )}
@@ -2560,13 +2577,35 @@ function App() {
           </div>
 
           <div className="logos-strip">
-            {['NOVALIA', 'SOLARIS', 'OCEANIA', 'VECTORA', 'HORIZON', 'ALTRIUM', 'GREENWAY'].map((name, idx) => (
-              <div key={name} className="sponsor-logo" onClick={() => openDrawer('about-sponsors')}>
+            {[
+              { id: 'EVERE', name: 'EVERE', type: lang === 'EN' ? 'Municipality' : lang === 'FR' ? 'Commune' : 'Gemeente', logo: '/assets/evere_logo.png' },
+              { id: 'SOLARIS', name: 'SOLARIS', type: 'group' },
+              { id: 'OCEANIA', name: 'OCEANIA', type: 'group' },
+              { id: 'VECTORA', name: 'VECTORA', type: 'group' },
+              { id: 'HORIZON', name: 'HORIZON', type: 'group' },
+              { id: 'ALTRIUM', name: 'ALTRIUM', type: 'consulting' },
+              { id: 'GREENWAY', name: 'GREENWAY', type: 'initiative' }
+            ].map((sponsor, idx) => (
+              <div 
+                key={sponsor.id} 
+                className="sponsor-logo" 
+                onClick={() => {
+                  if (sponsor.id === 'EVERE') {
+                    window.open('https://www.evere.brussels', '_blank');
+                  } else {
+                    openDrawer('about-sponsors');
+                  }
+                }}
+              >
                 <div className="sponsor-icon-wrapper">
-                  {idx % 4 === 0 ? <Sparkles /> : idx % 4 === 1 ? <Globe /> : idx % 4 === 2 ? <Compass /> : <Shield />}
+                  {sponsor.logo ? (
+                    <img src={sponsor.logo} alt={sponsor.name} className="sponsor-logo-img" style={{ height: '40px', objectFit: 'contain' }} />
+                  ) : (
+                    idx % 4 === 0 ? <Sparkles /> : idx % 4 === 1 ? <Globe /> : idx % 4 === 2 ? <Compass /> : <Shield />
+                  )}
                 </div>
-                <span className="sponsor-name">{name}</span>
-                <span className="sponsor-type">{idx === 0 ? 'Foundation' : idx === 5 ? 'Consulting' : idx === 6 ? 'Initiative' : 'Group'}</span>
+                <span className="sponsor-name">{sponsor.name}</span>
+                <span className="sponsor-type">{sponsor.type}</span>
               </div>
             ))}
           </div>
@@ -2647,7 +2686,7 @@ function App() {
                     <div className="form-group-row">
                       <div className="form-field-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-field-label">
-                          {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
+                          {t.conSalutationLabel} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'NL' ? 'Optioneel' : 'Optional'})</span>
                         </label>
                         <div className="salutation-group">
                           {[{val: 'Mr', label: t.conSalutationMr}, {val: 'Ms', label: t.conSalutationMs}, {val: 'Other', label: t.conSalutationOther}].map(opt => (
@@ -2734,7 +2773,7 @@ function App() {
                       </div>
                       <div className="form-field-group">
                         <label className="form-field-label">
-                          {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'ES' ? 'Opcional' : 'Optional'})</span>
+                          {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'NL' ? 'Optioneel' : 'Optional'})</span>
                         </label>
                         <PhoneInput
                           placeholder=""
@@ -2800,43 +2839,7 @@ function App() {
                       )}
                     </div>
 
-                    {/* I am not a robot Verification */}
-                    <div className="captcha-container">
-                      <div className="captcha-left">
-                        <input 
-                          type="checkbox" 
-                          id="robot-verify" 
-                          checked={contactRobotVerified}
-                          onChange={(e) => {
-                            setContactRobotVerified(e.target.checked);
-                            if (e.target.checked) {
-                              setRobotError(false);
-                              if (contactRobotError) setContactRobotError(null);
-                            }
-                            if (contactFormError) setContactFormError(null);
-                          }}
-                          className="captcha-checkbox"
-                          disabled={isSending}
-                        />
-                        <label htmlFor="robot-verify" className="captcha-label">
-                          {t.conRobotVerification}
-                        </label>
-                      </div>
-                      <div className="captcha-right">
-                        <Shield size={22} style={{ color: 'var(--primary)' }} />
-                        <span className="captcha-logo-text">reCAPTCHA</span>
-                      </div>
-                    </div>
-                    {contactRobotError && (
-                      <span className="field-error-msg" style={{ marginTop: '4px' }}>
-                        {contactRobotError}
-                      </span>
-                    )}
-                    {robotError && (
-                      <div className="form-error-msg">
-                        {t.conRobotError}
-                      </div>
-                    )}
+
                     {contactFormError && (
                       <div className="form-error-msg" style={{ marginTop: '12px', marginBottom: '12px' }}>
                         {contactFormError}
@@ -2844,7 +2847,7 @@ function App() {
                     )}
 
                     <button type="submit" className="btn-form-submit" disabled={isSending}>
-                      <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'ES' ? 'Enviando...' : 'Sending...') : t.conSend}</span>
+                      <span>{isSending ? (lang === 'FR' ? 'Envoi...' : lang === 'NL' ? 'Verzenden...' : 'Sending...') : t.conSend}</span>
                     </button>
                   </form>
                 </>
@@ -2867,8 +2870,7 @@ function App() {
                       setContactMessage('');
                       setContactSubject('');
                       setContactPhone('');
-                      setContactRobotVerified(false);
-                      setRobotError(false);
+
                     }}
                     className="btn-donate"
                     style={{ marginTop: '16px' }}
@@ -2937,7 +2939,7 @@ function App() {
                       {/* School Program Sidebar */}
                       <div className="sidebar-card">
                         <h4 className="sidebar-card-title">
-                          {lang === 'FR' ? 'Programme' : lang === 'ES' ? 'Programa' : 'Program'}
+                          {lang === 'FR' ? 'Programme' : lang === 'NL' ? 'Programma' : 'Program'}
                         </h4>
                         <div className="sidebar-stat">{selectedSection.statNumber}</div>
                         <div className="sidebar-stat-label">{selectedSection.statLabel}</div>
@@ -2949,7 +2951,7 @@ function App() {
                       {selectedSection.listItems && (
                         <div className="sidebar-quickinfo">
                           <h4 className="quickinfo-title">
-                            {selectedSection.listTitle || (lang === 'FR' ? 'Le programme comprend' : lang === 'ES' ? 'El programa incluye' : 'Program includes')}
+                            {selectedSection.listTitle || (lang === 'FR' ? 'Le programme comprend' : lang === 'NL' ? 'Het programma omvat' : 'Program includes')}
                           </h4>
                           <ul className="quickinfo-list">
                             {selectedSection.listItems.map((item, index) => (
@@ -2968,7 +2970,7 @@ function App() {
                         <div className="sidebar-card">
                           <h4 className="sidebar-card-title">
                             {selectedSection.sidebarTitle || 
-                              (lang === 'FR' ? 'Impact' : lang === 'ES' ? 'Impacto' : 'Impact')}
+                              (lang === 'FR' ? 'Impact' : lang === 'NL' ? 'Impact' : 'Impact')}
                           </h4>
                           {selectedSection.sidebarText && (
                             <p className="sidebar-card-text" style={{ whiteSpace: 'pre-line' }}>{renderParsedText(selectedSection.sidebarText)}</p>
@@ -2985,7 +2987,7 @@ function App() {
                       <div className="sidebar-quickinfo">
                         <h4 className="quickinfo-title">
                           {selectedSection.quickInfoTitle || 
-                            (lang === 'FR' ? 'Statut' : lang === 'ES' ? 'Estado' : 'Status')}
+                            (lang === 'FR' ? 'Statut' : lang === 'NL' ? 'Status' : 'Status')}
                         </h4>
                         <ul className="quickinfo-list">
                           {selectedSection.quickInfoItems ? (
@@ -2999,15 +3001,15 @@ function App() {
                             <>
                               <li>
                                 <CheckCircle size={14} />
-                                <span>{lang === 'FR' ? 'Priorité autonomisation' : lang === 'ES' ? 'Enfoque de empoderamiento' : 'Empowerment Focus'}</span>
+                                <span>{lang === 'FR' ? 'Priorité autonomisation' : lang === 'NL' ? 'Focus op empowerment' : 'Empowerment Focus'}</span>
                               </li>
                               <li>
                                 <CheckCircle size={14} />
-                                <span>{lang === 'FR' ? 'Sécurité garantie' : lang === 'ES' ? 'Seguridad garantizada' : 'Safety Guaranteed'}</span>
+                                <span>{lang === 'FR' ? 'Sécurité garantie' : lang === 'NL' ? 'Gegarandeerde veiligheid' : 'Safety Guaranteed'}</span>
                               </li>
                               <li>
                                 <CheckCircle size={14} />
-                                <span>{lang === 'FR' ? 'Financé par la communauté' : lang === 'ES' ? 'Financiado por la comunidad' : 'Community Funded'}</span>
+                                <span>{lang === 'FR' ? 'Financé par la communauté' : lang === 'NL' ? 'Gefinancierd door de gemeenschap' : 'Community Funded'}</span>
                               </li>
                             </>
                           )}
@@ -3155,15 +3157,15 @@ function App() {
                               <li className="curriculum-step">
                                 <div className="curriculum-num">1A</div>
                                 <div className="curriculum-details">
-                                  <h4>{lang === 'FR' ? 'Bases Phonétiques & Tracé de Sons' : lang === 'ES' ? 'Fundamentos Fonéticos y Trazado de Sonidos' : 'Phonetic Foundations & Sound Tracing'}</h4>
-                                  <p>{lang === 'FR' ? 'Les étudiantes commencent par tracer les voyelles et les sons de base.' : lang === 'ES' ? 'Las alumnas comienzan trazando las vocales y los sonidos consonánticos básicos.' : 'Students begin by tracing basic vowels and consonant sounds, linking them to simple high-recognition symbols.'}</p>
+                                  <h4>{lang === 'FR' ? 'Bases Phonétiques & Tracé de Sons' : lang === 'NL' ? 'Fonetische grondslagen & klanken schrijven' : 'Phonetic Foundations & Sound Tracing'}</h4>
+                                  <p>{lang === 'FR' ? 'Les étudiantes commencent par tracer les voyelles et les sons de base.' : lang === 'NL' ? 'Studenten beginnen met het schrijven van basisklinkers en medeklinkers, en koppelen deze aan eenvoudige symbolen.' : 'Students begin by tracing basic vowels and consonant sounds, linking them to simple high-recognition symbols.'}</p>
                                 </div>
                               </li>
                               <li className="curriculum-step">
                                 <div className="curriculum-num">1B</div>
                                 <div className="curriculum-details">
-                                  <h4>{lang === 'FR' ? 'Maîtrise du Nom & Signature' : lang === 'ES' ? 'Dominio de Nombre y Firma' : 'Name & Signature Mastery'}</h4>
-                                  <p>{lang === 'FR' ? 'Apprendre à signer son nom pour valider des actes civils.' : lang === 'ES' ? 'Cada mujer aprende a deletrear, trazar y escribir su propio nombre.' : 'Every woman learns to spell, trace, and write her own name. This builds immediate cognitive confidence and legal signature validity.'}</p>
+                                  <h4>{lang === 'FR' ? 'Maîtrise du Nom & Signature' : lang === 'NL' ? 'Naam- & handtekeningbeheersing' : 'Name & Signature Mastery'}</h4>
+                                  <p>{lang === 'FR' ? 'Apprendre à signer son nom pour valider des actes civils.' : lang === 'NL' ? 'Elke vrouw leert haar eigen naam spellen, schrijven en ondertekenen. Dit bouwt direct cognitief zelfvertrouwen op.' : 'Every woman learns to spell, trace, and write her own name. This builds immediate cognitive confidence and legal signature validity.'}</p>
                                 </div>
                               </li>
                             </ul>
@@ -3174,8 +3176,8 @@ function App() {
                               <li className="curriculum-step">
                                 <div className="curriculum-num">2A</div>
                                 <div className="curriculum-details">
-                                  <h4>{lang === 'FR' ? 'Lecture Pratique de Phrases' : lang === 'ES' ? 'Lectura Práctica de Oraciones' : 'Practical Sentence Tracing'}</h4>
-                                  <p>{lang === 'FR' ? 'Lire des étiquettes de médicaments, des panneaux ou des documents scolaires.' : lang === 'ES' ? 'Formar oraciones simples relacionadas con las compras del mercado y las tareas escolares.' : 'Forming simple sentences geared around groceries, children\'s homework, and daily transit reading (bus signs, medical labels).'}</p>
+                                  <h4>{lang === 'FR' ? 'Lecture Pratique de Phrases' : lang === 'NL' ? 'Praktisch zinnen schrijven' : 'Practical Sentence Tracing'}</h4>
+                                  <p>{lang === 'FR' ? 'Lire des étiquettes de médicaments, des panneaux ou des documents scolaires.' : lang === 'NL' ? 'Eenvoudige zinnen vormen over boodschappen, huiswerk van kinderen en dagelijks lezen onderweg (verkeersborden, medische etiketten).' : 'Forming simple sentences geared around groceries, children\'s homework, and daily transit reading (bus signs, medical labels).'}</p>
                                 </div>
                               </li>
                             </ul>
@@ -3186,8 +3188,8 @@ function App() {
                               <li className="curriculum-step">
                                 <div className="curriculum-num">3A</div>
                                 <div className="curriculum-details">
-                                  <h4>{lang === 'FR' ? 'Introduction au Numérique' : lang === 'ES' ? 'Introducción a la Alfabetización Digital' : 'Digital Literacy Introduction'}</h4>
-                                  <p>{lang === 'FR' ? 'Apprendre à naviguer sur des tablettes tactiles éducatives.' : lang === 'ES' ? 'Aprender a usar tabletas, navegar por interfaces de aprendizaje y enviar mensajes.' : 'Learning how to use tablets, navigate web interfaces for learning materials, and type basic phone messages.'}</p>
+                                  <h4>{lang === 'FR' ? 'Introduction au Numérique' : lang === 'NL' ? 'Inleiding digitale geletterdheid' : 'Digital Literacy Introduction'}</h4>
+                                  <p>{lang === 'FR' ? 'Apprendre à naviguer sur des tablettes tactiles éducatives.' : lang === 'NL' ? 'Leren omgaan met tablets, surfen op educatieve leersites en eenvoudige berichten typen.' : 'Learning how to use tablets, navigate web interfaces for learning materials, and type basic phone messages.'}</p>
                                 </div>
                               </li>
                             </ul>
@@ -3300,7 +3302,7 @@ function App() {
                 }}
                 style={{ color: 'var(--primary)', textDecoration: 'underline', cursor: 'pointer' }}
               >
-                {lang === 'FR' ? 'politique relative aux cookies.' : lang === 'ES' ? 'política de cookies.' : 'cookie policy.'}
+                {lang === 'FR' ? 'politique relative aux cookies.' : lang === 'NL' ? 'cookiebeleid.' : 'cookie policy.'}
               </a>
             </p>
             <div className="cookie-buttons">

@@ -126,13 +126,6 @@ app.post("/api/contact", formLimiter, async (req, res) => {
   const { salutation, firstName, lastName, email, phone, reason, message, captchaToken } = req.body;
   const clientIp = req.ip || req.headers["x-forwarded-for"] || "0.0.0.0";
 
-  // Validate reCAPTCHA
-  const isCaptchaValid = await verifyRecaptcha(captchaToken, clientIp);
-  if (!isCaptchaValid) {
-    await logSecurityEvent("suspicious_activity", clientIp, "Failed reCAPTCHA challenge");
-    return res.status(400).json({ error: "reCAPTCHA verification failed. Please try again." });
-  }
-
   // Server-side validations
   if (!firstName || !lastName || !email || !reason || !message) {
     return res.status(400).json({ error: "First Name, Last Name, Email, Reason, and Message are required." });
@@ -148,8 +141,8 @@ app.post("/api/contact", formLimiter, async (req, res) => {
     return res.status(400).json({ error: "Please enter a valid email address." });
   }
 
-  if (message.length < 20 || message.length > 1200) {
-    return res.status(400).json({ error: "Message must be between 20 and 1200 characters." });
+  if (message.length < 12 || message.length > 1200) {
+    return res.status(400).json({ error: "Message must be between 12 and 1200 characters." });
   }
 
   function hasNumbers(str) {
@@ -244,7 +237,7 @@ app.post("/api/subscribe", formLimiter, async (req, res) => {
 
     // Save subscriber
     await pool.query(
-      "INSERT INTO newsletter_subscribers (full_name, email, status) VALUES (?, ?, 'Active')",
+      "INSERT INTO newsletter_subscribers (full_name, email, status) VALUES (?, ?, 'New')",
       [fullName, email]
     );
 
@@ -330,7 +323,8 @@ app.get("/api/admin/dashboard", authenticateAdmin, async (req, res) => {
     const [totalMsgRows] = await pool.query("SELECT COUNT(*) as count FROM contact_messages");
     const [unreadMsgRows] = await pool.query("SELECT COUNT(*) as count FROM contact_messages WHERE status = 'Unread'");
     const [repliedMsgRows] = await pool.query("SELECT COUNT(*) as count FROM contact_messages WHERE status = 'Replied'");
-    const [subscribersRows] = await pool.query("SELECT COUNT(*) as count FROM newsletter_subscribers WHERE status = 'Active'");
+    const [newSubscribersRows] = await pool.query("SELECT COUNT(*) as count FROM newsletter_subscribers WHERE status = 'New'");
+    const [activeSubscribersRows] = await pool.query("SELECT COUNT(*) as count FROM newsletter_subscribers WHERE status IN ('New', 'Active')");
 
     // Simple Monthly Growth (Grouped by Year-Month of subscription)
     const [growthRows] = await pool.query(`
@@ -347,7 +341,8 @@ app.get("/api/admin/dashboard", authenticateAdmin, async (req, res) => {
         totalMessages: totalMsgRows[0].count,
         unreadMessages: unreadMsgRows[0].count,
         repliedMessages: repliedMsgRows[0].count,
-        totalSubscribers: subscribersRows[0].count,
+        totalSubscribers: activeSubscribersRows[0].count,
+        newSubscribers: newSubscribersRows[0].count,
         monthlyGrowth: growthRows,
       },
     });
@@ -502,6 +497,17 @@ app.get("/api/admin/subscribers", authenticateAdmin, async (req, res) => {
   }
 });
 
+// Mark all subscribers as read (Active)
+app.post("/api/admin/subscribers/mark-read", authenticateAdmin, async (req, res) => {
+  try {
+    await pool.query("UPDATE newsletter_subscribers SET status = 'Active' WHERE status = 'New'");
+    return res.status(200).json({ success: true, message: "Subscribers marked as read." });
+  } catch (error) {
+    console.error("Failed to mark subscribers as read:", error);
+    return res.status(500).json({ error: "Failed to update subscribers." });
+  }
+});
+
 // Export Subscribers to CSV
 app.get("/api/admin/subscribers/export", authenticateAdmin, async (req, res) => {
   try {
@@ -528,9 +534,9 @@ app.get("/api/admin/subscribers/export", authenticateAdmin, async (req, res) => 
 // Update Subscriber Status
 app.patch("/api/admin/subscribers/:id", authenticateAdmin, async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body; // 'Active', 'Unsubscribed', 'Blocked'
+  const { status } = req.body; // 'New', 'Active', 'Unsubscribed', 'Blocked'
 
-  if (!["Active", "Unsubscribed", "Blocked"].includes(status)) {
+  if (!["New", "Active", "Unsubscribed", "Blocked"].includes(status)) {
     return res.status(400).json({ error: "Invalid status." });
   }
 
