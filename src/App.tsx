@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import { 
   Globe, 
   ChevronDown, 
@@ -24,7 +24,8 @@ import {
   Calendar,
   Briefcase,
   Award,
-  GraduationCap
+  GraduationCap,
+  Landmark
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -32,6 +33,102 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import SearchableCountrySelect from './SearchableCountrySelect';
 import 'react-phone-number-input/style.css';
 import './App.css';
+
+const hasNumbersOrSpecialCharacters = (text: string): boolean => {
+  return !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(text);
+};
+
+interface CustomPhoneInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }) => void;
+}
+
+const CustomPhoneInputInner = forwardRef<HTMLInputElement, CustomPhoneInputProps>((props, ref) => {
+  const { value, onChange, ...rest } = props;
+  const [localValue, setLocalValue] = useState<string>(value || '');
+  const [prevValue, setPrevValue] = useState<string>(value || '');
+
+  if (value !== prevValue) {
+    const cleanExternal = (value || '').replace(/\s/g, '');
+    const cleanLocal = (localValue || '').replace(/\s/g, '');
+    if (cleanExternal !== cleanLocal) {
+      setLocalValue(value || '');
+    }
+    setPrevValue(value || '');
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+    // Allow only digits, +, and spaces
+    val = val.replace(/[^0-9+\s]/g, '');
+    if (val.length > 20) {
+      val = val.slice(0, 20);
+    }
+    setLocalValue(val);
+
+    // Call external onChange with the cleaned value (without spaces)
+    if (onChange) {
+      const cleaned = val.replace(/\s/g, '');
+      const mockEvent = {
+        ...e,
+        target: {
+          ...e.target,
+          value: cleaned
+        }
+      };
+      onChange(mockEvent as React.ChangeEvent<HTMLInputElement>);
+    }
+  };
+
+  return (
+    <input
+      {...rest}
+      ref={ref}
+      value={localValue}
+      onChange={handleChange}
+      maxLength={20}
+    />
+  );
+});
+
+CustomPhoneInputInner.displayName = 'CustomPhoneInputInner';
+
+interface AdminUser {
+  id: number;
+  username: string;
+  role: string;
+  permissions: string[];
+}
+
+interface AdminMessage {
+  id: number;
+  salutation?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string | null;
+  reason: string;
+  message: string;
+  status: string;
+  created_at: string;
+}
+
+interface AdminSubscriber {
+  id: number;
+  full_name: string;
+  email: string;
+  status: string;
+  subscribed_at: string;
+}
+
+interface AdminStats {
+  totalMessages: number;
+  unreadMessages: number;
+  repliedMessages: number;
+  totalSubscribers: number;
+  newSubscribers?: number;
+  monthlyGrowth: Array<{ month: string; count: number }>;
+}
 
 const faqItems: Array<{
   q: Record<'EN' | 'FR' | 'NL', string>;
@@ -239,11 +336,24 @@ function App() {
     return 'FR';
   });
   const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const langSelectorRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
 
   useEffect(() => {
     localStorage.setItem('user_lang', lang);
   }, [lang]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langSelectorRef.current && !langSelectorRef.current.contains(event.target as Node)) {
+        setShowLangDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Navigation states
   const [isScrolled, setIsScrolled] = useState(false);
@@ -283,7 +393,10 @@ function App() {
   const [showCookiePolicyModal, setShowCookiePolicyModal] = useState(false);
 
   // Cookie Consent state
-  const [showCookies, setShowCookies] = useState(false);
+  const [showCookies, setShowCookies] = useState(() => {
+    const consent = localStorage.getItem('cookieConsent');
+    return !consent;
+  });
 
   // Landing Page: Contact Us Section
   const [contactSalutation, setContactSalutation] = useState('');
@@ -317,7 +430,7 @@ function App() {
   // Admin Dashboard States
   const [isAdminView, setIsAdminView] = useState(false);
   const [adminToken, setAdminToken] = useState<string | null>(() => localStorage.getItem('admin_token'));
-  const [adminUser, setAdminUser] = useState<any>(() => {
+  const [adminUser, setAdminUser] = useState<AdminUser | null>(() => {
     const user = localStorage.getItem('admin_user');
     return user ? JSON.parse(user) : null;
   });
@@ -325,9 +438,9 @@ function App() {
   const [adminPasswordInput, setAdminPasswordInput] = useState('');
   const [adminLoginError, setAdminLoginError] = useState<string | null>(null);
   const [adminActiveTab, setAdminActiveTab] = useState<'overview' | 'messages' | 'subscribers' | 'users' | 'settings'>('overview');
-  const [adminStats, setAdminStats] = useState<any>(null);
-  const [adminMessages, setAdminMessages] = useState<any[]>([]);
-  const [adminSubscribers, setAdminSubscribers] = useState<any[]>([]);
+  const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
+  const [adminMessages, setAdminMessages] = useState<AdminMessage[]>([]);
+  const [adminSubscribers, setAdminSubscribers] = useState<AdminSubscriber[]>([]);
   const [adminSearchQuery, setAdminSearchQuery] = useState('');
   const [adminStatusFilter, setAdminStatusFilter] = useState('');
   const [adminReplyText, setAdminReplyText] = useState('');
@@ -352,7 +465,7 @@ function App() {
 
   // States for sending and geo-ip country detection
   const [isSending, setIsSending] = useState(false);
-  const [defaultCountry, setDefaultCountry] = useState<any>('ET'); // Default to Ethiopia
+  const [defaultCountry, setDefaultCountry] = useState<string>('ET'); // Default to Ethiopia
 
   // Detect user country
   useEffect(() => {
@@ -363,7 +476,7 @@ function App() {
         if (country && country.trim().length === 2) {
           setDefaultCountry(country.trim().toUpperCase());
         }
-      } catch (err) {
+      } catch {
         // Fallback using timezone detection
         try {
           const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -437,7 +550,7 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Redirect back to contact form after 4 seconds on success
+  // Redirect back to contact form after 7 seconds on success
   useEffect(() => {
     if (contactSubmitted) {
       const timer = setTimeout(() => {
@@ -449,7 +562,7 @@ function App() {
         setContactMessage('');
         setContactSubject('');
         setContactPhone('');
-      }, 4000);
+      }, 7000);
       return () => clearTimeout(timer);
     }
   }, [contactSubmitted]);
@@ -457,13 +570,8 @@ function App() {
   // Footer newsletter email input
   const [footerEmail, setFooterEmail] = useState('');
 
-  // Handle scroll to add background glassmorphism & check cookies
+  // Handle scroll to add background glassmorphism
   useEffect(() => {
-    const consent = localStorage.getItem('cookieConsent');
-    if (!consent) {
-      setShowCookies(true);
-    }
-
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
@@ -502,23 +610,53 @@ function App() {
     setShowContactOnly(false);
   };
 
+  const openNewsletterModal = (prefilledEmail: string = '') => {
+    setNewsName('');
+    setNewsEmail(prefilledEmail);
+    setNewsConsent(false);
+    setNewsNameError(null);
+    setNewsEmailError(null);
+    setNewsConsentError(null);
+    setNewsFormError(null);
+    setShowNewsletterModal(true);
+  };
+
+  const closeNewsletterModal = () => {
+    setNewsName('');
+    setNewsEmail('');
+    setNewsConsent(false);
+    setNewsNameError(null);
+    setNewsEmailError(null);
+    setNewsConsentError(null);
+    setNewsFormError(null);
+    setShowNewsletterModal(false);
+  };
+
   // Submit Newsletter (Footer)
   const handleFooterNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValidEmail(footerEmail)) {
+    if (!footerEmail.trim()) {
       const errMsg = lang === 'FR' 
-        ? 'Veuillez entrer une adresse e-mail valide sans espaces.' 
+        ? 'Ce champ est obligatoire.' 
         : lang === 'NL' 
-          ? 'Voer een geldig e-mailadres in zonder spaties.' 
-          : 'Please enter a valid email address without spaces.';
+          ? 'Dit veld is verplicht.' 
+          : 'This field is required.';
       setFooterEmailError(errMsg);
       setFooterEmailSuccess(null);
-      triggerToast(errMsg);
+      return;
+    }
+    if (!isValidEmail(footerEmail)) {
+      const errMsg = lang === 'FR' 
+        ? 'Veuillez saisir une adresse e-mail valide.' 
+        : lang === 'NL' 
+          ? 'Voer een geldig e-mailadres in.' 
+          : 'Please enter a valid email address.';
+      setFooterEmailError(errMsg);
+      setFooterEmailSuccess(null);
       return;
     }
     setFooterEmailError(null);
-    setNewsEmail(footerEmail);
-    setShowNewsletterModal(true);
+    openNewsletterModal(footerEmail);
     setFooterEmail('');
   };
 
@@ -533,9 +671,9 @@ function App() {
             <p className="footer-desc">{t.footDesc}</p>
             
             <div className="footer-bank-details">
-              <div className="bank-title-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <img src="/assets/bank_logo.png" alt="Bank Logo" style={{ height: '48px', width: 'auto', objectFit: 'contain' }} />
-                <span className="bank-title" style={{ margin: 0, display: 'inline-block' }}>{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
+              <div className="bank-title-wrapper" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px', verticalAlign: 'middle' }}>
+                <Landmark size={32} style={{ color: '#e73d3d' }} className="shrink-0" />
+                <span className="bank-title" style={{ margin: 0, display: 'inline-block', lineHeight: '1.2' }}>{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
               </div>
               <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'NL' ? 'Naam van de rekening' : 'Account Name'}:</strong> <span className="bank-value">Likro Lihtov ASBL</span></p>
               <p><strong>IBAN:</strong> <span className="bank-value">BE45000456296989</span></p>
@@ -609,30 +747,30 @@ function App() {
             <h3 className="footer-col-title">{t.footStay}</h3>
             <div className="footer-subscribe">
               <p className="subscribe-text">{t.footSubText}</p>
-              {footerEmailError && (
-                <div className="form-error-msg" style={{ marginTop: '0', marginBottom: '12px' }}>
-                  {footerEmailError}
-                </div>
-              )}
               {footerEmailSuccess && (
                 <div className="form-success-msg" style={{ marginTop: '0', marginBottom: '12px' }}>
                   {footerEmailSuccess}
                 </div>
               )}
-              <form onSubmit={handleFooterNewsletterSubmit} className="subscribe-form">
-                <input 
-                  type="email" 
-                  placeholder={t.footSubPlaceholder} 
-                  value={footerEmail} 
-                  onChange={(e) => {
-                    setFooterEmail(e.target.value);
-                    if (footerEmailError) setFooterEmailError(null);
-                    if (footerEmailSuccess) setFooterEmailSuccess(null);
-                  }}
-                  className={`subscribe-input ${footerEmailError ? 'input-error' : ''}`}
-                  required
-                />
-                <button type="submit" className="subscribe-btn">{t.footSubBtn}</button>
+              <form onSubmit={handleFooterNewsletterSubmit} className="subscribe-form" noValidate style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', width: '100%' }}>
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <input 
+                    type="email" 
+                    placeholder={t.footSubPlaceholder} 
+                    value={footerEmail} 
+                    onChange={(e) => {
+                      setFooterEmail(e.target.value);
+                      if (footerEmailError) setFooterEmailError(null);
+                      if (footerEmailSuccess) setFooterEmailSuccess(null);
+                    }}
+                    className={`subscribe-input ${footerEmailError ? 'input-error' : ''}`}
+                    required
+                  />
+                  <button type="submit" className="subscribe-btn">{t.footSubBtn}</button>
+                </div>
+                {footerEmailError && (
+                  <span className="field-error-msg" style={{ margin: '4px 0 0 0' }}>{footerEmailError}</span>
+                )}
               </form>
             </div>
           </div>
@@ -663,29 +801,37 @@ function App() {
     setNewsConsentError(null);
     setNewsFormError(null);
 
-    const namePattern = /^[a-zA-Z\s'-]+$/;
-
     // Validate Name
     if (!newsName.trim()) {
-      setNewsNameError("Full Name is required.");
+      setNewsNameError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
-    } else if (newsName.length < 2 || newsName.length > 50 || !namePattern.test(newsName)) {
-      setNewsNameError("Please enter a valid name. Numbers and special characters are not allowed.");
+    } else if (hasNumbersOrSpecialCharacters(newsName)) {
+      setNewsNameError(
+        lang === 'FR' ? "Le nom ne peut pas contenir de chiffres ni de caractères spéciaux." : lang === 'NL' ? "De naam mag geen cijfers of speciale tekens bevatten." : "The name cannot contain numbers or special characters."
+      );
       hasError = true;
     }
 
     // Validate Email
     if (!newsEmail.trim()) {
-      setNewsEmailError("Please enter a valid email address.");
+      setNewsEmailError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
     } else if (!isValidEmail(newsEmail)) {
-      setNewsEmailError("Please enter a valid email address.");
+      setNewsEmailError(
+        lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address."
+      );
       hasError = true;
     }
 
     // Validate Consent
     if (!newsConsent) {
-      setNewsConsentError("You must agree to receive updates before subscribing.");
+      setNewsConsentError(
+        lang === 'FR' ? "Vous devez accepter de recevoir des informations avant de vous abonner." : lang === 'NL' ? "Je moet akkoord gaan met het ontvangen van updates voordat je je kunt abonneren." : "You must agree to receive updates before subscribing."
+      );
       hasError = true;
     }
 
@@ -713,10 +859,7 @@ function App() {
         setTimeout(() => {
           setFooterEmailSuccess(null);
         }, 5000);
-        setShowNewsletterModal(false);
-        setNewsName("");
-        setNewsEmail("");
-        setNewsConsent(false);
+        closeNewsletterModal();
       } else {
         setNewsFormError(data.error || "Subscription failed. Please try again.");
         triggerToast(data.error || "Subscription failed.");
@@ -728,10 +871,7 @@ function App() {
       setTimeout(() => {
         setFooterEmailSuccess(null);
       }, 5000);
-      setShowNewsletterModal(false);
-      setNewsName("");
-      setNewsEmail("");
-      setNewsConsent(false);
+      closeNewsletterModal();
     } finally {
       setIsSending(false);
     }
@@ -777,6 +917,10 @@ function App() {
     e.preventDefault();
     let hasError = false;
 
+    // Clean spaces from phone number and update state so it's stripped on submit
+    const cleanedPhone = contactPhone.replace(/\s/g, '');
+    setContactPhone(cleanedPhone);
+
     // Reset error states
     setContactFirstNameError(null);
     setContactLastNameError(null);
@@ -789,54 +933,76 @@ function App() {
 
     // Validate First Name
     if (!contactFirstName.trim()) {
-      setContactFirstNameError("First name is required.");
+      setContactFirstNameError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
-    } else if (hasNumbers(contactFirstName)) {
-      setContactFirstNameError("Names cannot contain numbers.");
+    } else if (hasNumbersOrSpecialCharacters(contactFirstName)) {
+      setContactFirstNameError(
+        lang === 'FR' ? "Le nom ne peut pas contenir de chiffres ni de caractères spéciaux." : lang === 'NL' ? "De naam mag geen cijfers of speciale tekens bevatten." : "The name cannot contain numbers or special characters."
+      );
       hasError = true;
     }
 
     // Validate Last Name
     if (!contactLastName.trim()) {
-      setContactLastNameError("Last name is required.");
+      setContactLastNameError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
-    } else if (hasNumbers(contactLastName)) {
-      setContactLastNameError("Names cannot contain numbers.");
+    } else if (hasNumbersOrSpecialCharacters(contactLastName)) {
+      setContactLastNameError(
+        lang === 'FR' ? "Le nom ne peut pas contenir de chiffres ni de caractères spéciaux." : lang === 'NL' ? "De naam mag geen cijfers of speciale tekens bevatten." : "The name cannot contain numbers or special characters."
+      );
       hasError = true;
     }
 
     // Validate Email
     if (!contactEmail.trim()) {
-      setContactEmailError("Email is required.");
+      setContactEmailError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
     } else if (!isValidEmail(contactEmail)) {
-      setContactEmailError("Please enter a valid email address.");
+      setContactEmailError(
+        lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address."
+      );
       hasError = true;
     }
 
     // Validate Phone (optional)
-    if (contactPhone) {
-      if (hasLetters(contactPhone)) {
-        setContactPhoneError("Phone number cannot contain letters.");
+    if (cleanedPhone) {
+      if (hasLetters(cleanedPhone)) {
+        setContactPhoneError(
+          lang === 'FR' ? "Le numéro de téléphone ne peut pas contenir de lettres." : lang === 'NL' ? "Telefoonnummer mag geen letters bevatten." : "Phone number cannot contain letters."
+        );
         hasError = true;
-      } else if (!isValidPhoneNumber(contactPhone)) {
-        setContactPhoneError("Please enter a valid international phone number.");
+      } else if (!isValidPhoneNumber(cleanedPhone)) {
+        setContactPhoneError(
+          lang === 'FR' ? "Veuillez saisir un numéro de téléphone international valide." : lang === 'NL' ? "Voer een geldig internationaal telefoonnummer in." : "Please enter a valid international phone number."
+        );
         hasError = true;
       }
     }
 
     // Validate Reason
     if (!contactSubject || contactSubject === "default" || !contactSubject.trim()) {
-      setContactReasonError("Reason for contact is required.");
+      setContactReasonError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
     }
 
     // Validate Message
     if (!contactMessage.trim()) {
-      setContactMessageError("Message is required.");
+      setContactMessageError(
+        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
+      );
       hasError = true;
     } else if (contactMessage.length < 12 || contactMessage.length > 1200) {
-      setContactMessageError("Message must be between 12 and 1200 characters.");
+      setContactMessageError(
+        lang === 'FR' ? "Votre message doit contenir entre 12 et 1200 caractères." : lang === 'NL' ? "Jouw bericht moet tussen 12 en 1200 tekens bevatten." : "Your message must be between 12 and 1200 characters."
+      );
       hasError = true;
     }
 
@@ -860,7 +1026,7 @@ function App() {
           firstName: contactFirstName,
           lastName: contactLastName,
           email: contactEmail,
-          phone: contactPhone || "",
+          phone: cleanedPhone,
           reason: contactSubject,
           message: contactMessage,
           captchaToken: "dummy_recaptcha_token", // verified on backend
@@ -1004,7 +1170,7 @@ function App() {
           reason: "General Information",
           message: "Bonjour, je souhaiterais obtenir plus d'informations sur vos prochains ateliers d'alphabétisation à Bruxelles. Merci!",
           status: "Unread",
-          created_at: new Date(Date.now() - 3600000 * 2).toISOString()
+          created_at: "2026-06-25T22:00:00.000Z"
         },
         {
           id: 2,
@@ -1016,7 +1182,7 @@ function App() {
           reason: "Volunteering",
           message: "Hello! I am a retired teacher and would love to volunteer for your reading programs next semester. Please let me know how I can apply.",
           status: "Read",
-          created_at: new Date(Date.now() - 3600000 * 24).toISOString()
+          created_at: "2026-06-25T00:00:00.000Z"
         },
         {
           id: 3,
@@ -1028,7 +1194,7 @@ function App() {
           reason: "Partnership Opportunities",
           message: "Estimados señores, representamos a una fundación educativa en España y nos gustaría proponer una colaboración en proyectos europeos conjuntos.",
           status: "Replied",
-          created_at: new Date(Date.now() - 3600000 * 72).toISOString()
+          created_at: "2026-06-23T00:00:00.000Z"
         }
       ];
       
@@ -1070,28 +1236,28 @@ function App() {
           full_name: "Jean Dupont",
           email: "jean.dupont@gmail.com",
           status: "Active",
-          subscribed_at: new Date(Date.now() - 3600000 * 12).toISOString()
+          subscribed_at: "2026-06-25T12:00:00.000Z"
         },
         {
           id: 2,
           full_name: "Sarah Smith",
           email: "sarah.smith@outlook.com",
           status: "Active",
-          subscribed_at: new Date(Date.now() - 3600000 * 48).toISOString()
+          subscribed_at: "2026-06-24T00:00:00.000Z"
         },
         {
           id: 3,
           full_name: "Alex Garcia",
           email: "alex.garcia@hotmail.com",
           status: "Blocked",
-          subscribed_at: new Date(Date.now() - 3600000 * 96).toISOString()
+          subscribed_at: "2026-06-22T00:00:00.000Z"
         },
         {
           id: 4,
           full_name: "Marie Dubois",
           email: "marie.dubois@gmail.com",
           status: "Unsubscribed",
-          subscribed_at: new Date(Date.now() - 3600000 * 200).toISOString()
+          subscribed_at: "2026-06-17T00:00:00.000Z"
         }
       ];
       
@@ -1573,7 +1739,7 @@ function App() {
                       </thead>
                       <tbody>
                         {adminStats?.monthlyGrowth && adminStats.monthlyGrowth.length > 0 ? (
-                          adminStats.monthlyGrowth.map((row: any, i: number) => (
+                          adminStats.monthlyGrowth.map((row: { month: string; count: number }, i: number) => (
                             <tr key={i} className="border-b border-slate-800 hover:bg-slate-800/50">
                               <td className="px-6 py-4 font-bold text-white">{row.month}</td>
                               <td className="px-6 py-4">{row.count}</td>
@@ -2047,7 +2213,7 @@ function App() {
       {showNewsletterModal && (
         <div className="modal-overlay">
           <div className="modal-content animate-fade-in">
-            <button className="modal-close" onClick={() => setShowNewsletterModal(false)} aria-label="Close">
+            <button className="modal-close" onClick={closeNewsletterModal} aria-label="Close">
               <X size={20} />
             </button>
             <div className="modal-header-box">
@@ -2055,7 +2221,7 @@ function App() {
               <h2>{t.newsTitle}</h2>
               <p>{t.newsSub}</p>
             </div>
-            <form onSubmit={handleNewsletterModalSubmit} className="donate-form">
+            <form onSubmit={handleNewsletterModalSubmit} className="donate-form" noValidate>
               {newsFormError && (
                 <div className="form-error-msg" style={{ marginTop: '0', marginBottom: '16px' }}>
                   {newsFormError}
@@ -2443,7 +2609,7 @@ function App() {
           {/* Action buttons */}
           <div className="header-actions">
             {/* Lang Dropdown */}
-            <div className="lang-selector-wrapper">
+            <div className="lang-selector-wrapper" ref={langSelectorRef}>
               <button className="lang-selector" onClick={() => setShowLangDropdown(!showLangDropdown)}>
                 <Globe size={15} />
                 <span>{lang}</span>
@@ -2501,7 +2667,7 @@ function App() {
               <button 
                 type="button" 
                 className="btn-hero"
-                onClick={() => setShowNewsletterModal(true)}
+                onClick={() => openNewsletterModal()}
               >
                 <Mail size={18} />
                 <span>{t.heroRegBtn}</span>
@@ -2711,7 +2877,7 @@ function App() {
                   <p style={{ marginBottom: '20px', fontSize: '13px', color: 'var(--text-dark)' }}>
                     {t.conRequiredFieldsText}
                   </p>
-                  <form onSubmit={handleContactSubmit} className="contact-form">
+                  <form onSubmit={handleContactSubmit} className="contact-form" noValidate>
                     <div className="form-group-row">
                       <div className="form-field-group" style={{ gridColumn: '1 / -1' }}>
                         <label className="form-field-label">
@@ -2812,8 +2978,9 @@ function App() {
                             if (contactPhoneError) setContactPhoneError(null);
                             if (contactFormError) setContactFormError(null);
                           }}
-                          defaultCountry={defaultCountry}
+                          defaultCountry={defaultCountry as "ET"}
                           countrySelectComponent={SearchableCountrySelect}
+                          inputComponent={CustomPhoneInputInner}
                           className={`react-phone-input-field ${contactPhoneError ? 'input-error' : ''}`}
                           disabled={isSending}
                         />
