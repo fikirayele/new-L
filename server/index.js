@@ -20,7 +20,7 @@ import { verifyRecaptcha } from "./utils/recaptcha.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || "new_l_jwt_secret_key_123!";
 
 // 1. Initialize Tables
@@ -120,6 +120,28 @@ function isValidEmail(email) {
 }
 
 // ================= PUBLIC ENDPOINTS =================
+
+// Database Connection Diagnostics
+app.get("/api/db-check", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT 1 as connected");
+    return res.status(200).json({
+      success: true,
+      message: "Database connection successful!",
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      result: rows
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+      error: error.message,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME
+    });
+  }
+});
 
 // Contact Form submission
 app.post("/api/contact", formLimiter, async (req, res) => {
@@ -305,10 +327,7 @@ app.post("/api/admin/login", loginLimiter, async (req, res) => {
     return res.status(500).json({ error: "Internal server error during login." });
   }
 });
-// ✅ ONLY ONCE HERE (BOTTOM OF FILE)
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+// Note: app.listen has been moved to the bottom of the file to support Vite middleware registration.
 
 // Admin Logout
 app.post("/api/admin/logout", (req, res) => {
@@ -601,10 +620,25 @@ app.post("/api/admin/users", authenticateAdmin, async (req, res) => {
   }
 });
 
-// Serve static files from React build directory
-app.use(express.static(path.join(__dirname, "../dist")));
+// Serve static files / Vite middleware
+if (process.env.NODE_ENV !== "production") {
+  const { createServer: createViteServer } = await import("vite");
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: "spa",
+  });
+  app.use(vite.middlewares);
+} else {
+  // Serve static files from React build directory
+  app.use(express.static(path.join(__dirname, "../dist")));
 
-// Fallback Route to serve index.html for SPA routing
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
+  // Fallback Route to serve index.html for SPA routing
+  app.use((req, res) => {
+    res.sendFile(path.join(__dirname, "../dist/index.html"));
+  });
+}
+
+// Start the server
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });

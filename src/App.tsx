@@ -44,7 +44,7 @@ interface CustomPhoneInputProps extends Omit<React.InputHTMLAttributes<HTMLInput
 }
 
 const CustomPhoneInputInner = forwardRef<HTMLInputElement, CustomPhoneInputProps>((props, ref) => {
-  const { value, onChange, ...rest } = props;
+  const { value, onChange, onKeyDown, ...rest } = props;
   const [localValue, setLocalValue] = useState<string>(value || '');
   const [prevValue, setPrevValue] = useState<string>(value || '');
 
@@ -57,6 +57,29 @@ const CustomPhoneInputInner = forwardRef<HTMLInputElement, CustomPhoneInputProps
     setPrevValue(value || '');
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace') {
+      const input = e.currentTarget;
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      if (start !== null && start === end && start > 0) {
+        const charToLeft = localValue[start - 1];
+        if (charToLeft === ' ') {
+          e.preventDefault();
+          const newVal = localValue.slice(0, start - 1) + localValue.slice(start);
+          setLocalValue(newVal);
+          setTimeout(() => {
+            input.setSelectionRange(start - 1, start - 1);
+          }, 0);
+          return;
+        }
+      }
+    }
+    if (onKeyDown) {
+      onKeyDown(e);
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
     // Allow only digits, +, and spaces
@@ -66,14 +89,13 @@ const CustomPhoneInputInner = forwardRef<HTMLInputElement, CustomPhoneInputProps
     }
     setLocalValue(val);
 
-    // Call external onChange with the cleaned value (without spaces)
+    // Call external onChange with the value containing spaces to preserve length/selection indices
     if (onChange) {
-      const cleaned = val.replace(/\s/g, '');
       const mockEvent = {
         ...e,
         target: {
           ...e.target,
-          value: cleaned
+          value: val
         }
       };
       onChange(mockEvent as React.ChangeEvent<HTMLInputElement>);
@@ -86,6 +108,7 @@ const CustomPhoneInputInner = forwardRef<HTMLInputElement, CustomPhoneInputProps
       ref={ref}
       value={localValue}
       onChange={handleChange}
+      onKeyDown={handleKeyDown}
       maxLength={20}
     />
   );
@@ -421,11 +444,30 @@ function App() {
 
   const [contactFormError, setContactFormError] = useState<string | null>(null);
 
+  const clearContactForm = () => {
+    setContactSalutation('');
+    setContactFirstName('');
+    setContactLastName('');
+    setContactEmail('');
+    setContactPhone('');
+    setContactSubject('');
+    setContactMessage('');
+    setContactFirstNameError(null);
+    setContactLastNameError(null);
+    setContactEmailError(null);
+    setContactPhoneError(null);
+    setContactReasonError(null);
+    setContactMessageError(null);
+    setContactFormError(null);
+    setContactSubmitted(false);
+  };
+
   // Validation States for Newsletter Modal Form
   const [newsNameError, setNewsNameError] = useState<string | null>(null);
   const [newsEmailError, setNewsEmailError] = useState<string | null>(null);
   const [newsConsentError, setNewsConsentError] = useState<string | null>(null);
   const [newsFormError, setNewsFormError] = useState<string | null>(null);
+  const [newsSubmitted, setNewsSubmitted] = useState(false);
 
   // Admin Dashboard States
   const [isAdminView, setIsAdminView] = useState(false);
@@ -462,6 +504,17 @@ function App() {
   const [settingsSmtpPass, setSettingsSmtpPass] = useState('');
   const [settingsSessionTimeout, setSettingsSessionTimeout] = useState('2');
   const [settingsSuccessMsg, setSettingsSuccessMsg] = useState<string | null>(null);
+
+  // Database Connection Diagnostics States
+  const [dbCheckLoading, setDbCheckLoading] = useState(false);
+  const [dbCheckResult, setDbCheckResult] = useState<{
+    success: boolean;
+    message: string;
+    host?: string;
+    database?: string;
+    error?: string;
+    result?: unknown;
+  } | null>(null);
 
   // States for sending and geo-ip country detection
   const [isSending, setIsSending] = useState(false);
@@ -599,13 +652,17 @@ function App() {
       setIsDrawerOpen(true);
       setMobileMenuOpen(false);
       setActiveCurriculumTab(1);
+      // eslint-disable-next-line react-hooks/immutability
       document.body.style.overflow = 'hidden';
+      clearContactForm();
     }
   };
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
+    // eslint-disable-next-line react-hooks/immutability
     document.body.style.overflow = '';
+    // eslint-disable-next-line react-hooks/immutability
     window.location.hash = '';
     setShowContactOnly(false);
   };
@@ -618,6 +675,7 @@ function App() {
     setNewsEmailError(null);
     setNewsConsentError(null);
     setNewsFormError(null);
+    setNewsSubmitted(false);
     setShowNewsletterModal(true);
   };
 
@@ -629,6 +687,7 @@ function App() {
     setNewsEmailError(null);
     setNewsConsentError(null);
     setNewsFormError(null);
+    setNewsSubmitted(false);
     setShowNewsletterModal(false);
   };
 
@@ -665,14 +724,14 @@ function App() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <a href="#" className="footer-logo" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = ''; setShowContactOnly(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+            <a href="#" className="footer-logo" onClick={(e) => { e.preventDefault(); closeDrawer(); window.location.hash = ''; setShowContactOnly(false); window.scrollTo({ top: 0, behavior: 'smooth' }); clearContactForm(); }}>
               Likro <span>&</span> Lihtov
             </a>
             <p className="footer-desc">{t.footDesc}</p>
             
             <div className="footer-bank-details">
               <div className="bank-title-wrapper" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px', verticalAlign: 'middle' }}>
-                <Landmark size={32} style={{ color: '#e73d3d' }} className="shrink-0" />
+                <Landmark size={32} style={{ color: '#ef4444' }} className="shrink-0" />
                 <span className="bank-title" style={{ margin: 0, display: 'inline-block', lineHeight: '1.2' }}>{lang === 'FR' ? 'Coordonnées Bancaires' : lang === 'NL' ? 'Bankgegevens' : 'Bank Account Details'}</span>
               </div>
               <p><strong>{lang === 'FR' ? 'Nom du compte' : lang === 'NL' ? 'Naam van de rekening' : 'Account Name'}:</strong> <span className="bank-value">Likro Lihtov ASBL</span></p>
@@ -699,11 +758,11 @@ function App() {
           <div>
             <h3 className="footer-col-title">{t.footNav}</h3>
             <ul className="footer-links">
-              <li><a onClick={() => { closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</a></li>
+              <li><a onClick={() => { closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); clearContactForm(); }}>Home</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('about-organization'); }}>{t.navAboutOrg}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('about-goals'); }}>{t.navAboutGoals}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('projects-construction'); }}>{t.navProjectsConst}</a></li>
-              <li><a href="#contacts-section" onClick={() => closeDrawer()}>{lang === 'FR' ? 'Contactez-nous' : lang === 'NL' ? 'Contact' : 'Contact us'}</a></li>
+              <li><a href="#contacts-section" onClick={() => { closeDrawer(); clearContactForm(); }}>{lang === 'FR' ? 'Contactez-nous' : lang === 'NL' ? 'Contact' : 'Contact us'}</a></li>
             </ul>
           </div>
 
@@ -803,35 +862,25 @@ function App() {
 
     // Validate Name
     if (!newsName.trim()) {
-      setNewsNameError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setNewsNameError('required');
       hasError = true;
     } else if (hasNumbersOrSpecialCharacters(newsName)) {
-      setNewsNameError(
-        lang === 'FR' ? "Le nom ne peut pas contenir de chiffres ni de caractères spéciaux." : lang === 'NL' ? "De naam mag geen cijfers of speciale tekens bevatten." : "The name cannot contain numbers or special characters."
-      );
+      setNewsNameError('invalid');
       hasError = true;
     }
 
     // Validate Email
     if (!newsEmail.trim()) {
-      setNewsEmailError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setNewsEmailError('required');
       hasError = true;
     } else if (!isValidEmail(newsEmail)) {
-      setNewsEmailError(
-        lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address."
-      );
+      setNewsEmailError('invalid');
       hasError = true;
     }
 
     // Validate Consent
     if (!newsConsent) {
-      setNewsConsentError(
-        lang === 'FR' ? "Vous devez accepter de recevoir des informations avant de vous abonner." : lang === 'NL' ? "Je moet akkoord gaan met het ontvangen van updates voordat je je kunt abonneren." : "You must agree to receive updates before subscribing."
-      );
+      setNewsConsentError('required');
       hasError = true;
     }
 
@@ -854,24 +903,13 @@ function App() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setFooterEmailSuccess(t.newsSuccess);
-        triggerToast(t.newsSuccess);
-        setTimeout(() => {
-          setFooterEmailSuccess(null);
-        }, 5000);
-        closeNewsletterModal();
+        setNewsSubmitted(true);
       } else {
         setNewsFormError(data.error || "Subscription failed. Please try again.");
-        triggerToast(data.error || "Subscription failed.");
       }
     } catch (err) {
       console.warn("API offline, falling back to successful newsletter subscription state:", err);
-      setFooterEmailSuccess(t.newsSuccess);
-      triggerToast(t.newsSuccess);
-      setTimeout(() => {
-        setFooterEmailSuccess(null);
-      }, 5000);
-      closeNewsletterModal();
+      setNewsSubmitted(true);
     } finally {
       setIsSending(false);
     }
@@ -933,83 +971,58 @@ function App() {
 
     // Validate First Name
     if (!contactFirstName.trim()) {
-      setContactFirstNameError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setContactFirstNameError('required');
       hasError = true;
     } else if (hasNumbersOrSpecialCharacters(contactFirstName)) {
-      setContactFirstNameError(
-        lang === 'FR' ? "Le nom ne peut pas contenir de chiffres ni de caractères spéciaux." : lang === 'NL' ? "De naam mag geen cijfers of speciale tekens bevatten." : "The name cannot contain numbers or special characters."
-      );
+      setContactFirstNameError('invalid');
       hasError = true;
     }
 
     // Validate Last Name
     if (!contactLastName.trim()) {
-      setContactLastNameError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setContactLastNameError('required');
       hasError = true;
     } else if (hasNumbersOrSpecialCharacters(contactLastName)) {
-      setContactLastNameError(
-        lang === 'FR' ? "Le nom ne peut pas contenir de chiffres ni de caractères spéciaux." : lang === 'NL' ? "De naam mag geen cijfers of speciale tekens bevatten." : "The name cannot contain numbers or special characters."
-      );
+      setContactLastNameError('invalid');
       hasError = true;
     }
 
     // Validate Email
     if (!contactEmail.trim()) {
-      setContactEmailError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setContactEmailError('required');
       hasError = true;
     } else if (!isValidEmail(contactEmail)) {
-      setContactEmailError(
-        lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address."
-      );
+      setContactEmailError('invalid');
       hasError = true;
     }
 
     // Validate Phone (optional)
     if (cleanedPhone) {
       if (hasLetters(cleanedPhone)) {
-        setContactPhoneError(
-          lang === 'FR' ? "Le numéro de téléphone ne peut pas contenir de lettres." : lang === 'NL' ? "Telefoonnummer mag geen letters bevatten." : "Phone number cannot contain letters."
-        );
+        setContactPhoneError('invalid');
         hasError = true;
       } else if (!isValidPhoneNumber(cleanedPhone)) {
-        setContactPhoneError(
-          lang === 'FR' ? "Veuillez saisir un numéro de téléphone international valide." : lang === 'NL' ? "Voer een geldig internationaal telefoonnummer in." : "Please enter a valid international phone number."
-        );
+        setContactPhoneError('invalid');
         hasError = true;
       }
     }
 
     // Validate Reason
     if (!contactSubject || contactSubject === "default" || !contactSubject.trim()) {
-      setContactReasonError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setContactReasonError('required');
       hasError = true;
     }
 
     // Validate Message
     if (!contactMessage.trim()) {
-      setContactMessageError(
-        lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."
-      );
+      setContactMessageError('required');
       hasError = true;
     } else if (contactMessage.length < 12 || contactMessage.length > 1200) {
-      setContactMessageError(
-        lang === 'FR' ? "Votre message doit contenir entre 12 et 1200 caractères." : lang === 'NL' ? "Jouw bericht moet tussen 12 en 1200 tekens bevatten." : "Your message must be between 12 and 1200 characters."
-      );
+      setContactMessageError('too_short_or_long');
       hasError = true;
     }
 
-
-
     if (hasError) {
-      triggerToast("Please correct the errors in the form before submitting.");
       return;
     }
 
@@ -1488,6 +1501,32 @@ function App() {
     setTimeout(() => setSettingsSuccessMsg(null), 3000);
   };
 
+  const handleRunDbCheck = async () => {
+    setDbCheckLoading(true);
+    setDbCheckResult(null);
+    try {
+      const res = await apiFetch("/api/db-check");
+      const data = await res.json();
+      setDbCheckResult({
+        success: res.ok && data.success,
+        message: data.message || (res.ok ? "Database connection check completed successfully!" : "Database connection failed"),
+        host: data.host,
+        database: data.database,
+        error: data.error,
+        result: data.result,
+      });
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      setDbCheckResult({
+        success: false,
+        message: "Network error trying to connect to the database diagnostics endpoint.",
+        error: errorMsg,
+      });
+    } finally {
+      setDbCheckLoading(false);
+    }
+  };
+
   // Run stats/fetching when in admin dashboard view
   useEffect(() => {
     if (isAdminView && adminToken) {
@@ -1677,7 +1716,7 @@ function App() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <div>
-                <strong>Running in Offline / Mock Data Mode:</strong> Unable to connect to the backend server. Please make sure your server is running on port 5000, then log out and sign in with your correct admin credentials to see live database records.
+                <strong>Running in Offline / Mock Data Mode:</strong> Unable to connect to the backend database server (Aiven MySQL) or the backend server itself. Please check the <strong>Database Diagnostics</strong> section in the <strong>Settings</strong> tab, or log out and log back in with your correct admin credentials when the server is online.
               </div>
             </div>
           )}
@@ -2188,6 +2227,41 @@ function App() {
                   Save Settings
                 </button>
               </form>
+
+              <div className="border-t border-slate-800 pt-6 mt-6">
+                <h4 className="text-sm font-bold text-rose-500 mb-4">Database Diagnostics</h4>
+                <p className="text-xs text-slate-400 mb-4">
+                  Check if the server can successfully connect to the MySQL database (Aiven Cloud DB).
+                </p>
+                <button
+                  type="button"
+                  onClick={handleRunDbCheck}
+                  disabled={dbCheckLoading}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider transition-colors disabled:opacity-50"
+                >
+                  {dbCheckLoading ? "Checking Connection..." : "Run Connection Diagnostics"}
+                </button>
+
+                {dbCheckResult && (
+                  <div className={`mt-4 p-4 rounded-xl border text-sm font-medium ${dbCheckResult.success ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-rose-500/10 border-rose-500/20 text-rose-400'}`}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`w-2.5 h-2.5 rounded-full ${dbCheckResult.success ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
+                      <strong>{dbCheckResult.success ? "Connection Successful" : "Connection Failed"}</strong>
+                    </div>
+                    <p className="text-xs opacity-90 mb-2">{dbCheckResult.message}</p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 mt-3">
+                      <div><span className="text-slate-500">Host:</span> {dbCheckResult.host || "Unknown"}</div>
+                      <div><span className="text-slate-500">Database:</span> {dbCheckResult.database || "Unknown"}</div>
+                      {dbCheckResult.error && (
+                        <div className="col-span-1 sm:col-span-2 mt-2 text-rose-400 border-t border-slate-900 pt-2 break-all whitespace-pre-wrap">
+                          <span className="text-rose-500 font-bold">Error:</span> {dbCheckResult.error}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </main>
@@ -2216,80 +2290,114 @@ function App() {
             <button className="modal-close" onClick={closeNewsletterModal} aria-label="Close">
               <X size={20} />
             </button>
-            <div className="modal-header-box">
-              <Mail className="heart-icon" size={32} />
-              <h2>{t.newsTitle}</h2>
-              <p>{t.newsSub}</p>
-            </div>
-            <form onSubmit={handleNewsletterModalSubmit} className="donate-form" noValidate>
-              {newsFormError && (
-                <div className="form-error-msg" style={{ marginTop: '0', marginBottom: '16px' }}>
-                  {newsFormError}
+            {!newsSubmitted ? (
+              <>
+                <div className="modal-header-box">
+                  <Mail className="heart-icon" size={32} />
+                  <h2>{t.newsTitle}</h2>
+                  <p>{t.newsSub}</p>
                 </div>
-              )}
-              <div className="form-field-group" style={{ marginBottom: '16px' }}>
-                <label className="form-field-label">{t.newsName}</label>
-                <input
-                  type="text"
-                  placeholder=""
-                  value={newsName}
-                  onChange={(e) => {
-                    setNewsName(e.target.value);
-                    if (newsNameError) setNewsNameError(null);
-                    if (newsFormError) setNewsFormError(null);
-                  }}
-                  className={`form-input ${newsNameError ? 'input-error' : ''}`}
-                  required
-                />
-                {newsNameError && (
-                  <span className="field-error-msg">{newsNameError}</span>
-                )}
-              </div>
-              <div className="form-field-group" style={{ marginBottom: '20px' }}>
-                <label className="form-field-label">{t.newsEmail}</label>
-                <input
-                  type="email"
-                  placeholder=""
-                  value={newsEmail}
-                  onChange={(e) => {
-                    setNewsEmail(e.target.value);
-                    if (newsEmailError) setNewsEmailError(null);
-                    if (newsFormError) setNewsFormError(null);
-                  }}
-                  className={`form-input ${newsEmailError ? 'input-error' : ''}`}
-                  required
-                />
-                {newsEmailError && (
-                  <span className="field-error-msg">{newsEmailError}</span>
-                )}
-              </div>
-              <div className="form-field-group" style={{ marginBottom: '24px' }}>
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
-                  <input
-                    type="checkbox"
-                    id="consent"
-                    checked={newsConsent}
-                    onChange={(e) => {
-                      setNewsConsent(e.target.checked);
-                      if (newsConsentError) setNewsConsentError(null);
-                      if (newsFormError) setNewsFormError(null);
-                    }}
-                    className="newsletter-checkbox"
-                  />
-                  <label htmlFor="consent" style={{ fontSize: '12px', color: 'var(--text-muted)', cursor: 'pointer', lineHeight: '1.4' }}>
-                    {t.newsConsent}
-                  </label>
+                <form onSubmit={handleNewsletterModalSubmit} className="donate-form" noValidate>
+                  {newsFormError && (
+                    <div className="form-error-msg" style={{ marginTop: '0', marginBottom: '16px' }}>
+                      {newsFormError}
+                    </div>
+                  )}
+                  <div className="form-field-group" style={{ marginBottom: '16px' }}>
+                    <label className="form-field-label">{t.newsName}</label>
+                    <input
+                      type="text"
+                      placeholder=""
+                      value={newsName}
+                      onChange={(e) => {
+                        setNewsName(e.target.value);
+                        if (newsNameError) setNewsNameError(null);
+                        if (newsFormError) setNewsFormError(null);
+                      }}
+                      className={`form-input ${newsNameError ? 'input-error' : ''}`}
+                      required
+                    />
+                    {newsNameError && (
+                      <span className="field-error-msg">
+                        {lang === 'FR' ? "Veuillez saisir un nom valide." : lang === 'NL' ? "Voer een geldige naam in." : "Please enter a valid name."}
+                      </span>
+                    )}
+                  </div>
+                  <div className="form-field-group" style={{ marginBottom: '20px' }}>
+                    <label className="form-field-label">{t.newsEmail}</label>
+                    <input
+                      type="email"
+                      placeholder=""
+                      value={newsEmail}
+                      onChange={(e) => {
+                        setNewsEmail(e.target.value);
+                        if (newsEmailError) setNewsEmailError(null);
+                        if (newsFormError) setNewsFormError(null);
+                      }}
+                      className={`form-input ${newsEmailError ? 'input-error' : ''}`}
+                      required
+                    />
+                    {newsEmailError && (
+                      <span className="field-error-msg">
+                        {newsEmailError === 'required'
+                          ? (lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required.")
+                          : (lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address.")
+                        }
+                      </span>
+                    )}
+                  </div>
+                  <div className="form-field-group" style={{ marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                      <input
+                        type="checkbox"
+                        id="consent"
+                        checked={newsConsent}
+                        onChange={(e) => {
+                          setNewsConsent(e.target.checked);
+                          if (newsConsentError) setNewsConsentError(null);
+                          if (newsFormError) setNewsFormError(null);
+                        }}
+                        className="newsletter-checkbox"
+                      />
+                      <label htmlFor="consent" style={{ fontSize: '12px', color: 'var(--text-muted)', cursor: 'pointer', lineHeight: '1.4' }}>
+                        {t.newsConsent}
+                      </label>
+                    </div>
+                    {newsConsentError && (
+                      <span className="field-error-msg" style={{ marginTop: '6px' }}>
+                        {lang === 'FR' ? "Vous devez accepter de recevoir des informations avant de vous abonner." : lang === 'NL' ? "Je moet akkoord gaan met het ontvangen van updates voordat je je kunt abonneren." : "You must agree to receive updates before subscribing."}
+                      </span>
+                    )}
+                  </div>
+                  <button type="submit" className="donate-submit-btn">
+                    {t.newsSubmit}
+                  </button>
+                </form>
+              </>
+            ) : (
+              <div className="form-success-card animate-fade-in" style={{ border: 'none', background: 'transparent', padding: '12px 0 0 0', boxShadow: 'none' }}>
+                <div className="success-check-circle" style={{ margin: '0 auto 16px auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <CheckCircle size={32} />
                 </div>
-                {newsConsentError && (
-                  <span className="field-error-msg" style={{ marginTop: '6px' }}>
-                    {newsConsentError}
-                  </span>
-                )}
+                <h3 className="success-card-title" style={{ textAlign: 'center' }}>
+                  {lang === 'FR' ? 'Inscription validée !' : lang === 'NL' ? 'Inschrijving bevestigd!' : 'Subscription Confirmed'}
+                </h3>
+                <p className="success-card-text" style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6' }}>
+                  {lang === 'EN' && (
+                    <>Thank you for subscribing, <strong>{newsName}</strong>! We have registered your subscription. You will soon receive updates about our news and project progress directly in your inbox: <strong>{newsEmail}</strong>.</>
+                  )}
+                  {lang === 'FR' && (
+                    <>Merci pour votre inscription, <strong>{newsName}</strong> ! Nous avons bien enregistré votre abonnement. Vous recevrez bientôt des informations sur nos actualités et l'avancement de nos projets dans votre boîte de réception : <strong>{newsEmail}</strong>.</>
+                  )}
+                  {lang === 'NL' && (
+                    <>Bedankt voor uw inschrijving, <strong>{newsName}</strong>! We hebben uw inschrijving geregistreerd. U ontvangt binnenkort updates over ons nieuws en de voortgang van onze projecten in uw mailbox: <strong>{newsEmail}</strong>.</>
+                  )}
+                </p>
+                <button onClick={closeNewsletterModal} className="donate-submit-btn" style={{ marginTop: '24px' }}>
+                  {lang === 'FR' ? 'Fermer' : lang === 'NL' ? 'Sluiten' : 'Close'}
+                </button>
               </div>
-              <button type="submit" className="donate-submit-btn">
-                {t.newsSubmit}
-              </button>
-            </form>
+            )}
           </div>
         </div>
       )}
@@ -2524,6 +2632,7 @@ function App() {
             window.location.hash = '';
             setShowContactOnly(false);
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            clearContactForm();
           }}>
             Likro <span>&</span> Lihtov
           </a>
@@ -2587,7 +2696,7 @@ function App() {
 
               {/* CONTACTS links to #contacts-section */}
               <li className="nav-item">
-                <a href="#contacts-section" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+                <a href="#contacts-section" className="nav-link" onClick={() => { setMobileMenuOpen(false); clearContactForm(); }}>
                   {t.navContacts}
                 </a>
               </li>
@@ -2922,7 +3031,9 @@ function App() {
                           disabled={isSending}
                         />
                         {contactFirstNameError && (
-                          <span className="field-error-msg">{contactFirstNameError}</span>
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Veuillez saisir un nom valide." : lang === 'NL' ? "Voer een geldige naam in." : "Please enter a valid name."}
+                          </span>
                         )}
                       </div>
                       <div className="form-field-group">
@@ -2941,7 +3052,9 @@ function App() {
                           disabled={isSending}
                         />
                         {contactLastNameError && (
-                          <span className="field-error-msg">{contactLastNameError}</span>
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Veuillez saisir un nom valide." : lang === 'NL' ? "Voer een geldige naam in." : "Please enter a valid name."}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -2963,7 +3076,12 @@ function App() {
                           disabled={isSending}
                         />
                         {contactEmailError && (
-                          <span className="field-error-msg">{contactEmailError}</span>
+                          <span className="field-error-msg">
+                            {contactEmailError === 'required'
+                              ? (lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required.")
+                              : (lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address.")
+                            }
+                          </span>
                         )}
                       </div>
                       <div className="form-field-group">
@@ -2985,7 +3103,9 @@ function App() {
                           disabled={isSending}
                         />
                         {contactPhoneError && (
-                          <span className="field-error-msg">{contactPhoneError}</span>
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Veuillez saisir un numéro de téléphone valide." : lang === 'NL' ? "Voer een geldig telefoonnummer in." : "Please enter a valid phone number."}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -3011,7 +3131,9 @@ function App() {
                         <option value="Other">{t.conSubjOther}</option>
                       </select>
                       {contactReasonError && (
-                        <span className="field-error-msg">{contactReasonError}</span>
+                        <span className="field-error-msg">
+                          {lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                        </span>
                       )}
                     </div>
 
@@ -3031,7 +3153,12 @@ function App() {
                         disabled={isSending}
                       ></textarea>
                       {contactMessageError && (
-                        <span className="field-error-msg">{contactMessageError}</span>
+                        <span className="field-error-msg">
+                          {contactMessageError === 'required'
+                            ? (lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required.")
+                            : (lang === 'FR' ? "Votre message doit contenir entre 12 et 1200 caractères." : lang === 'NL' ? "Jouw bericht moet tussen 12 en 1200 tekens bevatten." : "Your message must be between 12 and 1200 characters.")
+                          }
+                        </span>
                       )}
                     </div>
 

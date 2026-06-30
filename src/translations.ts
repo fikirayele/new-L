@@ -220,10 +220,10 @@ export const translations: Record<string, TranslationSet> = {
     conRobotError: 'Please verify that you are not a robot.',
 
     newsTitle: 'Stay Updated',
-    newsSub: 'Stay informed about our projects, achievements and impact.',
+    newsSub: 'Stay updated with our news.',
     newsName: 'Full Name',
     newsEmail: 'Email',
-    newsConsent: 'I agree to receive updates about Likro & Lihtov\'s projects and activities.',
+    newsConsent: 'I would like to receive the Likro & Lihtov newsletter.',
     newsSubmit: 'Subscribe',
     newsSuccess: 'Subscription confirmed! You will soon receive updates about our news and project progress.',
 
@@ -331,10 +331,10 @@ export const translations: Record<string, TranslationSet> = {
     conRobotError: "Veuillez vérifier que vous n'êtes pas un robot.",
 
     newsTitle: 'Restez informé',
-    newsSub: 'Restez informé de nos projets, réalisations et impact.',
+    newsSub: 'Restez informé de nos actualités.',
     newsName: 'Nom complet',
     newsEmail: 'Email',
-    newsConsent: 'J\'accepte de recevoir des informations sur les projets et les activités de Likro & Lihtov.',
+    newsConsent: 'Je souhaite recevoir la newsletter de Likro & Lihtov.',
     newsSubmit: 'S\'abonner',
     newsSuccess: 'Inscription confirmée ! Vous recevrez bientôt nos actualités et l\'avancement de nos projets.',
 
@@ -442,10 +442,10 @@ export const translations: Record<string, TranslationSet> = {
     conRobotError: 'Verifieer alstublieft dat u geen robot bent.',
 
     newsTitle: 'Blijf op de hoogte',
-    newsSub: 'Blijf op de hoogte van onze projecten, prestaties en impact.',
+    newsSub: 'Blijf op de hoogte van ons nieuws.',
     newsName: 'Volledige naam',
     newsEmail: 'E-mail',
-    newsConsent: 'Ik ga ermee akkoord om updates te ontvangen over de projecten en activiteiten van Likro & Lihtov.',
+    newsConsent: 'Ik wil de nieuwsbrief van Likro & Lihtov ontvangen.',
     newsSubmit: 'Abonneren',
     newsSuccess: 'Abonnement bevestigd! U ontvangt binnenkort updates over ons nieuws en de voortgang van onze projecten.',
 
