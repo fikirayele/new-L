@@ -9,7 +9,7 @@
   left: 0;
   width: 100%;
   z-index: 50;
-  padding: 24px 0;
+  padding: 32px 0 24px;
   background: linear-gradient(to bottom, rgba(10, 15, 29, 0.4) 0%, rgba(10, 15, 29, 0) 100%);
   transition: var(--transition-smooth);
 }
@@ -19,7 +19,7 @@
   background: rgba(10, 15, 29, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 16px 0;
+  padding: 20px 0 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1542,7 +1542,7 @@
   position: absolute;
   bottom: 100%;
   right: 0;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
   z-index: 10;
 }
 
