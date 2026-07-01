@@ -134,9 +134,9 @@
 /* Header Right Utilities */
 .header-actions {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  align-items: center;
+  position: relative;
+  gap: 16px;
   flex-wrap: nowrap;
   flex-shrink: 0;
 }
@@ -1539,7 +1539,11 @@
 
 /* Language selector dropdown box */
 .lang-selector-wrapper {
-  position: relative;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 6px;
+  z-index: 10;
 }
 
 .lang-dropdown {

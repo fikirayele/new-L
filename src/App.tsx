@@ -436,8 +436,18 @@ function App() {
 
   // Admin Dashboard States
   const [isAdminView, setIsAdminView] = useState(false);
-  const [adminToken, setAdminToken] = useState<string | null>(() => localStorage.getItem('admin_token'));
+  const [adminToken, setAdminToken] = useState<string | null>(() => {
+    const token = localStorage.getItem('admin_token');
+    if (token === "mock_admin_token_123!") {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_user');
+      return null;
+    }
+    return token;
+  });
   const [adminUser, setAdminUser] = useState<AdminUser | null>(() => {
+    const token = localStorage.getItem('admin_token');
+    if (token === "mock_admin_token_123!") return null;
     const user = localStorage.getItem('admin_user');
     return user ? JSON.parse(user) : null;
   });
@@ -1076,25 +1086,9 @@ function App() {
         setAdminLoginError(data.error || "Login failed.");
       }
     } catch (err) {
-      console.error("Login failed, falling back to mock authentication:", err);
-      triggerToast("Offline mode: Logged in using mock data.");
-      const mockToken = "mock_admin_token_123!";
-      const mockUser = {
-        id: 1,
-        username: adminUsernameInput || "admin",
-        email: "admin@likrolihtov.com",
-        role: "admin",
-        permissions: ["read:messages", "write:messages", "manage:subscribers", "manage:admins", "edit:settings"]
-      };
-      localStorage.setItem("admin_token", mockToken);
-      localStorage.setItem("admin_user", JSON.stringify(mockUser));
-      setAdminToken(mockToken);
-      setAdminUser(mockUser);
-      setAdminUsernameInput("");
-      setAdminPasswordInput("");
-      fetchAdminStats(mockToken);
-      fetchAdminMessages(mockToken);
-      fetchAdminSubscribers(mockToken);
+      console.error("Login failed:", err);
+      setAdminLoginError("Unable to connect to the backend server. Please verify the server is running.");
+      triggerToast("Error: Unable to connect to the backend server.");
     }
   };
 
@@ -1122,20 +1116,8 @@ function App() {
         setAdminStats(data.stats);
       }
     } catch (err) {
-      console.warn("Backend unavailable, setting mock stats:", err);
-      setAdminStats({
-        totalMessages: 24,
-        unreadMessages: 8,
-        repliedMessages: 12,
-        totalSubscribers: 156,
-        monthlyGrowth: [
-          { month: "2026-06", count: 42 },
-          { month: "2026-05", count: 35 },
-          { month: "2026-04", count: 28 },
-          { month: "2026-03", count: 31 },
-          { month: "2026-02", count: 20 }
-        ]
-      });
+      console.error("Failed to fetch dashboard stats:", err);
+      setAdminStats(null);
     }
   };
 
@@ -1153,60 +1135,8 @@ function App() {
         setAdminMessages(data.messages);
       }
     } catch (err) {
-      console.warn("Backend unavailable, setting mock messages:", err);
-      const allMockMessages = [
-        {
-          id: 1,
-          salutation: "Mr",
-          first_name: "Jean",
-          last_name: "Dupont",
-          email: "jean.dupont@gmail.com",
-          phone: "+32 495 12 34 56",
-          reason: "General Information",
-          message: "Bonjour, je souhaiterais obtenir plus d'informations sur vos prochains ateliers d'alphabétisation à Bruxelles. Merci!",
-          status: "Unread",
-          created_at: "2026-06-25T22:00:00.000Z"
-        },
-        {
-          id: 2,
-          salutation: "Ms",
-          first_name: "Sarah",
-          last_name: "Smith",
-          email: "sarah.smith@outlook.com",
-          phone: "+1 202 555 0143",
-          reason: "Volunteering",
-          message: "Hello! I am a retired teacher and would love to volunteer for your reading programs next semester. Please let me know how I can apply.",
-          status: "Read",
-          created_at: "2026-06-25T00:00:00.000Z"
-        },
-        {
-          id: 3,
-          salutation: "Other",
-          first_name: "Alex",
-          last_name: "Garcia",
-          email: "alex.garcia@hotmail.com",
-          phone: "+34 612 345 678",
-          reason: "Partnership Opportunities",
-          message: "Estimados señores, representamos a una fundación educativa en España y nos gustaría proponer una colaboración en proyectos europeos conjuntos.",
-          status: "Replied",
-          created_at: "2026-06-23T00:00:00.000Z"
-        }
-      ];
-      
-      let filtered = allMockMessages;
-      if (status) {
-        filtered = filtered.filter(m => m.status === status);
-      }
-      if (search) {
-        const s = search.toLowerCase();
-        filtered = filtered.filter(m => 
-          m.first_name.toLowerCase().includes(s) || 
-          m.last_name.toLowerCase().includes(s) || 
-          m.email.toLowerCase().includes(s) || 
-          m.message.toLowerCase().includes(s)
-        );
-      }
-      setAdminMessages(filtered);
+      console.error("Failed to fetch admin messages:", err);
+      setAdminMessages([]);
     }
   };
 
@@ -1224,50 +1154,8 @@ function App() {
         setAdminSubscribers(data.subscribers);
       }
     } catch (err) {
-      console.warn("Backend unavailable, setting mock subscribers:", err);
-      const allMockSubscribers = [
-        {
-          id: 1,
-          full_name: "Jean Dupont",
-          email: "jean.dupont@gmail.com",
-          status: "Active",
-          subscribed_at: "2026-06-25T12:00:00.000Z"
-        },
-        {
-          id: 2,
-          full_name: "Sarah Smith",
-          email: "sarah.smith@outlook.com",
-          status: "Active",
-          subscribed_at: "2026-06-24T00:00:00.000Z"
-        },
-        {
-          id: 3,
-          full_name: "Alex Garcia",
-          email: "alex.garcia@hotmail.com",
-          status: "Blocked",
-          subscribed_at: "2026-06-22T00:00:00.000Z"
-        },
-        {
-          id: 4,
-          full_name: "Marie Dubois",
-          email: "marie.dubois@gmail.com",
-          status: "Unsubscribed",
-          subscribed_at: "2026-06-17T00:00:00.000Z"
-        }
-      ];
-      
-      let filtered = allMockSubscribers;
-      if (status) {
-        filtered = filtered.filter(s => s.status === status);
-      }
-      if (search) {
-        const s = search.toLowerCase();
-        filtered = filtered.filter(sub => 
-          sub.full_name.toLowerCase().includes(s) || 
-          sub.email.toLowerCase().includes(s)
-        );
-      }
-      setAdminSubscribers(filtered);
+      console.error("Failed to fetch subscribers:", err);
+      setAdminSubscribers([]);
     }
   };
 
