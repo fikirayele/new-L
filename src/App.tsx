@@ -32,7 +32,8 @@ import {
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import { isValidPhoneNumber, getCountries, getCountryCallingCode } from 'react-phone-number-input';
+import countryLabels from 'react-phone-number-input/locale/en.json';
 import SearchableCountrySelect from './SearchableCountrySelect';
 import 'react-phone-number-input/style.css';
 import './App.css';
@@ -286,6 +287,27 @@ const apiFetch = (input: string | Request | URL, init?: RequestInit) => {
   }
   return fetch(url, init);
 };
+
+const getFullInternationalPhone = (phone: string, country: string): string => {
+  let cleaned = phone.replace(/\s/g, '');
+  if (!cleaned) return '';
+  if (cleaned.startsWith('+')) return cleaned;
+  if (cleaned.startsWith('00')) return '+' + cleaned.slice(2);
+  try {
+    const dialCode = getCountryCallingCode(country as any);
+    if (cleaned.startsWith('0') && !cleaned.startsWith('00')) {
+      cleaned = cleaned.slice(1);
+    }
+    return `+${dialCode}${cleaned}`;
+  } catch (e) {
+    return cleaned;
+  }
+};
+
+const countryOptions = getCountries().map((country) => ({
+  value: country,
+  label: (countryLabels as Record<string, string>)[country] || country
+}));
 
 function App() {
   // Language & Translation State
@@ -914,9 +936,10 @@ function App() {
     e.preventDefault();
     let hasError = false;
 
-    // Clean spaces from phone number and update state so it's stripped on submit
-    const cleanedPhone = contactPhone.replace(/\s/g, '');
-    setContactPhone(cleanedPhone);
+    // Normalize phone number for validation and backend submission
+    const rawCleanedPhone = contactPhone.trim();
+    const validatedPhone = getFullInternationalPhone(rawCleanedPhone, defaultCountry);
+    const finalPhoneForBackend = validatedPhone.replace(/[^\d+]/g, '');
 
     // Reset error states
     setContactFirstNameError(null);
@@ -956,11 +979,11 @@ function App() {
     }
 
     // Validate Phone (optional)
-    if (cleanedPhone) {
-      if (hasLetters(cleanedPhone)) {
+    if (rawCleanedPhone) {
+      if (hasLetters(rawCleanedPhone.replace(/\+/g, ''))) {
         setContactPhoneError('invalid');
         hasError = true;
-      } else if (!isValidPhoneNumber(cleanedPhone)) {
+      } else if (!isValidPhoneNumber(validatedPhone)) {
         setContactPhoneError('invalid');
         hasError = true;
       }
@@ -998,7 +1021,7 @@ function App() {
           firstName: contactFirstName,
           lastName: contactLastName,
           email: contactEmail,
-          phone: cleanedPhone,
+          phone: finalPhoneForBackend,
           reason: contactSubject,
           message: contactMessage,
           captchaToken: "dummy_recaptcha_token", // verified on backend
@@ -2696,8 +2719,7 @@ function App() {
             </div>
 
             <button className="btn-donate" onClick={() => setShowDonateModal(true)}>
-              <span>{t.btnDonate}</span>
-              <ChevronRight size={16} />
+              <span>{t.btnDonate} &gt;</span>
             </button>
 
             <button 
@@ -3051,20 +3073,35 @@ function App() {
                         <label className="form-field-label">
                           {t.conPhone} <span style={{ textTransform: 'none', fontWeight: 'normal', fontSize: '10px', opacity: 0.65 }}>({lang === 'FR' ? 'Optionnel' : lang === 'NL' ? 'Optioneel' : 'Optional'})</span>
                         </label>
-                        <PhoneInput
-                          placeholder=""
-                          value={contactPhone}
-                          onChange={(val) => {
-                            setContactPhone(val || '');
-                            if (contactPhoneError) setContactPhoneError(null);
-                            if (contactFormError) setContactFormError(null);
-                          }}
-                          defaultCountry={defaultCountry as "ET"}
-                          countrySelectComponent={SearchableCountrySelect}
-                          inputComponent={CustomPhoneInputInner}
-                          className={`react-phone-input-field ${contactPhoneError ? 'input-error' : ''}`}
-                          disabled={isSending}
-                        />
+                        <div className={`react-phone-input-field ${contactPhoneError ? 'input-error' : ''}`}>
+                          <SearchableCountrySelect
+                            value={defaultCountry}
+                            onChange={(val) => {
+                              setDefaultCountry(val || 'BE');
+                              if (contactPhoneError) setContactPhoneError(null);
+                              if (contactFormError) setContactFormError(null);
+                            }}
+                            options={countryOptions}
+                            labels={countryLabels}
+                            disabled={isSending}
+                          />
+                          <input
+                            type="tel"
+                            placeholder=""
+                            value={contactPhone}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (/^[0-9\s+\-()]*$/.test(val) || val === '') {
+                                setContactPhone(val);
+                              }
+                              if (contactPhoneError) setContactPhoneError(null);
+                              if (contactFormError) setContactFormError(null);
+                            }}
+                            className="PhoneInputInput"
+                            disabled={isSending}
+                            maxLength={30}
+                          />
+                        </div>
                         {contactPhoneError && (
                           <span className="field-error-msg">
                             {lang === 'FR' ? "Veuillez saisir un numéro de téléphone valide." : lang === 'NL' ? "Voer een geldig telefoonnummer in." : "Please enter a valid phone number."}
