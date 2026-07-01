@@ -27,6 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap;
 }
 
 /* Brand Logo */
@@ -134,7 +135,9 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 .lang-selector {
@@ -164,8 +167,8 @@
   font-size: 15px;
   font-weight: 600;
   padding: 10px 24px;
-  border-radius: 30px;
-  border: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -174,9 +177,11 @@
 }
 
 .btn-donate:hover {
-  background: var(--primary-hover);
+  background: #FFFFFF;
+  color: var(--primary);
+  border-color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(226, 29, 84, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
 }
 
 .btn-donate svg {
@@ -251,6 +256,7 @@
   font-family: var(--font-serif);
   font-weight: 400;
   font-style: italic;
+  color: var(--primary);
 }
 
 .hero-description {

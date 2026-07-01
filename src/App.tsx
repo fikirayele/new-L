@@ -25,7 +25,10 @@ import {
   Briefcase,
   Award,
   GraduationCap,
-  Landmark
+  Landmark,
+  FileText,
+  Play,
+  HelpCircle
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -44,71 +47,10 @@ interface CustomPhoneInputProps extends Omit<React.InputHTMLAttributes<HTMLInput
 }
 
 const CustomPhoneInputInner = forwardRef<HTMLInputElement, CustomPhoneInputProps>((props, ref) => {
-  const { value, onChange, onKeyDown, ...rest } = props;
-  const [localValue, setLocalValue] = useState<string>(value || '');
-  const [prevValue, setPrevValue] = useState<string>(value || '');
-
-  if (value !== prevValue) {
-    const cleanExternal = (value || '').replace(/\s/g, '');
-    const cleanLocal = (localValue || '').replace(/\s/g, '');
-    if (cleanExternal !== cleanLocal) {
-      setLocalValue(value || '');
-    }
-    setPrevValue(value || '');
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      const input = e.currentTarget;
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      if (start !== null && start === end && start > 0) {
-        const charToLeft = localValue[start - 1];
-        if (charToLeft === ' ') {
-          e.preventDefault();
-          const newVal = localValue.slice(0, start - 1) + localValue.slice(start);
-          setLocalValue(newVal);
-          setTimeout(() => {
-            input.setSelectionRange(start - 1, start - 1);
-          }, 0);
-          return;
-        }
-      }
-    }
-    if (onKeyDown) {
-      onKeyDown(e);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value;
-    // Allow only digits, +, and spaces
-    val = val.replace(/[^0-9+\s]/g, '');
-    if (val.length > 20) {
-      val = val.slice(0, 20);
-    }
-    setLocalValue(val);
-
-    // Call external onChange with the value containing spaces to preserve length/selection indices
-    if (onChange) {
-      const mockEvent = {
-        ...e,
-        target: {
-          ...e.target,
-          value: val
-        }
-      };
-      onChange(mockEvent as React.ChangeEvent<HTMLInputElement>);
-    }
-  };
-
   return (
     <input
-      {...rest}
+      {...props}
       ref={ref}
-      value={localValue}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
       maxLength={20}
     />
   );
@@ -360,6 +302,7 @@ function App() {
   });
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const langSelectorRef = useRef<HTMLDivElement>(null);
+  const newsletterTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const t = translations[lang];
 
   useEffect(() => {
@@ -668,6 +611,10 @@ function App() {
   };
 
   const openNewsletterModal = (prefilledEmail: string = '') => {
+    if (newsletterTimerRef.current) {
+      clearTimeout(newsletterTimerRef.current);
+      newsletterTimerRef.current = null;
+    }
     setNewsName('');
     setNewsEmail(prefilledEmail);
     setNewsConsent(false);
@@ -680,6 +627,10 @@ function App() {
   };
 
   const closeNewsletterModal = () => {
+    if (newsletterTimerRef.current) {
+      clearTimeout(newsletterTimerRef.current);
+      newsletterTimerRef.current = null;
+    }
     setNewsName('');
     setNewsEmail('');
     setNewsConsent(false);
@@ -758,7 +709,7 @@ function App() {
           <div>
             <h3 className="footer-col-title">{t.footNav}</h3>
             <ul className="footer-links">
-              <li><a onClick={() => { closeDrawer(); window.scrollTo({ top: 0, behavior: 'smooth' }); clearContactForm(); }}>Home</a></li>
+              <li><a onClick={() => { closeDrawer(); window.location.hash = ''; setShowContactOnly(false); window.scrollTo({ top: 0, behavior: 'smooth' }); clearContactForm(); }}>Home</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('about-organization'); }}>{t.navAboutOrg}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('about-goals'); }}>{t.navAboutGoals}</a></li>
               <li><a onClick={() => { closeDrawer(); openDrawer('projects-construction'); }}>{t.navProjectsConst}</a></li>
@@ -904,12 +855,20 @@ function App() {
 
       if (response.ok && data.success) {
         setNewsSubmitted(true);
+        if (newsletterTimerRef.current) clearTimeout(newsletterTimerRef.current);
+        newsletterTimerRef.current = setTimeout(() => {
+          closeNewsletterModal();
+        }, 5000);
       } else {
         setNewsFormError(data.error || "Subscription failed. Please try again.");
       }
     } catch (err) {
       console.warn("API offline, falling back to successful newsletter subscription state:", err);
       setNewsSubmitted(true);
+      if (newsletterTimerRef.current) clearTimeout(newsletterTimerRef.current);
+      newsletterTimerRef.current = setTimeout(() => {
+        closeNewsletterModal();
+      }, 5000);
     } finally {
       setIsSending(false);
     }
@@ -2380,22 +2339,19 @@ function App() {
                   <CheckCircle size={32} />
                 </div>
                 <h3 className="success-card-title" style={{ textAlign: 'center' }}>
-                  {lang === 'FR' ? 'Inscription validée !' : lang === 'NL' ? 'Inschrijving bevestigd!' : 'Subscription Confirmed'}
+                  {lang === 'FR' ? 'Inscription confirmée !' : lang === 'NL' ? 'Inschrijving bevestigd!' : 'Subscription confirmed!'}
                 </h3>
                 <p className="success-card-text" style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px', lineHeight: '1.6' }}>
                   {lang === 'EN' && (
-                    <>Thank you for subscribing, <strong>{newsName}</strong>! We have registered your subscription. You will soon receive updates about our news and project progress directly in your inbox: <strong>{newsEmail}</strong>.</>
+                    <>Thank you, <strong>{newsName.trim().split(' ')[0] || newsName}</strong>. You'll soon receive our latest news at <strong>{newsEmail}</strong>.</>
                   )}
                   {lang === 'FR' && (
-                    <>Merci pour votre inscription, <strong>{newsName}</strong> ! Nous avons bien enregistré votre abonnement. Vous recevrez bientôt des informations sur nos actualités et l'avancement de nos projets dans votre boîte de réception : <strong>{newsEmail}</strong>.</>
+                    <>Merci <strong>{newsName.trim().split(' ')[0] || newsName}</strong>. Vous recevrez bientôt nos actualités à l'adresse <strong>{newsEmail}</strong>.</>
                   )}
                   {lang === 'NL' && (
-                    <>Bedankt voor uw inschrijving, <strong>{newsName}</strong>! We hebben uw inschrijving geregistreerd. U ontvangt binnenkort updates over ons nieuws en de voortgang van onze projecten in uw mailbox: <strong>{newsEmail}</strong>.</>
+                    <>Bedankt, <strong>{newsName.trim().split(' ')[0] || newsName}</strong>. Binnenkort ontvangt u ons laatste nieuws op <strong>{newsEmail}</strong>.</>
                   )}
                 </p>
-                <button onClick={closeNewsletterModal} className="donate-submit-btn" style={{ marginTop: '24px' }}>
-                  {lang === 'FR' ? 'Fermer' : lang === 'NL' ? 'Sluiten' : 'Close'}
-                </button>
               </div>
             )}
           </div>
@@ -2641,7 +2597,13 @@ function App() {
           <nav>
             <ul className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
               <li className="mobile-menu-header">
-                <span className="logo">Likro <span>&</span> Lihtov</span>
+                <span className="logo" onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.location.hash = '';
+                  setShowContactOnly(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  clearContactForm();
+                }} style={{ cursor: 'pointer' }}>Likro <span>&</span> Lihtov</span>
               </li>
 
               {/* ABOUT / WHO WE ARE */}
@@ -2718,7 +2680,7 @@ function App() {
           {/* Action buttons */}
           <div className="header-actions">
             {/* Lang Dropdown */}
-            <div className="lang-selector-wrapper" ref={langSelectorRef}>
+            <div className="lang-selector-wrapper" ref={langSelectorRef} onMouseLeave={() => setShowLangDropdown(false)}>
               <button className="lang-selector" onClick={() => setShowLangDropdown(!showLangDropdown)}>
                 <Globe size={15} />
                 <span>{lang}</span>
@@ -2919,7 +2881,8 @@ function App() {
       )}
 
       {/* DEDICATED CONTACT US SECTION */}
-      <section id="contacts-section" className="contacts-section">
+      {showContactOnly && (
+        <section id="contacts-section" className="contacts-section">
         <div className="container">
           <div className="contact-layout">
             {/* Left side info panel */}
@@ -3199,6 +3162,7 @@ function App() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Footer */}
       {renderSiteFooter()}
@@ -3220,8 +3184,181 @@ function App() {
             {selectedSection && (
               <>
                 <div className="container" style={{ padding: '0 24px 80px 24px' }}>
-                  <div className="drawer-layout animate-fade-in">
-                <aside className="drawer-sidebar">
+                  {selectedSection.id === 'illiteracy-consequences' || selectedSection.id === 'illiteracy-resources' ? (
+                    /* CUSTOM RESOURCES BENTO GRID LAYOUT */
+                    <div className="animate-fade-in flex flex-col gap-10">
+                      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-10">
+                        {/* Left Column */}
+                        <div className="flex flex-col gap-6">
+                          <div>
+                            <span className="text-xs uppercase tracking-wider text-pink-600 font-semibold" style={{ letterSpacing: '0.1em' }}>
+                              {lang === 'FR' ? 'ALPHABÉTISATION / RESSOURCES' : lang === 'NL' ? 'ALFABETISERING / BRONNEN' : 'LITERACY / RESOURCES'}
+                            </span>
+                            <h2 className="text-4xl font-extrabold text-slate-900 mt-2 mb-4 font-sans tracking-tight">
+                              {lang === 'FR' ? 'Ressources' : lang === 'NL' ? 'Bronnen' : 'Resources'}
+                            </h2>
+                            <p className="text-lg italic text-pink-600 font-serif mb-4 leading-normal font-medium">
+                              {lang === 'FR' ? 'Outils, documents et contenus pour découvrir notre travail.' : lang === 'NL' ? 'Hulpmiddelen, documenten en inhoud om ons werk te ontdekken.' : 'Tools, documents and content to discover our work.'}
+                            </p>
+                            <p className="text-slate-600 text-sm leading-relaxed">
+                              {lang === 'FR' ? 'Explorez nos programmes, supports pédagogiques, photos et vidéos pour mieux comprendre notre mission et notre impact.' : lang === 'NL' ? "Ontdek onze programma's, lesmateriaal, foto's en video's om onze missie en impact beter te leren kennen." : 'Explore our programs, learning materials, photos and videos to discover our mission and impact.'}
+                            </p>
+                          </div>
+
+                          <div className="border-t border-slate-200/80 my-2"></div>
+
+                          {/* Support our mission card */}
+                          <div className="bg-[#0A0F1D] text-white p-6 rounded-2xl flex flex-col gap-4 relative overflow-hidden shadow-xl border border-slate-800">
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 bg-pink-600/20 rounded-full text-pink-500">
+                                <Heart size={20} className="fill-current" />
+                              </div>
+                              <h4 className="font-semibold text-base">{lang === 'FR' ? 'Soutenez notre mission' : lang === 'NL' ? 'Steun onze missie' : 'Support our mission'}</h4>
+                            </div>
+                            <p className="text-slate-400 text-xs leading-relaxed">
+                              {lang === 'FR' ? 'Votre soutien nous aide à créer plus de ressources et à toucher plus de personnes.' : lang === 'NL' ? 'Uw steun helpt ons om meer middelen te creëren en meer mensen te bereiken.' : 'Your support helps us create more resources and reach more people.'}
+                            </p>
+                            <button 
+                              onClick={() => { closeDrawer(); setShowDonateModal(true); }}
+                              className="bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold py-2.5 px-4 rounded-lg self-start transition-all hover:translate-y-[-1px] shadow-lg shadow-pink-600/30 cursor-pointer"
+                            >
+                              {lang === 'FR' ? 'Faire un don >' : lang === 'NL' ? 'Doneren >' : 'Donate >'}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Right Column: Bento Grid of 8 Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                          {[
+                            {
+                              id: 'school-program',
+                              title: lang === 'FR' ? 'Programme scolaire' : lang === 'NL' ? 'Schoolprogramma' : 'School Program',
+                              desc: lang === 'FR' ? "Découvrez notre programme complet d'alphabétisation et d'éducation." : lang === 'NL' ? "Ontdek ons volledige alfabetiserings- en onderwijsprogramma." : "Discover our complete literacy and education program.",
+                              btnText: lang === 'FR' ? 'Voir le programme' : lang === 'NL' ? 'Programma bekijken' : 'View Program',
+                              imageUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80',
+                              icon: <GraduationCap size={18} />,
+                              onClick: () => openDrawer('illiteracy-school-program')
+                            },
+                            {
+                              id: 'teaching-materials',
+                              title: lang === 'FR' ? 'Supports pédagogiques' : lang === 'NL' ? 'Lesmateriaal' : 'Teaching Materials',
+                              desc: lang === 'FR' ? "Consultez les livres et supports utilisés dans nos classes." : lang === 'NL' ? "Bekijk de boeken en het lesmateriaal dat in onze lessen wordt gebruikt." : "Explore the books and learning materials used in our classrooms.",
+                              btnText: lang === 'FR' ? 'Découvrir' : lang === 'NL' ? 'Ontdekken' : 'Explore',
+                              imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80',
+                              icon: <BookOpen size={18} />,
+                              onClick: () => openDrawer('illiteracy-school-program')
+                            },
+                            {
+                              id: 'photo-gallery',
+                              title: lang === 'FR' ? 'Galerie photos' : lang === 'NL' ? 'Fotogalerij' : 'Photo Gallery',
+                              desc: lang === 'FR' ? "Découvrez la vie de notre école et de nos projets en images." : lang === 'NL' ? "Ontdek onze school en projecten aan de hand van de foto's." : "Discover our school and community projects through photos.",
+                              btnText: lang === 'FR' ? 'Voir la galerie' : lang === 'NL' ? 'Galerij bekijken' : 'View Gallery',
+                              imageUrl: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80',
+                              icon: <ImageIcon size={18} />,
+                              onClick: () => openDrawer('illiteracy-photos-videos')
+                            },
+                            {
+                              id: 'videos',
+                              title: lang === 'FR' ? 'Vidéos' : lang === 'NL' ? "Video's" : 'Videos',
+                              desc: lang === 'FR' ? "Regardez nos cours, témoignages et projets en vidéo." : lang === 'NL' ? "Bekijk onze lessen, getuigenissen en projecten op video." : "Watch our lessons, testimonials and community projects.",
+                              btnText: lang === 'FR' ? 'Regarder' : lang === 'NL' ? 'Nu bekijken' : 'Watch Now',
+                              imageUrl: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=400&q=80',
+                              icon: <Play size={18} />,
+                              onClick: () => openDrawer('illiteracy-photos-videos')
+                            },
+                            {
+                              id: 'brochures',
+                              title: lang === 'FR' ? 'Brochures' : lang === 'NL' ? 'Brochures' : 'Brochures',
+                              desc: lang === 'FR' ? "Téléchargez nos brochures de présentation et de partenariat." : lang === 'NL' ? "Download onze presentatie- en partnerbrochures." : "Download our presentation and partnership brochures.",
+                              btnText: lang === 'FR' ? 'Télécharger' : lang === 'NL' ? 'Downloaden' : 'Download',
+                              imageUrl: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=400&q=80',
+                              icon: <FileText size={18} />,
+                              onClick: () => triggerToast(lang === 'FR' ? "Téléchargement de la brochure démarré..." : lang === 'NL' ? "Download van brochure gestart..." : "Downloading brochure...")
+                            },
+                            {
+                              id: 'reports',
+                              title: lang === 'FR' ? 'Rapports' : lang === 'NL' ? 'Rapporten' : 'Reports',
+                              desc: lang === 'FR' ? "Consultez nos rapports d'activités et d'impact." : lang === 'NL' ? "Bekijk onze activiteiten- en impactrapporten." : "Read our activity and impact reports.",
+                              btnText: lang === 'FR' ? 'Voir les rapports' : lang === 'NL' ? 'Rapporten bekijken' : 'View Reports',
+                              imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&q=80',
+                              icon: <FileText size={18} />,
+                              onClick: () => triggerToast(lang === 'FR' ? "Téléchargement du rapport annuel démarré..." : lang === 'NL' ? "Download van jaarverslag gestart..." : "Downloading annual report...")
+                            },
+                            {
+                              id: 'partners-press',
+                              title: lang === 'FR' ? 'Partenaires & Presse' : lang === 'NL' ? 'Partners & Pers' : 'Partners & Press',
+                              desc: lang === 'FR' ? "Découvrez nos partenaires et les articles qui parlent de nous." : lang === 'NL' ? "Ontdek onze partners en mediapublicaties." : "Discover our partners and media coverage.",
+                              btnText: lang === 'FR' ? 'En savoir plus' : lang === 'NL' ? 'Meer informatie' : 'Learn More',
+                              imageUrl: 'https://images.unsplash.com/photo-1521791136368-1a46827d0505?auto=format&fit=crop&w=400&q=80',
+                              icon: <Users size={18} />,
+                              onClick: () => openDrawer('about-sponsors')
+                            },
+                            {
+                              id: 'faq',
+                              title: lang === 'FR' ? 'Questions fréquentes' : lang === 'NL' ? 'Veelgestelde vragen' : 'FAQ',
+                              desc: lang === 'FR' ? "Trouvez rapidement les réponses aux questions les plus fréquentes." : lang === 'NL' ? "Vind snel antwoorden op de meest gestelde vragen." : "Find answers to the most frequently asked questions.",
+                              btnText: lang === 'FR' ? 'Lire la FAQ' : lang === 'NL' ? 'FAQ bekijken' : 'Read FAQ',
+                              imageUrl: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=400&q=80',
+                              icon: <HelpCircle size={18} />,
+                              onClick: () => { closeDrawer(); setShowFaqModal(true); }
+                            }
+                          ].map((card) => (
+                            <div 
+                              key={card.id} 
+                              onClick={card.onClick}
+                              className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden flex flex-col group hover:shadow-lg hover:border-pink-500/30 transition-all duration-300 cursor-pointer"
+                            >
+                              <div className="h-32 w-full relative overflow-hidden bg-slate-100">
+                                <img 
+                                  src={card.imageUrl} 
+                                  alt={card.title} 
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                  referrerPolicy="no-referrer"
+                                />
+                                <div className="absolute inset-0 bg-slate-900/5 group-hover:bg-slate-900/0 transition-colors"></div>
+                                <div className="absolute bottom-[-16px] left-4 bg-white border border-slate-100 p-2.5 rounded-full shadow-md text-pink-600 z-10 flex items-center justify-center">
+                                  {card.icon}
+                                </div>
+                              </div>
+                              <div className="p-4 pt-6 flex-1 flex flex-col">
+                                <h3 className="font-semibold text-slate-900 text-sm mb-1 group-hover:text-pink-600 transition-colors text-left">
+                                  {card.title}
+                                </h3>
+                                <p className="text-slate-500 text-xs leading-relaxed text-left flex-1 mb-4">
+                                  {card.desc}
+                                </p>
+                                <span className="text-pink-600 font-semibold text-xs flex items-center gap-1 group-hover:translate-x-1 transition-transform self-start">
+                                  {card.btnText} <ChevronRight size={14} />
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Pink Newsletter subscription banner */}
+                      <div className="bg-pink-50 border border-pink-100/80 rounded-2xl p-5 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+                        <div className="flex flex-col sm:flex-row items-center gap-3">
+                          <div className="p-2.5 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center">
+                            <Mail size={18} />
+                          </div>
+                          <p className="text-slate-700 text-sm">
+                            <span className="font-bold text-pink-700 mr-2">{lang === 'FR' ? 'Restez informé' : lang === 'NL' ? 'Blijf op de hoogte' : 'Stay informed'}</span>
+                            <span className="text-slate-500 font-medium">| {lang === 'FR' ? "Inscrivez-vous à notre newsletter pour recevoir nos actualités, histoires et ressources." : lang === 'NL' ? "Schrijf u in op onze nieuwsbrief om updates, verhalen en hulpmiddelen te ontvangen." : "Subscribe to our newsletter to receive updates, stories and resources."}</span>
+                          </p>
+                        </div>
+                        <button 
+                          onClick={() => { closeDrawer(); setShowNewsletterModal(true); }}
+                          className="bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold py-2.5 px-5 rounded-full transition-all whitespace-nowrap shadow-md shadow-pink-600/20 hover:scale-[1.02] cursor-pointer"
+                        >
+                          {lang === 'FR' ? "S'abonner maintenant >" : lang === 'NL' ? 'Nu abonneren >' : 'Subscribe now >'}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    /* ORIGINAL DRAWER LAYOUT */
+                    <div className="drawer-layout animate-fade-in">
+                      <aside className="drawer-sidebar">
                   {selectedSection.id === 'illiteracy-definition' ? (
                     <>
                       {/* Facts Card */}
@@ -3596,6 +3733,7 @@ function App() {
                   )}
                 </article>
                   </div>
+                  )}
                 </div>
                 {renderSiteFooter()}
               </>

@@ -363,7 +363,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         statLabel: "WOMEN IN SUB-SAHARAN AFRICA"
       },
       consequencesCard: {
-        title: "Consequences",
+        title: "Resources",
         items: [
           "Low self-confidence",
           "Economic dependence",
@@ -566,22 +566,14 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     },
     'illiteracy-consequences': {
       id: 'illiteracy-consequences',
-      path: 'Illiteracy / Consequences',
-      title: 'The Consequences of Illiteracy',
-      subtitle: 'How the lack of reading and writing skills impacts lives and communities.',
-      statNumber: '2.5x',
-      statLabel: 'Income Difference',
-      sidebarText: 'Without literacy, individuals face legal vulnerability, financial exploitation, and reduced health literacy.',
-      mainParagraphs: [
-        'The consequences of adult illiteracy are far-reaching, affecting personal safety, legal rights, and economic security. An illiterate individual cannot verify the contents of a legal contract, read employment agreements, or follow medical prescriptions, leaving them highly vulnerable to exploitation.',
-        'In daily life, simple tasks like navigating public transit, reading street signs, or using digital technologies become massive obstacles. This leads to social isolation, low self-esteem, and dependence on others for basic daily activities.',
-        'By tackling illiteracy, we restore personal autonomy, enable civic participation, and empower women to take control of their health, finances, and legal decisions.'
-      ],
-      cards: [
-        { title: 'Legal Vulnerability', text: 'Inability to read contracts makes illiterate adults easy targets for predatory lending and unfair labor practices.' },
-        { title: 'Health Risks', text: 'Difficulty reading warning labels, medical dosages, and health instructions leads to higher rates of preventable illness.' },
-        { title: 'Digital Exclusion', text: 'In an increasingly digital world, lacking reading and writing skills completely locks individuals out of modern communication and banking tools.' }
-      ]
+      path: 'Illiteracy / Resources',
+      title: 'Resources',
+      subtitle: 'Tools, materials and stories that drive change.',
+      statNumber: '',
+      statLabel: '',
+      sidebarText: '',
+      mainParagraphs: [],
+      cards: []
     },
     'cookie-policy': {
       id: 'cookie-policy',
@@ -758,7 +750,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         statLabel: "FEMMES EN AFRIQUE SUBSAHARIENNE"
       },
       consequencesCard: {
-        title: "Conséquences",
+        title: "Ressources",
         items: [
           "Manque de confiance en soi",
           "Dépendance économique",
@@ -958,21 +950,14 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     },
     'illiteracy-consequences': {
       id: 'illiteracy-consequences',
-      path: 'Analphabétisme / Conséquences',
-      title: 'Les conséquences de l\'analphabétisme',
-      subtitle: 'Comment le manque d\'écriture et de lecture affecte les vies.',
-      statNumber: '2.5x',
-      statLabel: 'Écart de revenu',
-      sidebarText: 'Sans alphabétisation, les individus font face à une vulnérabilité juridique et à une exploitation financière.',
-      mainParagraphs: [
-        'Les conséquences de l\'analphabétisme des adultes sont vastes et touchent à la sécurité personnelle, aux droits légaux et à l\'autonomie financière. Une personne analhabète ne peut pas vérifier le contenu d\'un contrat juridique, réduisant ses capacités de défense.',
-        'Dans la vie quotidienne, les tâches simples comme utiliser les transports publics ou lire les panneaux de signalisation deviennent des obstacles majeurs.',
-        'En luttant contre l\'analphabétisme, nous restaurons l\'autonomie personnelle, favorisons la participation citoyenne et donnons aux femmes le pouvoir de gérer leurs décisions en matière de santé, de finances et de droit.'
-      ],
-      cards: [
-        { title: 'Vulnérabilité juridique', text: 'L\'incapacité de lire les contrats rend les adultes analphabètes vulnérables aux fraudes.' },
-        { title: 'Risques sanitaires', text: 'La difficulté à lire les notices médicales entraîne des taux plus élevés de maladies évitables.' }
-      ]
+      path: 'Analphabétisme / Ressources',
+      title: 'Ressources',
+      subtitle: 'Outils, documents et contenus pour découvrir notre travail.',
+      statNumber: '',
+      statLabel: '',
+      sidebarText: '',
+      mainParagraphs: [],
+      cards: []
     },
     'cookie-policy': {
       id: 'cookie-policy',
@@ -1125,7 +1110,7 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
         statLabel: "VROUWEN IN SUB-SAHARA AFRIKA"
       },
       consequencesCard: {
-        title: "Consequenties",
+        title: "Bronnen",
         items: [
           "Gebrek aan zelfvertrouwen",
           "Economische afhankelijkheid",
@@ -1325,21 +1310,14 @@ export const sectionsData: Record<string, Record<string, DetailSection>> = {
     },
     'illiteracy-consequences': {
       id: 'illiteracy-consequences',
-      path: 'Analfabetisme / Gevolgen',
-      title: 'Gevolgen van analfabetisme',
-      subtitle: 'Hoe het gebrek aan lezen en schrijven levens en gemeenschappen beïnvloedt.',
-      statNumber: '2.5x',
-      statLabel: 'Inkomenskloof',
-      sidebarText: 'Zonder alfabetisering worden mensen geconfronteerd met juridische kwetsbaarheid, financiële uitbuiting en minder toegang tot gezondheidszorg.',
-      mainParagraphs: [
-        'De gevolgen van analfabetisme bij volwassenen zijn verstrekkend en beïnvloeden de persoonlijke veiligheid, juridische rechten en financiële stabiliteit. Een analfabeet persoon kan de inhoud van een juridisch contract niet controleren, wat hem/haar kwetsbaar maakt voor uitbuiting.',
-        'In het dagelijks leven worden eenvoudige taken zoals het gebruik van het openbaar vervoer of het lezen van verkeersborden grote obstakels.',
-        'Door analfabetisme aan te pakken, herstellen we de persoonlijke autonomie, maken we maatschappelijke participatie mogelijk en stellen we vrouwen in staat de controle te nemen over hun beslissingen op het gebied van gezondheid, financiën en rechten.'
-      ],
-      cards: [
-        { title: 'Juridische kwetsbaarheid', text: 'Het onvermogen om contracten te lezen maakt analfabete volwassenen tot gemakkelijke doelwitten voor fraude.' },
-        { title: "Gezondheidsrisico's", text: "Moeite met het lezen van medische etiketten leidt tot hogere percentages van vermijdbare ziekten." }
-      ]
+      path: 'Analfabetisme / Bronnen',
+      title: 'Bronnen',
+      subtitle: 'Hulpmiddelen, documenten en inhoud om ons werk te ontdekken.',
+      statNumber: '',
+      statLabel: '',
+      sidebarText: '',
+      mainParagraphs: [],
+      cards: []
     },
     'cookie-policy': {
       id: 'cookie-policy',
