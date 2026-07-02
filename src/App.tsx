@@ -1158,6 +1158,21 @@ function App() {
       if (!donateCompanyNumber.trim()) {
         setDonateCompanyNumberError('required');
         hasError = true;
+      } else {
+        const cleanCompany = donateCompanyNumber.replace(/[^\d]/g, '');
+        if (cleanCompany.length !== 10) {
+          setDonateCompanyNumberError('invalid');
+          hasError = true;
+        }
+      }
+    } else {
+      // Individual form: validate Belgian company number if filled
+      if (donateCompanyNumber.trim()) {
+        const cleanCompany = donateCompanyNumber.replace(/[^\d]/g, '');
+        if (cleanCompany.length !== 10) {
+          setDonateCompanyNumberError('invalid');
+          hasError = true;
+        }
       }
     }
 
@@ -2609,7 +2624,7 @@ function App() {
       )}
 
       {/* ADVANCED NGO DONATION FORM MODAL */}
-                  {showDonateModal && (() => {
+                        {showDonateModal && (() => {
         const dt = donationTranslations[lang];
         const finalAmount = customAmount || donateAmount;
         
@@ -2649,12 +2664,27 @@ function App() {
           <div className="modal-overlay">
             <div className="donation-modal-content animate-fade-in">
               
-              {/* Header section: Step indicator on the top-left, close button on the top-right */}
-              <div className="donation-modal-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div className="donation-step-badge" style={{ margin: 0 }}>
+              {/* Header section: Heart Icon on the top-left, Step badge in the center, close button on the top-right */}
+              <div className="donation-modal-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', position: 'relative' }}>
+                {/* Top-Left: Heart Icon */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {donateStep === 1 ? (
+                    /* Step 1 Heart Logo: Red heart inside yellow square */
+                    <div style={{ background: '#FDE047', borderRadius: '8px', padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Heart size={20} color="#E21D54" fill="#E21D54" />
+                    </div>
+                  ) : (
+                    /* Step 2 Heart Icon: Red outline heart */
+                    <Heart size={24} color="#E21D54" />
+                  )}
+                </div>
+
+                {/* Center Top: Step indicator pill badge */}
+                <div className="donation-step-badge" style={{ margin: 0, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
                   {donateStep === 1 ? dt.step1 : dt.step2}
                 </div>
                 
+                {/* Top-Right: Close Button */}
                 <button 
                   className="donation-modal-close" 
                   onClick={() => {
@@ -2683,23 +2713,10 @@ function App() {
                 </button>
               </div>
 
-              {/* Heart logo centered below the top row */}
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px', marginTop: '-12px' }}>
-                {donateStep === 1 ? (
-                  /* Step 1 Heart Logo: Red heart inside yellow square */
-                  <div style={{ background: '#FDE047', borderRadius: '8px', padding: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Heart size={28} color="#E21D54" fill="#E21D54" />
-                  </div>
-                ) : (
-                  /* Step 2 Heart Icon: Red outline heart */
-                  <Heart size={36} color="#E21D54" />
-                )}
-              </div>
-
               {/* STEP 1: Select Donation Type */}
               {donateStep === 1 ? (
                 <div>
-                  <h2 className="donation-modal-title">{dt.mainTitle}</h2>
+                  <h2 className="donation-modal-title" style={{ marginTop: '12px' }}>{dt.mainTitle}</h2>
                   <p className="donation-modal-subtitle">{dt.subtitle}</p>
 
                   <div style={{ marginBottom: '8px' }}>
@@ -2763,7 +2780,7 @@ function App() {
                     onClick={() => {
                       if (donateOption) setDonateStep(2);
                     }}
-                    style={{ opacity: donateOption ? 1 : 0.6, cursor: donateOption ? 'pointer' : 'not-allowed', marginTop: '12px' }}
+                    style={{ opacity: donateOption ? 1 : 0.6, cursor: donateOption ? 'pointer' : 'not-allowed', marginTop: '24px' }}
                   >
                     {dt.btnContinue} <ChevronRight size={18} />
                   </button>
@@ -2776,7 +2793,7 @@ function App() {
               ) : (
                 /* STEP 2: Detail Form based on selected option */
                 <form onSubmit={handleDonateSubmit} style={{ width: '100%' }}>
-                  <h2 className="donation-modal-title">
+                  <h2 className="donation-modal-title" style={{ marginTop: '12px' }}>
                     {donateOption === 'money' && dt.titleMoney}
                     {donateOption === 'materials' && dt.titleMaterials}
                     {donateOption === 'volunteer' && dt.titleVolunteer}
@@ -2815,7 +2832,7 @@ function App() {
                         />
                       </div>
                       {donateAmountError && (
-                        <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                        <span className="field-error-msg">
                           {lang === 'FR' ? "Veuillez saisir un montant de don valide." : lang === 'NL' ? "Vul een geldig donatiebedrag in." : "Please enter a valid donation amount."}
                         </span>
                       )}
@@ -2869,8 +2886,8 @@ function App() {
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                       />
                       {donateMaterialsDescError && (
-                        <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                          {lang === 'FR' ? "Veuillez remplir ce champ." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                        <span className="field-error-msg">
+                          {lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
                         </span>
                       )}
                     </div>
@@ -2895,8 +2912,8 @@ function App() {
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                       />
                       {donateVolunteerDescError && (
-                        <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                          {lang === 'FR' ? "Veuillez remplir ce champ." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                        <span className="field-error-msg">
+                          {lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
                         </span>
                       )}
                     </div>
@@ -2964,11 +2981,8 @@ function App() {
                       )}
                     </div>
                     {donateEmailError && (
-                      <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                        {donateEmailError === 'required'
-                          ? (lang === 'FR' ? "L'adresse e-mail est obligatoire." : lang === 'NL' ? "E-mailadres is verplicht." : "Email is required.")
-                          : (lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address.")
-                        }
+                      <span className="field-error-msg">
+                        {lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address."}
                       </span>
                     )}
                   </div>
@@ -2993,7 +3007,7 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCompanyNameError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          <span className="field-error-msg">
                             {lang === 'FR' ? "Le nom de l'entreprise est obligatoire." : lang === 'NL' ? "Bedrijfsnaam is verplicht." : "Company name is required."}
                           </span>
                         )}
@@ -3015,7 +3029,7 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCompanyNumberError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          <span className="field-error-msg">
                             {lang === 'FR' ? "Le numéro d'entreprise est obligatoire." : lang === 'NL' ? "Ondernemingsnummer is verplicht." : "Company number is required."}
                           </span>
                         )}
@@ -3040,8 +3054,8 @@ function App() {
                           <option value="Other">{lang === 'FR' ? 'Autre' : lang === 'NL' ? 'Anders' : 'Other'}</option>
                         </select>
                         {donateSalutationError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "La civilité est obligatoire." : lang === 'NL' ? "Titel is verplicht." : "Title is required."}
                           </span>
                         )}
                       </div>
@@ -3061,8 +3075,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateFirstNameError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Le prénom est obligatoire." : lang === 'NL' ? "Voornaam is verplicht." : "First name is required."}
                           </span>
                         )}
                       </div>
@@ -3082,8 +3096,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateLastNameError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Le nom est obligatoire." : lang === 'NL' ? "Achternaam is verplicht." : "Last name is required."}
                           </span>
                         )}
                       </div>
@@ -3103,7 +3117,7 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateAddressError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          <span className="field-error-msg">
                             {lang === 'FR' ? "L'adresse est obligatoire." : lang === 'NL' ? "Adres is verplicht." : "Address is required."}
                           </span>
                         )}
@@ -3124,8 +3138,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donatePostalCodeError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Le code postal est obligatoire." : lang === 'NL' ? "Postcode is verplicht." : "Postal code is required."}
                           </span>
                         )}
                       </div>
@@ -3145,8 +3159,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCityError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "La ville est obligatoire." : lang === 'NL' ? "Stad is verplicht." : "City is required."}
                           </span>
                         )}
                       </div>
@@ -3192,8 +3206,8 @@ function App() {
                           <option value="Other">{lang === 'FR' ? 'Autre' : lang === 'NL' ? 'Anders' : 'Other'}</option>
                         </select>
                         {donateSalutationError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "La civilité est obligatoire." : lang === 'NL' ? "Titel is verplicht." : "Title is required."}
                           </span>
                         )}
                       </div>
@@ -3213,8 +3227,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateFirstNameError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Le prénom est obligatoire." : lang === 'NL' ? "Voornaam is verplicht." : "First name is required."}
                           </span>
                         )}
                       </div>
@@ -3234,8 +3248,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateLastNameError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Le nom est obligatoire." : lang === 'NL' ? "Achternaam is verplicht." : "Last name is required."}
                           </span>
                         )}
                       </div>
@@ -3255,7 +3269,7 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateAddressError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          <span className="field-error-msg">
                             {lang === 'FR' ? "L'adresse est obligatoire." : lang === 'NL' ? "Adres is verplicht." : "Address is required."}
                           </span>
                         )}
@@ -3276,8 +3290,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donatePostalCodeError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Le code postal est obligatoire." : lang === 'NL' ? "Postcode is verplicht." : "Postal code is required."}
                           </span>
                         )}
                       </div>
@@ -3297,8 +3311,8 @@ function App() {
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCityError && (
-                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
-                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "La ville est obligatoire." : lang === 'NL' ? "Stad is verplicht." : "City is required."}
                           </span>
                         )}
                       </div>
@@ -3327,11 +3341,19 @@ function App() {
                         <input 
                           type="text" 
                           value={donateCompanyNumber}
-                          onChange={(e) => setDonateCompanyNumber(e.target.value)}
-                          className="form-input"
+                          onChange={(e) => {
+                            setDonateCompanyNumber(e.target.value);
+                            if (donateCompanyNumberError) setDonateCompanyNumberError(null);
+                          }}
+                          className={`form-input ${donateCompanyNumberError ? 'input-error' : ''}`}
                           placeholder="BE 0123.456.789"
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
+                        {donateCompanyNumberError && (
+                          <span className="field-error-msg">
+                            {lang === 'FR' ? "Veuillez saisir un numéro d'entreprise valide." : lang === 'NL' ? "Voer een geldig ondernemingsnummer in." : "Please enter a valid company number."}
+                          </span>
+                        )}
                       </div>
                     </div>
                   )}
@@ -3372,7 +3394,7 @@ function App() {
                       </span>
                     </div>
                     {donateAcceptPoliciesError && (
-                      <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                      <span className="field-error-msg">
                         {lang === 'FR' ? "Vous devez accepter la politique de donation." : lang === 'NL' ? "U moet het donatiebeleid accepteren." : "You must accept the donation policy."}
                       </span>
                     )}
