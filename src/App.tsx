@@ -352,6 +352,11 @@ const donationTranslations = {
     btnDonateNow: "Donner maintenant",
     otherText: "Autre",
 
+    selectCountry: "Sélectionnez le pays",
+    errRequired: "Ce champ est obligatoire.",
+    errName: "Veuillez saisir un nom valide.",
+    errEmail: "Veuillez saisir une adresse e-mail valide.",
+
     titleMaterials: "Donner du matériel",
     subtitleMaterials: "Offrez des fournitures, équipements ou d'autres biens utiles pour nos programmes.",
     materialsDescLabel: "Description des fournitures / matériel *",
@@ -412,6 +417,11 @@ const donationTranslations = {
     btnDonateNow: "Donate Now",
     otherText: "Other",
 
+    selectCountry: "Select country",
+    errRequired: "This field is required.",
+    errName: "Please enter a valid name.",
+    errEmail: "Please enter a valid email address.",
+
     titleMaterials: "Donate Materials",
     subtitleMaterials: "Provide materials, equipment, or other useful supplies for our programs.",
     materialsDescLabel: "Description of materials / supplies *",
@@ -471,6 +481,11 @@ const donationTranslations = {
     policyCheckbox: "Ik accepteer het Likro & Lihto Donatiebeleid en het Privacybeleid. *",
     btnDonateNow: "Nu doneren",
     otherText: "Anders",
+
+    selectCountry: "Selecteer land",
+    errRequired: "Dit veld is verplicht.",
+    errName: "Voer een geldige naam in.",
+    errEmail: "Voer een geldig e-mailadres in.",
 
     titleMaterials: "Materiaal doneren",
     subtitleMaterials: "Schenk schoolmateriaal, apparatuur of andere nuttige goederen voor onze programma's.",
@@ -554,7 +569,7 @@ function App() {
   const [donateAddress, setDonateAddress] = useState('');
   const [donatePostalCode, setDonatePostalCode] = useState('');
   const [donateCity, setDonateCity] = useState('');
-  const [donateCountry, setDonateCountry] = useState('Belgium');
+  const [donateCountry, setDonateCountry] = useState('');
   const [donateCompanyNumber, setDonateCompanyNumber] = useState('');
   const [donateAcceptPolicies, setDonateAcceptPolicies] = useState(false);
   const [donateSubscribeNewsletter, setDonateSubscribeNewsletter] = useState(false);
@@ -577,6 +592,7 @@ function App() {
   const [donateVolunteerDescError, setDonateVolunteerDescError] = useState<string | null>(null);
   const [donateCompanyNameError, setDonateCompanyNameError] = useState<string | null>(null);
   const [donateCompanyNumberError, setDonateCompanyNumberError] = useState<string | null>(null);
+  const [donateCountryError, setDonateCountryError] = useState<string | null>(null);
 
   // Isolate contact form view
   const [showContactOnly, setShowContactOnly] = useState(false);
@@ -1137,6 +1153,7 @@ function App() {
     setDonateVolunteerDescError(null);
     setDonateCompanyNameError(null);
     setDonateCompanyNumberError(null);
+    setDonateCountryError(null);
 
     let hasError = false;
 
@@ -1199,6 +1216,10 @@ function App() {
     }
     if (!donateCity.trim()) {
       setDonateCityError('required');
+      hasError = true;
+    }
+    if (!donateCountry.trim()) {
+      setDonateCountryError('required');
       hasError = true;
     }
 
@@ -1286,7 +1307,7 @@ function App() {
     setDonateAddress('');
     setDonatePostalCode('');
     setDonateCity('');
-    setDonateCountry('Belgium');
+    setDonateCountry('');
     setDonateCompanyName('');
     setDonateCompanyNumber('');
     setDonateAcceptPolicies(false);
@@ -2624,7 +2645,7 @@ function App() {
       )}
 
       {/* ADVANCED NGO DONATION FORM MODAL */}
-                        {showDonateModal && (() => {
+                              {showDonateModal && (() => {
         const dt = donationTranslations[lang];
         const finalAmount = customAmount || donateAmount;
         
@@ -2705,6 +2726,7 @@ function App() {
                     setDonateVolunteerDescError(null);
                     setDonateCompanyNameError(null);
                     setDonateCompanyNumberError(null);
+                    setDonateCountryError(null);
                   }} 
                   aria-label="Close"
                   style={{ margin: 0 }}
@@ -2792,7 +2814,7 @@ function App() {
                 </div>
               ) : (
                 /* STEP 2: Detail Form based on selected option */
-                <form onSubmit={handleDonateSubmit} style={{ width: '100%' }}>
+                <form onSubmit={handleDonateSubmit} style={{ width: '100%' }} noValidate>
                   <h2 className="donation-modal-title" style={{ marginTop: '12px' }}>
                     {donateOption === 'money' && dt.titleMoney}
                     {donateOption === 'materials' && dt.titleMaterials}
@@ -2833,7 +2855,7 @@ function App() {
                       </div>
                       {donateAmountError && (
                         <span className="field-error-msg">
-                          {lang === 'FR' ? "Veuillez saisir un montant de don valide." : lang === 'NL' ? "Vul een geldig donatiebedrag in." : "Please enter a valid donation amount."}
+                          {dt.errRequired}
                         </span>
                       )}
 
@@ -2879,15 +2901,14 @@ function App() {
                           setDonateMaterialsDesc(e.target.value);
                           if (donateMaterialsDescError) setDonateMaterialsDescError(null);
                         }}
-                        placeholder={dt.materialsDescPlaceholder}
+                        placeholder=" "
                         className={`form-input ${donateMaterialsDescError ? 'input-error' : ''}`}
                         rows={3}
-                        required
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                       />
                       {donateMaterialsDescError && (
                         <span className="field-error-msg">
-                          {lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                          {dt.errRequired}
                         </span>
                       )}
                     </div>
@@ -2905,15 +2926,14 @@ function App() {
                           setDonateVolunteerDesc(e.target.value);
                           if (donateVolunteerDescError) setDonateVolunteerDescError(null);
                         }}
-                        placeholder={dt.volunteerDescPlaceholder}
+                        placeholder=" "
                         className={`form-input ${donateVolunteerDescError ? 'input-error' : ''}`}
                         rows={3}
-                        required
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                       />
                       {donateVolunteerDescError && (
                         <span className="field-error-msg">
-                          {lang === 'FR' ? "Ce champ est obligatoire." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                          {dt.errRequired}
                         </span>
                       )}
                     </div>
@@ -2928,7 +2948,7 @@ function App() {
                       <textarea
                         value={donateLegacyDesc}
                         onChange={(e) => setDonateLegacyDesc(e.target.value)}
-                        placeholder={dt.legacyDescPlaceholder}
+                        placeholder=" "
                         className="form-input"
                         rows={3}
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
@@ -2955,6 +2975,7 @@ function App() {
                           setDonateSalutationError(null);
                           setDonateCompanyNameError(null);
                           setDonateCompanyNumberError(null);
+                          setDonateCountryError(null);
                         }}
                       />
                       <span className="toggle-slider"></span>
@@ -2967,13 +2988,13 @@ function App() {
                     <div style={{ position: 'relative', width: '100%' }}>
                       <input 
                         type="email" 
-                        required 
                         value={donateEmail}
                         onChange={(e) => {
                           setDonateEmail(e.target.value);
                           if (donateEmailError) setDonateEmailError(null);
                         }}
                         className={`form-input ${donateEmailError ? 'input-error' : ''}`}
+                        placeholder=" "
                         style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px 40px 12px 14px' }}
                       />
                       {isValidEmail(donateEmail) && (
@@ -2982,7 +3003,7 @@ function App() {
                     </div>
                     {donateEmailError && (
                       <span className="field-error-msg">
-                        {lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address."}
+                        {donateEmailError === 'required' ? dt.errRequired : dt.errEmail}
                       </span>
                     )}
                   </div>
@@ -2997,18 +3018,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.companyNameLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateCompanyName}
                           onChange={(e) => {
                             setDonateCompanyName(e.target.value);
                             if (donateCompanyNameError) setDonateCompanyNameError(null);
                           }}
                           className={`form-input ${donateCompanyNameError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCompanyNameError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le nom de l'entreprise est obligatoire." : lang === 'NL' ? "Bedrijfsnaam is verplicht." : "Company name is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3018,19 +3039,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.companyNumberReqLabel}</label>
                         <input 
                           type="text" 
-                          required
                           value={donateCompanyNumber}
                           onChange={(e) => {
                             setDonateCompanyNumber(e.target.value);
                             if (donateCompanyNumberError) setDonateCompanyNumberError(null);
                           }}
                           className={`form-input ${donateCompanyNumberError ? 'input-error' : ''}`}
-                          placeholder="BE 0123.456.789"
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCompanyNumberError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le numéro d'entreprise est obligatoire." : lang === 'NL' ? "Ondernemingsnummer is verplicht." : "Company number is required."}
+                            {donateCompanyNumberError === 'required' ? dt.errRequired : dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3045,7 +3065,6 @@ function App() {
                             if (donateSalutationError) setDonateSalutationError(null);
                           }}
                           className={`form-select ${donateSalutationError ? 'input-error' : ''}`}
-                          required
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         >
                           <option value="">--</option>
@@ -3055,7 +3074,7 @@ function App() {
                         </select>
                         {donateSalutationError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "La civilité est obligatoire." : lang === 'NL' ? "Titel is verplicht." : "Title is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3065,18 +3084,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.firstNameLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateFirstName}
                           onChange={(e) => {
                             setDonateFirstName(e.target.value);
                             if (donateFirstNameError) setDonateFirstNameError(null);
                           }}
                           className={`form-input ${donateFirstNameError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateFirstNameError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le prénom est obligatoire." : lang === 'NL' ? "Voornaam is verplicht." : "First name is required."}
+                            {dt.errName}
                           </span>
                         )}
                       </div>
@@ -3086,18 +3105,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.lastNameLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateLastName}
                           onChange={(e) => {
                             setDonateLastName(e.target.value);
                             if (donateLastNameError) setDonateLastNameError(null);
                           }}
                           className={`form-input ${donateLastNameError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateLastNameError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le nom est obligatoire." : lang === 'NL' ? "Achternaam is verplicht." : "Last name is required."}
+                            {dt.errName}
                           </span>
                         )}
                       </div>
@@ -3107,18 +3126,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.addressLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateAddress}
                           onChange={(e) => {
                             setDonateAddress(e.target.value);
                             if (donateAddressError) setDonateAddressError(null);
                           }}
                           className={`form-input ${donateAddressError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateAddressError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "L'adresse est obligatoire." : lang === 'NL' ? "Adres is verplicht." : "Address is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3128,18 +3147,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.postalCodeLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donatePostalCode}
                           onChange={(e) => {
                             setDonatePostalCode(e.target.value);
                             if (donatePostalCodeError) setDonatePostalCodeError(null);
                           }}
                           className={`form-input ${donatePostalCodeError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donatePostalCodeError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le code postal est obligatoire." : lang === 'NL' ? "Postcode is verplicht." : "Postal code is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3149,18 +3168,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.cityLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateCity}
                           onChange={(e) => {
                             setDonateCity(e.target.value);
                             if (donateCityError) setDonateCityError(null);
                           }}
                           className={`form-input ${donateCityError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCityError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "La ville est obligatoire." : lang === 'NL' ? "Stad is verplicht." : "City is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3170,17 +3189,25 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.countryLabel}</label>
                         <select
                           value={donateCountry}
-                          onChange={(e) => setDonateCountry(e.target.value)}
-                          className="form-select"
-                          required
+                          onChange={(e) => {
+                            setDonateCountry(e.target.value);
+                            if (donateCountryError) setDonateCountryError(null);
+                          }}
+                          className={`form-select ${donateCountryError ? 'input-error' : ''}`}
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         >
+                          <option value="">{dt.selectCountry}</option>
                           {countryOptions.map((opt) => (
                             <option key={opt.value} value={opt.label}>
                               {opt.label}
                             </option>
                           ))}
                         </select>
+                        {donateCountryError && (
+                          <span className="field-error-msg">
+                            {dt.errRequired}
+                          </span>
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -3197,7 +3224,6 @@ function App() {
                             if (donateSalutationError) setDonateSalutationError(null);
                           }}
                           className={`form-select ${donateSalutationError ? 'input-error' : ''}`}
-                          required
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         >
                           <option value="">--</option>
@@ -3207,7 +3233,7 @@ function App() {
                         </select>
                         {donateSalutationError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "La civilité est obligatoire." : lang === 'NL' ? "Titel is verplicht." : "Title is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3217,18 +3243,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.firstNameLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateFirstName}
                           onChange={(e) => {
                             setDonateFirstName(e.target.value);
                             if (donateFirstNameError) setDonateFirstNameError(null);
                           }}
                           className={`form-input ${donateFirstNameError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateFirstNameError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le prénom est obligatoire." : lang === 'NL' ? "Voornaam is verplicht." : "First name is required."}
+                            {dt.errName}
                           </span>
                         )}
                       </div>
@@ -3238,18 +3264,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.lastNameLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateLastName}
                           onChange={(e) => {
                             setDonateLastName(e.target.value);
                             if (donateLastNameError) setDonateLastNameError(null);
                           }}
                           className={`form-input ${donateLastNameError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateLastNameError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le nom est obligatoire." : lang === 'NL' ? "Achternaam is verplicht." : "Last name is required."}
+                            {dt.errName}
                           </span>
                         )}
                       </div>
@@ -3259,18 +3285,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.addressLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateAddress}
                           onChange={(e) => {
                             setDonateAddress(e.target.value);
                             if (donateAddressError) setDonateAddressError(null);
                           }}
                           className={`form-input ${donateAddressError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateAddressError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "L'adresse est obligatoire." : lang === 'NL' ? "Adres is verplicht." : "Address is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3280,18 +3306,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.postalCodeLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donatePostalCode}
                           onChange={(e) => {
                             setDonatePostalCode(e.target.value);
                             if (donatePostalCodeError) setDonatePostalCodeError(null);
                           }}
                           className={`form-input ${donatePostalCodeError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donatePostalCodeError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Le code postal est obligatoire." : lang === 'NL' ? "Postcode is verplicht." : "Postal code is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3301,18 +3327,18 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.cityLabel}</label>
                         <input 
                           type="text" 
-                          required 
                           value={donateCity}
                           onChange={(e) => {
                             setDonateCity(e.target.value);
                             if (donateCityError) setDonateCityError(null);
                           }}
                           className={`form-input ${donateCityError ? 'input-error' : ''}`}
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCityError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "La ville est obligatoire." : lang === 'NL' ? "Stad is verplicht." : "City is required."}
+                            {dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3322,17 +3348,25 @@ function App() {
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.countryLabel}</label>
                         <select
                           value={donateCountry}
-                          onChange={(e) => setDonateCountry(e.target.value)}
-                          className="form-select"
-                          required
+                          onChange={(e) => {
+                            setDonateCountry(e.target.value);
+                            if (donateCountryError) setDonateCountryError(null);
+                          }}
+                          className={`form-select ${donateCountryError ? 'input-error' : ''}`}
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         >
+                          <option value="">{dt.selectCountry}</option>
                           {countryOptions.map((opt) => (
                             <option key={opt.value} value={opt.label}>
                               {opt.label}
                             </option>
                           ))}
                         </select>
+                        {donateCountryError && (
+                          <span className="field-error-msg">
+                            {dt.errRequired}
+                          </span>
+                        )}
                       </div>
 
                       {/* Optional Belgian Company Number (rendered at bottom of individual form) */}
@@ -3346,12 +3380,12 @@ function App() {
                             if (donateCompanyNumberError) setDonateCompanyNumberError(null);
                           }}
                           className={`form-input ${donateCompanyNumberError ? 'input-error' : ''}`}
-                          placeholder="BE 0123.456.789"
+                          placeholder=" "
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                         {donateCompanyNumberError && (
                           <span className="field-error-msg">
-                            {lang === 'FR' ? "Veuillez saisir un numéro d'entreprise valide." : lang === 'NL' ? "Voer een geldig ondernemingsnummer in." : "Please enter a valid company number."}
+                            {donateCompanyNumberError === 'required' ? dt.errRequired : dt.errRequired}
                           </span>
                         )}
                       </div>
@@ -3395,7 +3429,7 @@ function App() {
                     </div>
                     {donateAcceptPoliciesError && (
                       <span className="field-error-msg">
-                        {lang === 'FR' ? "Vous devez accepter la politique de donation." : lang === 'NL' ? "U moet het donatiebeleid accepteren." : "You must accept the donation policy."}
+                        {dt.errRequired}
                       </span>
                     )}
                   </div>
