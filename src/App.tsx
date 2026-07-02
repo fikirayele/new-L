@@ -16,7 +16,6 @@ import {
   Image as ImageIcon,
   ChevronRight,
   Sparkles,
-  CreditCard,
   Users,
   Calculator,
   Scale,
@@ -28,7 +27,10 @@ import {
   Landmark,
   FileText,
   Play,
-  HelpCircle
+  HelpCircle,
+  Package,
+  Clock,
+  Lock
 } from 'lucide-react';
 import { sectionsData, type DetailSection } from './data';
 import { translations } from './translations';
@@ -242,9 +244,7 @@ const isValidEmail = (email: string): boolean => {
   return emailRegex.test(email);
 };
 
-const hasNumbers = (text: string): boolean => {
-  return /\d/.test(text);
-};
+
 
 const hasLetters = (text: string): boolean => {
   return /[a-zA-Z]/.test(text);
@@ -309,6 +309,183 @@ const countryOptions = getCountries().map((country) => ({
   label: (countryLabels as Record<string, string>)[country] || country
 }));
 
+const donationTranslations = {
+  FR: {
+    step1: "Étape 1 sur 2",
+    step2: "Étape 2 sur 2",
+    mainTitle: "Votre soutien fait la différence",
+    subtitle: "Choisissez comment vous souhaitez contribuer à notre mission.",
+    questionLabel: "Que souhaitez-vous offrir ?",
+    helpText: "Sélectionnez le type de contribution qui vous correspond le mieux.",
+    placeholder: "Sélectionnez une option",
+    optMoneyTitle: "Donner de l'argent",
+    optMoneyDesc: "Soutenez financièrement nos projets et programmes.",
+    optMaterialsTitle: "Donner du matériel",
+    optMaterialsDesc: "Offrez des fournitures, équipements ou d'autres biens utiles.",
+    optVolunteerTitle: "Donner de votre temps",
+    optVolunteerDesc: "Partagez vos compétences en devenant bénévole.",
+    optLegacyTitle: "Faire un legs",
+    optLegacyDesc: "Soutenez notre mission pour les générations futures grâce à un legs.",
+    btnContinue: "Continuer",
+    securityMsg: "Vos informations sont sécurisées et confidentielles.",
+    
+    // Step 2 Money
+    titleMoney: "Donner de l'argent",
+    subtitleMoney: "Votre soutien financier aide à financer nos programmes éducatifs et à créer des opportunités pour les enfants.",
+    amountLabel: "Saisissez le montant de votre don",
+    amountHelp: "Chaque contribution fait la différence.",
+    amountPlaceholder: "Saisissez un montant",
+    emailLabel: "Adresse e-mail",
+    orgToggle: "Je suis une organisation",
+    titleLabel: "Civilité *",
+    firstNameLabel: "Prénom *",
+    lastNameLabel: "Nom *",
+    addressLabel: "Adresse *",
+    postalCodeLabel: "Code postal *",
+    cityLabel: "Ville *",
+    countryLabel: "Pays *",
+    companyLabel: "Numéro d'entreprise belge (facultatif)",
+    newsletterCheckbox: "Je souhaite recevoir la newsletter de l'association.",
+    policyCheckbox: "J'accepte la Politique de donation de Likro & Lihto et la Politique de confidentialité. *",
+    btnDonateNow: "Donner maintenant",
+    otherText: "Autre",
+
+    titleMaterials: "Donner du matériel",
+    subtitleMaterials: "Offrez des fournitures, équipements ou d'autres biens utiles pour nos programmes.",
+    materialsDescLabel: "Description des fournitures / matériel *",
+    materialsDescPlaceholder: "Décrivez ce que vous souhaitez offrir...",
+    materialsSubmit: "Soumettre l'offre",
+
+    titleVolunteer: "Devenir bénévole",
+    subtitleVolunteer: "Partagez vos compétences et donnez de votre temps pour soutenir nos actions.",
+    volunteerDescLabel: "Compétences et disponibilités *",
+    volunteerDescPlaceholder: "Partagez votre parcours et vos envies de bénévolat...",
+    volunteerSubmit: "Devenir bénévole",
+
+    titleLegacy: "Faire un legs",
+    subtitleLegacy: "Assurez la pérennité de nos actions éducatives pour les générations futures.",
+    legacyDescLabel: "Message ou demande d'information (facultatif)",
+    legacyDescPlaceholder: "Saisissez votre message...",
+    legacySubmit: "Demander des informations"
+  },
+  EN: {
+    step1: "Step 1 of 2",
+    step2: "Step 2 of 2",
+    mainTitle: "Your Support Makes a Difference",
+    subtitle: "Choose how you would like to support our mission.",
+    questionLabel: "What would you like to donate?",
+    helpText: "Select the type of contribution that suits you best.",
+    placeholder: "Select an option",
+    optMoneyTitle: "Donate Money",
+    optMoneyDesc: "Support our projects and programs financially.",
+    optMaterialsTitle: "Donate Materials",
+    optMaterialsDesc: "Donate supplies, equipment, or other useful items.",
+    optVolunteerTitle: "Volunteer Your Time",
+    optVolunteerDesc: "Share your skills by volunteering.",
+    optLegacyTitle: "Leave a Legacy Gift",
+    optLegacyDesc: "Leave a lasting impact through a legacy gift.",
+    btnContinue: "Continue",
+    securityMsg: "Your information is secure and confidential.",
+    
+    // Step 2 Money
+    titleMoney: "Donate Money",
+    subtitleMoney: "Your financial support helps fund our educational programs and create opportunities for children.",
+    amountLabel: "Enter your donation amount",
+    amountHelp: "Every contribution makes a difference.",
+    amountPlaceholder: "Enter an amount",
+    emailLabel: "Email Address",
+    orgToggle: "I am an organization",
+    titleLabel: "Title *",
+    firstNameLabel: "First Name *",
+    lastNameLabel: "Last Name *",
+    addressLabel: "Address *",
+    postalCodeLabel: "Postal Code *",
+    cityLabel: "City *",
+    countryLabel: "Country *",
+    companyLabel: "Belgian company number (optional)",
+    newsletterCheckbox: "I would like to receive the association's newsletter.",
+    policyCheckbox: "I accept the Likro & Lihto Donation Policy and the Privacy Policy. *",
+    btnDonateNow: "Donate Now",
+    otherText: "Other",
+
+    titleMaterials: "Donate Materials",
+    subtitleMaterials: "Provide materials, equipment, or other useful supplies for our programs.",
+    materialsDescLabel: "Description of materials / supplies *",
+    materialsDescPlaceholder: "Describe what you would like to offer...",
+    materialsSubmit: "Submit Offer",
+
+    titleVolunteer: "Volunteer Your Time",
+    subtitleVolunteer: "Share your skills and volunteer with our team to support our actions.",
+    volunteerDescLabel: "Skills and Availability *",
+    volunteerDescPlaceholder: "Tell us about your background and how you would like to help...",
+    volunteerSubmit: "Volunteer Now",
+
+    titleLegacy: "Leave a Legacy Gift",
+    subtitleLegacy: "Support our educational mission for future generations through a legacy gift.",
+    legacyDescLabel: "Message or request for information (optional)",
+    legacyDescPlaceholder: "Type your message here...",
+    legacySubmit: "Request Information"
+  },
+  NL: {
+    step1: "Stap 1 van 2",
+    step2: "Stap 2 van 2",
+    mainTitle: "Uw steun maakt het verschil",
+    subtitle: "Kies hoe u onze missie wilt steunen.",
+    questionLabel: "Wat wilt u schenken?",
+    helpText: "Kies het type bijdrage dat het beste bij u past.",
+    placeholder: "Selecteer een optie",
+    optMoneyTitle: "Geld doneren",
+    optMoneyDesc: "Steun onze projecten en programma's financieel.",
+    optMaterialsTitle: "Materiaal doneren",
+    optMaterialsDesc: "Schenk schoolmateriaal, apparatuur of andere nuttige goederen.",
+    optVolunteerTitle: "Vrijwilliger worden",
+    optVolunteerDesc: "Deel uw vaardigheden als vrijwilliger.",
+    optLegacyTitle: "Een legaat nalaten",
+    optLegacyDesc: "Laat een blijvende impact na met een legaat.",
+    btnContinue: "Verder",
+    securityMsg: "Uw gegevens zijn veilig en vertrouwelijk.",
+    
+    // Step 2 Money
+    titleMoney: "Geld doneren",
+    subtitleMoney: "Uw financiële steun helpt onze onderwijsprogramma's te financieren en kansen te creëren voor kinderen.",
+    amountLabel: "Voer het bedrag van uw donatie in",
+    amountHelp: "Elke bijdrage maakt een verschil.",
+    amountPlaceholder: "Voer een bedrag in",
+    emailLabel: "E-mailadres",
+    orgToggle: "Ik ben een organisatie",
+    titleLabel: "Titel *",
+    firstNameLabel: "Voornaam *",
+    lastNameLabel: "Achternaam *",
+    addressLabel: "Adres *",
+    postalCodeLabel: "Postcode *",
+    cityLabel: "Stad *",
+    countryLabel: "Land *",
+    companyLabel: "Belgisch ondernemingsnummer (optioneel)",
+    newsletterCheckbox: "Ik wil de nieuwsbrief van de vereniging ontvangen.",
+    policyCheckbox: "Ik accepteer het Likro & Lihto Donatiebeleid en het Privacybeleid. *",
+    btnDonateNow: "Nu doneren",
+    otherText: "Anders",
+
+    titleMaterials: "Materiaal doneren",
+    subtitleMaterials: "Schenk schoolmateriaal, apparatuur of andere nuttige goederen voor onze programma's.",
+    materialsDescLabel: "Beschrijving van materialen / goederen *",
+    materialsDescPlaceholder: "Beschrijf wat u wilt schenken...",
+    materialsSubmit: "Aanbod indienen",
+
+    titleVolunteer: "Vrijwilliger worden",
+    subtitleVolunteer: "Deel uw vaardigheden als vrijwilliger en steun onze acties.",
+    volunteerDescLabel: "Vaardigheden en beschikbaarheid *",
+    volunteerDescPlaceholder: "Vertel ons over uw achtergrond en hoe u wilt helpen...",
+    volunteerSubmit: "Vrijwilliger worden",
+
+    titleLegacy: "Een legaat nalaten",
+    subtitleLegacy: "Laat een blijvende impact na met een legaat ten voordele van onze onderwijsprojecten.",
+    legacyDescLabel: "Bericht of verzoek om informatie (optioneel)",
+    legacyDescPlaceholder: "Typ uw bericht hier...",
+    legacySubmit: "Informatie aanvragen"
+  }
+};
+
 function App() {
   // Language & Translation State
   const [lang, setLang] = useState<'EN' | 'FR' | 'NL'>(() => {
@@ -358,12 +535,26 @@ function App() {
 
   // Modal: Advanced Donation Form
   const [showDonateModal, setShowDonateModal] = useState(false);
-  const [donateAmount, setDonateAmount] = useState('50');
+  const [donateStep, setDonateStep] = useState(1);
+  const [donateOption, setDonateOption] = useState<string>('');
+  const [donateOptionDropdownOpen, setDonateOptionDropdownOpen] = useState(false);
+  const [donateAmount, setDonateAmount] = useState('100');
   const [customAmount, setCustomAmount] = useState('');
-  const [donateName, setDonateName] = useState('');
   const [donateEmail, setDonateEmail] = useState('');
-  const [donateCause, setDonateCause] = useState('General Educational Fund');
-  const [payMethod, setPayMethod] = useState('card');
+  const [donateIsOrg, setDonateIsOrg] = useState(false);
+  const [donateSalutation, setDonateSalutation] = useState('');
+  const [donateFirstName, setDonateFirstName] = useState('');
+  const [donateLastName, setDonateLastName] = useState('');
+  const [donateAddress, setDonateAddress] = useState('');
+  const [donatePostalCode, setDonatePostalCode] = useState('');
+  const [donateCity, setDonateCity] = useState('');
+  const [donateCountry, setDonateCountry] = useState('Belgium');
+  const [donateCompanyNumber, setDonateCompanyNumber] = useState('');
+  const [donateAcceptPolicies, setDonateAcceptPolicies] = useState(false);
+  const [donateSubscribeNewsletter, setDonateSubscribeNewsletter] = useState(false);
+  const [donateMaterialsDesc, setDonateMaterialsDesc] = useState('');
+  const [donateVolunteerDesc, setDonateVolunteerDesc] = useState('');
+  const [donateLegacyDesc, setDonateLegacyDesc] = useState('');
 
   // Isolate contact form view
   const [showContactOnly, setShowContactOnly] = useState(false);
@@ -909,36 +1100,99 @@ function App() {
   // Submit NGO Advanced Donation Form
   const handleDonateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!donateName.trim()) {
-      triggerToast(lang === 'FR' ? 'Veuillez saisir votre nom complet' : lang === 'NL' ? 'Vul alstublieft uw volledige naam in.' : 'Please enter your full name.');
-      return;
-    }
-    if (hasNumbers(donateName)) {
-      triggerToast(lang === 'FR' ? 'Le nom complet ne peut pas contenir de chiffres' : lang === 'NL' ? 'Volledige naam mag geen cijfers bevatten.' : 'Full name cannot contain numbers.');
-      return;
-    }
+    
+    // 1. Common Validation
     if (!isValidEmail(donateEmail)) {
-      triggerToast(lang === 'FR' ? 'Adresse email non valide' : lang === 'NL' ? 'Ongeldig e-mailadres.' : 'Please enter a valid email address.');
+      triggerToast(lang === 'FR' ? 'Adresse e-mail non valide' : lang === 'NL' ? 'Ongeldig e-mailadres.' : 'Please enter a valid email address.');
+      return;
+    }
+    if (!donateFirstName.trim() || !donateLastName.trim()) {
+      triggerToast(lang === 'FR' ? 'Veuillez saisir votre prénom et nom.' : lang === 'NL' ? 'Vul alstublieft uw voornaam en achternaam in.' : 'Please enter your first name and last name.');
+      return;
+    }
+    if (!donateAddress.trim() || !donatePostalCode.trim() || !donateCity.trim() || !donateCountry.trim()) {
+      triggerToast(lang === 'FR' ? 'Veuillez remplir tous les champs obligatoires.' : lang === 'NL' ? 'Vul alle verplichte velden in.' : 'Please fill in all required fields.');
+      return;
+    }
+    if (!donateAcceptPolicies) {
+      triggerToast(lang === 'FR' ? 'Vous devez accepter la Politique de donation et la Politique de confidentialité.' : lang === 'NL' ? 'U moet het donatiebeleid en het privacybeleid accepteren.' : 'You must accept the Donation Policy and the Privacy Policy.');
       return;
     }
 
-    const finalAmount = customAmount || donateAmount;
-    let causeLabel = donateCause;
-    if (donateCause === 'General Educational Fund') causeLabel = t.donCauseGen;
-    else if (donateCause === 'Safe Shuttle & Transit Security') causeLabel = t.donCauseTransit;
-    else if (donateCause === 'New Classroom Construction') causeLabel = t.donCauseSchool;
-    else if (donateCause === 'Teacher Salary & Training') causeLabel = t.donCauseTeacher;
-
-    const successMsg = t.donSuccess
-      .replace('{amount}', finalAmount)
-      .replace('{cause}', causeLabel);
+    // 2. Option-specific Validation & Success message
+    let successMsg = "";
+    if (donateOption === 'money') {
+      const finalAmount = customAmount || donateAmount;
+      const amtNum = parseFloat(finalAmount);
+      if (!finalAmount || isNaN(amtNum) || amtNum <= 0) {
+        triggerToast(lang === 'FR' ? 'Veuillez saisir un montant de don valide.' : lang === 'NL' ? 'Vul een geldig donatiebedrag in.' : 'Please enter a valid donation amount.');
+        return;
+      }
+      
+      if (lang === 'FR') {
+        successMsg = `Merci! Votre don de ${finalAmount} € a bien été reçu.`;
+      } else if (lang === 'NL') {
+        successMsg = `Bedankt! Uw donatie van ${finalAmount} € is succesvol ontvangen.`;
+      } else {
+        successMsg = `Thank you! Your donation of €${finalAmount} was successfully received.`;
+      }
+    } else if (donateOption === 'materials') {
+      if (!donateMaterialsDesc.trim()) {
+        triggerToast(lang === 'FR' ? 'Veuillez décrire le matériel que vous souhaitez donner.' : lang === 'NL' ? 'Beschrijf het materiaal dat u wilt schenken.' : 'Please describe the materials you would like to donate.');
+        return;
+      }
+      if (lang === 'FR') {
+        successMsg = "Merci! Votre offre de don de matériel a été soumise avec succès.";
+      } else if (lang === 'NL') {
+        successMsg = "Bedankt! Uw aanbod voor materiaalschenking is succesvol ingediend.";
+      } else {
+        successMsg = "Thank you! Your material donation offer has been successfully submitted.";
+      }
+    } else if (donateOption === 'volunteer') {
+      if (!donateVolunteerDesc.trim()) {
+        triggerToast(lang === 'FR' ? 'Veuillez indiquer vos compétences et disponibilités.' : lang === 'NL' ? 'Geef uw vaardigheden en beschikbaarheid op.' : 'Please specify your skills and availability.');
+        return;
+      }
+      if (lang === 'FR') {
+        successMsg = "Merci! Votre demande de bénévolat a été soumise avec succès.";
+      } else if (lang === 'NL') {
+        successMsg = "Bedankt! Uw aanvraag voor vrijwilligerswerk is succesvol ingediend.";
+      } else {
+        successMsg = "Thank you! Your volunteer application has been successfully submitted.";
+      }
+    } else if (donateOption === 'legacy') {
+      if (lang === 'FR') {
+        successMsg = "Merci! Votre demande d'information sur les legs a été transmise.";
+      } else if (lang === 'NL') {
+        successMsg = "Bedankt! Uw informatieaanvraag over legaten is succesvol verzonden.";
+      } else {
+        successMsg = "Thank you! Your request for legacy gifting information has been submitted.";
+      }
+    }
 
     triggerToast(successMsg);
     setShowDonateModal(false);
-    setDonateName('');
-    setDonateEmail('');
+    
+    // Reset state
+    setDonateStep(1);
+    setDonateOption('');
+    setDonateAmount('100');
     setCustomAmount('');
-    setDonateCause('General Educational Fund');
+    setDonateEmail('');
+    setDonateIsOrg(false);
+    setDonateSalutation('');
+    setDonateFirstName('');
+    setDonateLastName('');
+    setDonateAddress('');
+    setDonatePostalCode('');
+    setDonateCity('');
+    setDonateCountry('Belgium');
+    setDonateCompanyNumber('');
+    setDonateAcceptPolicies(false);
+    setDonateSubscribeNewsletter(false);
+    setDonateMaterialsDesc('');
+    setDonateVolunteerDesc('');
+    setDonateLegacyDesc('');
   };
 
   // Submit NGO Contact Us Form
@@ -2270,128 +2524,471 @@ function App() {
       )}
 
       {/* ADVANCED NGO DONATION FORM MODAL */}
-      {showDonateModal && (
-        <div className="modal-overlay">
-          <div className="modal-content animate-fade-in" style={{ maxWidth: '520px', padding: '36px' }}>
-            <button className="modal-close" onClick={() => setShowDonateModal(false)} aria-label="Close">
-              <X size={20} />
-            </button>
-            <div className="modal-header-box" style={{ marginBottom: '20px' }}>
-              <Heart className="heart-icon animate-pulse" size={32} />
-              <h2>{t.donTitle}</h2>
-              <p style={{ fontSize: '12px' }}>{t.donSub}</p>
-            </div>
-            
-            <form onSubmit={handleDonateSubmit} className="donate-form">
-              {/* Cause Selector Dropdown */}
-              <div className="form-field-group" style={{ marginBottom: '14px' }}>
-                <label className="form-field-label">{t.donCause}</label>
-                <select 
-                  value={donateCause} 
-                  onChange={(e) => setDonateCause(e.target.value)}
-                  className="form-select"
-                >
-                  <option value="General Educational Fund">{t.donCauseGen}</option>
-                  <option value="Safe Shuttle & Transit Security">{t.donCauseTransit}</option>
-                  <option value="New Classroom Construction">{t.donCauseSchool}</option>
-                  <option value="Teacher Salary & Training">{t.donCauseTeacher}</option>
-                </select>
+      {showDonateModal && (() => {
+        const dt = donationTranslations[lang];
+        return (
+          <div className="modal-overlay">
+            <div className="donation-modal-content animate-fade-in">
+              <div className="donation-modal-header">
+                <div className="donation-step-badge">
+                  {donateStep === 1 ? dt.step1 : dt.step2}
+                </div>
+                <button className="donation-modal-close" onClick={() => {
+                  setShowDonateModal(false);
+                  setDonateStep(1);
+                  setDonateOption('');
+                }} aria-label="Close">
+                  <X size={18} />
+                </button>
               </div>
 
-              {/* Amount Selection */}
-              <div className="form-field-group" style={{ marginBottom: '14px' }}>
-                <label className="form-field-label">{t.donAmount}</label>
-                <div className="amount-grid">
-                  {['20', '50', '100', '250'].map((amt) => (
-                    <button
-                      key={amt}
+              {donateStep === 1 ? (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                    <div style={{ background: '#FFE4E6', color: '#E21D54', width: '60px', height: '60px', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Heart size={32} fill="#E21D54" />
+                    </div>
+                  </div>
+                  <h2 className="donation-modal-title">{dt.mainTitle}</h2>
+                  <p className="donation-modal-subtitle">{dt.subtitle}</p>
+
+                  <div style={{ marginBottom: '8px' }}>
+                    <label style={{ fontSize: '15px', fontWeight: '700', color: '#0F172A', display: 'block', marginBottom: '4px' }}>
+                      {dt.questionLabel}
+                    </label>
+                    <p style={{ fontSize: '13px', color: '#64748B', marginBottom: '16px' }}>
+                      {dt.helpText}
+                    </p>
+                  </div>
+
+                  {/* Custom Option Dropdown */}
+                  <div className="custom-select-wrapper">
+                    <button 
                       type="button"
-                      className={`amount-btn ${donateAmount === amt && !customAmount ? 'active' : ''}`}
-                      onClick={() => {
-                        setDonateAmount(amt);
-                        setCustomAmount('');
-                      }}
+                      className={`custom-select-trigger ${donateOptionDropdownOpen ? 'active' : ''}`}
+                      onClick={() => setDonateOptionDropdownOpen(!donateOptionDropdownOpen)}
                     >
-                      ${amt}
+                      {donateOption ? (
+                        <span style={{ fontWeight: '600' }}>
+                          {donateOption === 'money' && dt.optMoneyTitle}
+                          {donateOption === 'materials' && dt.optMaterialsTitle}
+                          {donateOption === 'volunteer' && dt.optVolunteerTitle}
+                          {donateOption === 'legacy' && dt.optLegacyTitle}
+                        </span>
+                      ) : (
+                        <span style={{ color: '#94A3B8' }}>{dt.placeholder}</span>
+                      )}
+                      <ChevronDown size={18} style={{ transform: donateOptionDropdownOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }} />
                     </button>
-                  ))}
-                </div>
-                <div className="custom-amount-box" style={{ marginBottom: '0px' }}>
-                  <span className="dollar-symbol">$</span>
-                  <input
-                    type="number"
-                    placeholder={t.donCustom}
-                    value={customAmount}
-                    onChange={(e) => setCustomAmount(e.target.value)}
-                    className="custom-amount-input"
-                  />
-                </div>
-              </div>
 
-              {/* Personal Info grid */}
-              <div className="form-group-row" style={{ marginBottom: '14px' }}>
-                <div className="form-field-group">
-                  <label className="form-field-label">{t.donFullName}</label>
-                  <input 
-                    type="text" 
-                    placeholder="Jane Doe" 
-                    value={donateName} 
-                    onChange={(e) => setDonateName(e.target.value)}
-                    className="form-input" 
-                    required 
-                  />
-                </div>
-                <div className="form-field-group">
-                  <label className="form-field-label">{t.donEmail}</label>
-                  <input 
-                    type="email" 
-                    placeholder="jane@example.com" 
-                    value={donateEmail} 
-                    onChange={(e) => setDonateEmail(e.target.value)}
-                    className="form-input" 
-                    required 
-                  />
-                </div>
-              </div>
+                    {donateOptionDropdownOpen && (
+                      <div className="custom-select-dropdown">
+                        <button 
+                          type="button"
+                          className={`custom-select-option ${donateOption === 'money' ? 'selected' : ''}`}
+                          onClick={() => {
+                            setDonateOption('money');
+                            setDonateOptionDropdownOpen(false);
+                          }}
+                        >
+                          <div className="custom-option-icon-box money">
+                            <span style={{ fontSize: '18px', fontWeight: '700' }}>€</span>
+                          </div>
+                          <div className="custom-option-content">
+                            <span className="custom-option-title">{dt.optMoneyTitle}</span>
+                            <span className="custom-option-desc">{dt.optMoneyDesc}</span>
+                          </div>
+                        </button>
 
-              {/* Mock payment methods */}
-              <div className="form-field-group" style={{ marginBottom: '20px' }}>
-                <label className="form-field-label">Payment Method</label>
-                <div className="pay-methods-grid">
-                  <button 
-                    type="button" 
-                    className={`pay-method-btn ${payMethod === 'card' ? 'active' : ''}`}
-                    onClick={() => setPayMethod('card')}
-                  >
-                    <CreditCard size={18} />
-                    <span>Credit Card</span>
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`pay-method-btn ${payMethod === 'paypal' ? 'active' : ''}`}
-                    onClick={() => setPayMethod('paypal')}
-                  >
-                    <Globe size={18} />
-                    <span>PayPal</span>
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`pay-method-btn ${payMethod === 'bank' ? 'active' : ''}`}
-                    onClick={() => setPayMethod('bank')}
-                  >
-                    <Compass size={18} />
-                    <span>Bank Transfer</span>
-                  </button>
-                </div>
-              </div>
+                        <button 
+                          type="button"
+                          className={`custom-select-option ${donateOption === 'materials' ? 'selected' : ''}`}
+                          onClick={() => {
+                            setDonateOption('materials');
+                            setDonateOptionDropdownOpen(false);
+                          }}
+                        >
+                          <div className="custom-option-icon-box materials">
+                            <Package size={20} />
+                          </div>
+                          <div className="custom-option-content">
+                            <span className="custom-option-title">{dt.optMaterialsTitle}</span>
+                            <span className="custom-option-desc">{dt.optMaterialsDesc}</span>
+                          </div>
+                        </button>
 
-              <button type="submit" className="donate-submit-btn">
-                {t.donSubmit} <Heart size={16} fill="white" />
-              </button>
-            </form>
+                        <button 
+                          type="button"
+                          className={`custom-select-option ${donateOption === 'volunteer' ? 'selected' : ''}`}
+                          onClick={() => {
+                            setDonateOption('volunteer');
+                            setDonateOptionDropdownOpen(false);
+                          }}
+                        >
+                          <div className="custom-option-icon-box volunteer">
+                            <Clock size={20} />
+                          </div>
+                          <div className="custom-option-content">
+                            <span className="custom-option-title">{dt.optVolunteerTitle}</span>
+                            <span className="custom-option-desc">{dt.optVolunteerDesc}</span>
+                          </div>
+                        </button>
+
+                        <button 
+                          type="button"
+                          className={`custom-select-option ${donateOption === 'legacy' ? 'selected' : ''}`}
+                          onClick={() => {
+                            setDonateOption('legacy');
+                            setDonateOptionDropdownOpen(false);
+                          }}
+                        >
+                          <div className="custom-option-icon-box legacy">
+                            <FileText size={20} />
+                          </div>
+                          <div className="custom-option-content">
+                            <span className="custom-option-title">{dt.optLegacyTitle}</span>
+                            <span className="custom-option-desc">{dt.optLegacyDesc}</span>
+                          </div>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  <button 
+                    type="button"
+                    className="donate-submit-btn"
+                    disabled={!donateOption}
+                    onClick={() => {
+                      if (donateOption) setDonateStep(2);
+                    }}
+                    style={{ opacity: donateOption ? 1 : 0.6, cursor: donateOption ? 'pointer' : 'not-allowed', marginTop: '12px' }}
+                  >
+                    {dt.btnContinue} <ChevronRight size={18} />
+                  </button>
+
+                  <div className="donation-modal-security">
+                    <Lock size={14} style={{ color: '#E21D54' }} />
+                    <span>{dt.securityMsg}</span>
+                  </div>
+                </>
+              ) : (
+                <form onSubmit={handleDonateSubmit} style={{ width: '100%' }}>
+                  <h2 className="donation-modal-title">
+                    {donateOption === 'money' && dt.titleMoney}
+                    {donateOption === 'materials' && dt.titleMaterials}
+                    {donateOption === 'volunteer' && dt.titleVolunteer}
+                    {donateOption === 'legacy' && dt.titleLegacy}
+                  </h2>
+                  <p className="donation-modal-subtitle" style={{ marginBottom: '24px' }}>
+                    {donateOption === 'money' && dt.subtitleMoney}
+                    {donateOption === 'materials' && dt.subtitleMaterials}
+                    {donateOption === 'volunteer' && dt.subtitleVolunteer}
+                    {donateOption === 'legacy' && dt.subtitleLegacy}
+                  </p>
+
+                  {/* OPTION 1: MONEY FIELDS */}
+                  {donateOption === 'money' && (
+                    <div style={{ width: '100%', marginBottom: '24px' }}>
+                      <label style={{ fontSize: '14px', fontWeight: '700', color: '#334155', display: 'block', marginBottom: '4px' }}>
+                        {dt.amountLabel}
+                      </label>
+                      <p style={{ fontSize: '12px', color: '#64748B', marginBottom: '12px' }}>
+                        {dt.amountHelp}
+                      </p>
+
+                      <div className="donation-input-container">
+                        <span className="donation-input-symbol">€</span>
+                        <input 
+                          type="number"
+                          placeholder={dt.amountPlaceholder}
+                          value={customAmount}
+                          onChange={(e) => {
+                            setCustomAmount(e.target.value);
+                            setDonateAmount('');
+                          }}
+                          className="donation-field-input"
+                          style={{ paddingLeft: '32px' }}
+                        />
+                      </div>
+
+                      <div className="quick-amount-grid">
+                        {['20', '50', '100', '250'].map((amt) => (
+                          <button
+                            key={amt}
+                            type="button"
+                            className={`quick-amount-btn ${donateAmount === amt && !customAmount ? 'active' : ''}`}
+                            onClick={() => {
+                              setDonateAmount(amt);
+                              setCustomAmount('');
+                            }}
+                          >
+                            €{amt}
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          className={`quick-amount-btn ${customAmount ? 'active' : ''}`}
+                          onClick={() => {
+                            setDonateAmount('');
+                            if (!customAmount) setCustomAmount('10');
+                          }}
+                        >
+                          {dt.otherText}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* OPTION 2: MATERIALS DESC */}
+                  {donateOption === 'materials' && (
+                    <div className="form-field-group" style={{ marginBottom: '20px', width: '100%' }}>
+                      <label className="form-field-label" style={{ color: '#334155', fontWeight: '700' }}>
+                        {dt.materialsDescLabel}
+                      </label>
+                      <textarea
+                        value={donateMaterialsDesc}
+                        onChange={(e) => setDonateMaterialsDesc(e.target.value)}
+                        placeholder={dt.materialsDescPlaceholder}
+                        className="form-input"
+                        rows={3}
+                        required
+                        style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+                  )}
+
+                  {/* OPTION 3: VOLUNTEER DESC */}
+                  {donateOption === 'volunteer' && (
+                    <div className="form-field-group" style={{ marginBottom: '20px', width: '100%' }}>
+                      <label className="form-field-label" style={{ color: '#334155', fontWeight: '700' }}>
+                        {dt.volunteerDescLabel}
+                      </label>
+                      <textarea
+                        value={donateVolunteerDesc}
+                        onChange={(e) => setDonateVolunteerDesc(e.target.value)}
+                        placeholder={dt.volunteerDescPlaceholder}
+                        className="form-input"
+                        rows={3}
+                        required
+                        style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+                  )}
+
+                  {/* OPTION 4: LEGACY DESC */}
+                  {donateOption === 'legacy' && (
+                    <div className="form-field-group" style={{ marginBottom: '20px', width: '100%' }}>
+                      <label className="form-field-label" style={{ color: '#334155', fontWeight: '700' }}>
+                        {dt.legacyDescLabel}
+                      </label>
+                      <textarea
+                        value={donateLegacyDesc}
+                        onChange={(e) => setDonateLegacyDesc(e.target.value)}
+                        placeholder={dt.legacyDescPlaceholder}
+                        className="form-input"
+                        rows={3}
+                        style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+                  )}
+
+                  {/* COMMON PERSONAL BILLING DETAILS GRID */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px', width: '100%' }}>
+                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.emailLabel}</label>
+                      <input 
+                        type="email" 
+                        required 
+                        value={donateEmail}
+                        onChange={(e) => setDonateEmail(e.target.value)}
+                        className="form-input"
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="org-toggle-row">
+                    <span className="org-toggle-label">{dt.orgToggle}</span>
+                    <label className="toggle-switch">
+                      <input 
+                        type="checkbox" 
+                        checked={donateIsOrg}
+                        onChange={(e) => setDonateIsOrg(e.target.checked)}
+                      />
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px', width: '100%' }}>
+                    <div className="form-field-group">
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.titleLabel}</label>
+                      <select
+                        value={donateSalutation}
+                        onChange={(e) => setDonateSalutation(e.target.value)}
+                        className="form-select"
+                        required
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      >
+                        <option value="">--</option>
+                        <option value="Mr">{lang === 'FR' ? 'M.' : lang === 'NL' ? 'Dhr.' : 'Mr.'}</option>
+                        <option value="Ms">{lang === 'FR' ? 'Mme' : lang === 'NL' ? 'Mevr.' : 'Ms.'}</option>
+                        <option value="Other">{lang === 'FR' ? 'Autre' : lang === 'NL' ? 'Anders' : 'Other'}</option>
+                      </select>
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.firstNameLabel}</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={donateFirstName}
+                        onChange={(e) => setDonateFirstName(e.target.value)}
+                        className="form-input"
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+
+                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.lastNameLabel}</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={donateLastName}
+                        onChange={(e) => setDonateLastName(e.target.value)}
+                        className="form-input"
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+
+                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.addressLabel}</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={donateAddress}
+                        onChange={(e) => setDonateAddress(e.target.value)}
+                        className="form-input"
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.postalCodeLabel}</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={donatePostalCode}
+                        onChange={(e) => setDonatePostalCode(e.target.value)}
+                        className="form-input"
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.cityLabel}</label>
+                      <input 
+                        type="text" 
+                        required 
+                        value={donateCity}
+                        onChange={(e) => setDonateCity(e.target.value)}
+                        className="form-input"
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      />
+                    </div>
+
+                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.countryLabel}</label>
+                      <select
+                        value={donateCountry}
+                        onChange={(e) => setDonateCountry(e.target.value)}
+                        className="form-select"
+                        required
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                      >
+                        {countryOptions.map((opt) => (
+                          <option key={opt.value} value={opt.label}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {donateIsOrg && (
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.companyLabel}</label>
+                        <input 
+                          type="text" 
+                          value={donateCompanyNumber}
+                          onChange={(e) => setDonateCompanyNumber(e.target.value)}
+                          className="form-input"
+                          placeholder="0123.456.789"
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* CHECKBOX POLICIES */}
+                  <div style={{ marginTop: '20px', marginBottom: '24px', width: '100%' }}>
+                    <div className="checkbox-row" onClick={() => setDonateSubscribeNewsletter(!donateSubscribeNewsletter)}>
+                      <input 
+                        type="checkbox"
+                        checked={donateSubscribeNewsletter}
+                        onChange={() => {}}
+                        className="checkbox-input"
+                      />
+                      <span className="checkbox-label">
+                        {dt.newsletterCheckbox}
+                      </span>
+                    </div>
+
+                    <div className="checkbox-row" onClick={() => setDonateAcceptPolicies(!donateAcceptPolicies)}>
+                      <input 
+                        type="checkbox"
+                        checked={donateAcceptPolicies}
+                        onChange={() => {}}
+                        className="checkbox-input"
+                        required
+                      />
+                      <span className="checkbox-label">
+                        {lang === 'FR' ? (
+                          <>J'accepte la <a href="#donation-policy" onClick={(e) => e.stopPropagation()}>Politique de donation</a> de Likro & Lihto et la <a href="#privacy-policy" onClick={(e) => e.stopPropagation()}>Politique de confidentialité</a>. *</>
+                        ) : lang === 'NL' ? (
+                          <>Ik accepteer het <a href="#donation-policy" onClick={(e) => e.stopPropagation()}>Donatiebeleid</a> van Likro & Lihto en het <a href="#privacy-policy" onClick={(e) => e.stopPropagation()}>Privacybeleid</a>. *</>
+                        ) : (
+                          <>I accept the Likro & Lihto <a href="#donation-policy" onClick={(e) => e.stopPropagation()}>Donation Policy</a> and the <a href="#privacy-policy" onClick={(e) => e.stopPropagation()}>Privacy Policy</a>. *</>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button type="submit" className="donate-submit-btn">
+                    {donateOption === 'money' ? (
+                      <>
+                        {dt.btnDonateNow}
+                        <span style={{ marginLeft: '6px', padding: '2px 8px', background: 'rgba(255,255,255,0.2)', borderRadius: '4px', fontSize: '13px' }}>
+                          {customAmount ? `${customAmount} €` : `${donateAmount} €`}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        {donateOption === 'materials' && dt.materialsSubmit}
+                        {donateOption === 'volunteer' && dt.volunteerSubmit}
+                        {donateOption === 'legacy' && dt.legacySubmit}
+                      </>
+                    )}
+                  </button>
+
+                  <div className="donation-modal-security">
+                    <Lock size={14} style={{ color: '#E21D54' }} />
+                    <span>{dt.securityMsg}</span>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* FAQ MODAL */}
       {showFaqModal && (
