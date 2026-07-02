@@ -345,6 +345,8 @@ const donationTranslations = {
     cityLabel: "Ville *",
     countryLabel: "Pays *",
     companyLabel: "Numéro d'entreprise belge (facultatif)",
+    companyNameLabel: "Nom de l'entreprise *",
+    companyNumberReqLabel: "Numéro d'entreprise belge *",
     newsletterCheckbox: "Je souhaite recevoir la newsletter de l'association.",
     policyCheckbox: "J'accepte la Politique de donation de Likro & Lihto et la Politique de confidentialité. *",
     btnDonateNow: "Donner maintenant",
@@ -403,6 +405,8 @@ const donationTranslations = {
     cityLabel: "City *",
     countryLabel: "Country *",
     companyLabel: "Belgian company number (optional)",
+    companyNameLabel: "Company Name *",
+    companyNumberReqLabel: "Belgian company number *",
     newsletterCheckbox: "I would like to receive the association's newsletter.",
     policyCheckbox: "I accept the Likro & Lihto Donation Policy and the Privacy Policy. *",
     btnDonateNow: "Donate Now",
@@ -461,6 +465,8 @@ const donationTranslations = {
     cityLabel: "Stad *",
     countryLabel: "Land *",
     companyLabel: "Belgisch ondernemingsnummer (optioneel)",
+    companyNameLabel: "Bedrijfsnaam *",
+    companyNumberReqLabel: "Belgisch ondernemingsnummer *",
     newsletterCheckbox: "Ik wil de nieuwsbrief van de vereniging ontvangen.",
     policyCheckbox: "Ik accepteer het Likro & Lihto Donatiebeleid en het Privacybeleid. *",
     btnDonateNow: "Nu doneren",
@@ -555,6 +561,22 @@ function App() {
   const [donateMaterialsDesc, setDonateMaterialsDesc] = useState('');
   const [donateVolunteerDesc, setDonateVolunteerDesc] = useState('');
   const [donateLegacyDesc, setDonateLegacyDesc] = useState('');
+  const [donateCompanyName, setDonateCompanyName] = useState('');
+
+  // Donation validation error states
+  const [donateEmailError, setDonateEmailError] = useState<string | null>(null);
+  const [donateFirstNameError, setDonateFirstNameError] = useState<string | null>(null);
+  const [donateLastNameError, setDonateLastNameError] = useState<string | null>(null);
+  const [donateAddressError, setDonateAddressError] = useState<string | null>(null);
+  const [donatePostalCodeError, setDonatePostalCodeError] = useState<string | null>(null);
+  const [donateCityError, setDonateCityError] = useState<string | null>(null);
+  const [donateSalutationError, setDonateSalutationError] = useState<string | null>(null);
+  const [donateAcceptPoliciesError, setDonateAcceptPoliciesError] = useState<string | null>(null);
+  const [donateAmountError, setDonateAmountError] = useState<string | null>(null);
+  const [donateMaterialsDescError, setDonateMaterialsDescError] = useState<string | null>(null);
+  const [donateVolunteerDescError, setDonateVolunteerDescError] = useState<string | null>(null);
+  const [donateCompanyNameError, setDonateCompanyNameError] = useState<string | null>(null);
+  const [donateCompanyNumberError, setDonateCompanyNumberError] = useState<string | null>(null);
 
   // Isolate contact form view
   const [showContactOnly, setShowContactOnly] = useState(false);
@@ -1101,34 +1123,105 @@ function App() {
   const handleDonateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // 1. Common Validation
-    if (!isValidEmail(donateEmail)) {
-      triggerToast(lang === 'FR' ? 'Adresse e-mail non valide' : lang === 'NL' ? 'Ongeldig e-mailadres.' : 'Please enter a valid email address.');
-      return;
-    }
-    if (!donateFirstName.trim() || !donateLastName.trim()) {
-      triggerToast(lang === 'FR' ? 'Veuillez saisir votre prénom et nom.' : lang === 'NL' ? 'Vul alstublieft uw voornaam en achternaam in.' : 'Please enter your first name and last name.');
-      return;
-    }
-    if (!donateAddress.trim() || !donatePostalCode.trim() || !donateCity.trim() || !donateCountry.trim()) {
-      triggerToast(lang === 'FR' ? 'Veuillez remplir tous les champs obligatoires.' : lang === 'NL' ? 'Vul alle verplichte velden in.' : 'Please fill in all required fields.');
-      return;
-    }
-    if (!donateAcceptPolicies) {
-      triggerToast(lang === 'FR' ? 'Vous devez accepter la Politique de donation et la Politique de confidentialité.' : lang === 'NL' ? 'U moet het donatiebeleid en het privacybeleid accepteren.' : 'You must accept the Donation Policy and the Privacy Policy.');
-      return;
+    // Reset errors
+    setDonateEmailError(null);
+    setDonateFirstNameError(null);
+    setDonateLastNameError(null);
+    setDonateAddressError(null);
+    setDonatePostalCodeError(null);
+    setDonateCityError(null);
+    setDonateSalutationError(null);
+    setDonateAcceptPoliciesError(null);
+    setDonateAmountError(null);
+    setDonateMaterialsDescError(null);
+    setDonateVolunteerDescError(null);
+    setDonateCompanyNameError(null);
+    setDonateCompanyNumberError(null);
+
+    let hasError = false;
+
+    // Common Email validation
+    if (!donateEmail.trim()) {
+      setDonateEmailError('required');
+      hasError = true;
+    } else if (!isValidEmail(donateEmail)) {
+      setDonateEmailError('invalid');
+      hasError = true;
     }
 
-    // 2. Option-specific Validation & Success message
-    let successMsg = "";
+    // Organization validation
+    if (donateIsOrg) {
+      if (!donateCompanyName.trim()) {
+        setDonateCompanyNameError('required');
+        hasError = true;
+      }
+      if (!donateCompanyNumber.trim()) {
+        setDonateCompanyNumberError('required');
+        hasError = true;
+      }
+    }
+
+    // Common Personal / Representative validation
+    if (!donateSalutation) {
+      setDonateSalutationError('required');
+      hasError = true;
+    }
+    if (!donateFirstName.trim()) {
+      setDonateFirstNameError('required');
+      hasError = true;
+    }
+    if (!donateLastName.trim()) {
+      setDonateLastNameError('required');
+      hasError = true;
+    }
+    if (!donateAddress.trim()) {
+      setDonateAddressError('required');
+      hasError = true;
+    }
+    if (!donatePostalCode.trim()) {
+      setDonatePostalCodeError('required');
+      hasError = true;
+    }
+    if (!donateCity.trim()) {
+      setDonateCityError('required');
+      hasError = true;
+    }
+
+    // Policies checkbox validation
+    if (!donateAcceptPolicies) {
+      setDonateAcceptPoliciesError('required');
+      hasError = true;
+    }
+
+    // Option specific validation
     if (donateOption === 'money') {
       const finalAmount = customAmount || donateAmount;
       const amtNum = parseFloat(finalAmount);
       if (!finalAmount || isNaN(amtNum) || amtNum <= 0) {
-        triggerToast(lang === 'FR' ? 'Veuillez saisir un montant de don valide.' : lang === 'NL' ? 'Vul een geldig donatiebedrag in.' : 'Please enter a valid donation amount.');
-        return;
+        setDonateAmountError('invalid');
+        hasError = true;
       }
-      
+    } else if (donateOption === 'materials') {
+      if (!donateMaterialsDesc.trim()) {
+        setDonateMaterialsDescError('required');
+        hasError = true;
+      }
+    } else if (donateOption === 'volunteer') {
+      if (!donateVolunteerDesc.trim()) {
+        setDonateVolunteerDescError('required');
+        hasError = true;
+      }
+    }
+
+    if (hasError) {
+      triggerToast(lang === 'FR' ? 'Veuillez corriger les erreurs dans le formulaire.' : lang === 'NL' ? 'Corrigeer de fouten in het formulier.' : 'Please correct the errors in the form.');
+      return;
+    }
+
+    // Process submission
+    let successMsg = "";
+    if (donateOption === 'money') {
+      const finalAmount = customAmount || donateAmount;
       if (lang === 'FR') {
         successMsg = `Merci! Votre don de ${finalAmount} € a bien été reçu.`;
       } else if (lang === 'NL') {
@@ -1137,10 +1230,6 @@ function App() {
         successMsg = `Thank you! Your donation of €${finalAmount} was successfully received.`;
       }
     } else if (donateOption === 'materials') {
-      if (!donateMaterialsDesc.trim()) {
-        triggerToast(lang === 'FR' ? 'Veuillez décrire le matériel que vous souhaitez donner.' : lang === 'NL' ? 'Beschrijf het materiaal dat u wilt schenken.' : 'Please describe the materials you would like to donate.');
-        return;
-      }
       if (lang === 'FR') {
         successMsg = "Merci! Votre offre de don de matériel a été soumise avec succès.";
       } else if (lang === 'NL') {
@@ -1149,10 +1238,6 @@ function App() {
         successMsg = "Thank you! Your material donation offer has been successfully submitted.";
       }
     } else if (donateOption === 'volunteer') {
-      if (!donateVolunteerDesc.trim()) {
-        triggerToast(lang === 'FR' ? 'Veuillez indiquer vos compétences et disponibilités.' : lang === 'NL' ? 'Geef uw vaardigheden en beschikbaarheid op.' : 'Please specify your skills and availability.');
-        return;
-      }
       if (lang === 'FR') {
         successMsg = "Merci! Votre demande de bénévolat a été soumise avec succès.";
       } else if (lang === 'NL') {
@@ -1187,11 +1272,11 @@ function App() {
     setDonatePostalCode('');
     setDonateCity('');
     setDonateCountry('Belgium');
+    setDonateCompanyName('');
     setDonateCompanyNumber('');
     setDonateAcceptPolicies(false);
     setDonateSubscribeNewsletter(false);
     setDonateMaterialsDesc('');
-    setDonateVolunteerDesc('');
     setDonateLegacyDesc('');
   };
 
@@ -2524,31 +2609,96 @@ function App() {
       )}
 
       {/* ADVANCED NGO DONATION FORM MODAL */}
-      {showDonateModal && (() => {
+                  {showDonateModal && (() => {
         const dt = donationTranslations[lang];
+        const finalAmount = customAmount || donateAmount;
+        
+        // Generate the option details to render in Step 1
+        const donationOptions = [
+          {
+            id: 'money',
+            title: dt.optMoneyTitle,
+            desc: dt.optMoneyDesc,
+            iconClass: 'money',
+            icon: <span style={{ fontSize: '18px', fontWeight: 700 }}>€</span>
+          },
+          {
+            id: 'materials',
+            title: dt.optMaterialsTitle,
+            desc: dt.optMaterialsDesc,
+            iconClass: 'materials',
+            icon: <Package size={20} />
+          },
+          {
+            id: 'volunteer',
+            title: dt.optVolunteerTitle,
+            desc: dt.optVolunteerDesc,
+            iconClass: 'volunteer',
+            icon: <Clock size={20} />
+          },
+          {
+            id: 'legacy',
+            title: dt.optLegacyTitle,
+            desc: dt.optLegacyDesc,
+            iconClass: 'legacy',
+            icon: <FileText size={20} />
+          }
+        ];
+
         return (
           <div className="modal-overlay">
             <div className="donation-modal-content animate-fade-in">
-              <div className="donation-modal-header">
-                <div className="donation-step-badge">
+              
+              {/* Header section: Step indicator on the top-left, close button on the top-right */}
+              <div className="donation-modal-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div className="donation-step-badge" style={{ margin: 0 }}>
                   {donateStep === 1 ? dt.step1 : dt.step2}
                 </div>
-                <button className="donation-modal-close" onClick={() => {
-                  setShowDonateModal(false);
-                  setDonateStep(1);
-                  setDonateOption('');
-                }} aria-label="Close">
+                
+                <button 
+                  className="donation-modal-close" 
+                  onClick={() => {
+                    setShowDonateModal(false);
+                    setDonateStep(1);
+                    setDonateOption('');
+                    // Clear errors
+                    setDonateEmailError(null);
+                    setDonateFirstNameError(null);
+                    setDonateLastNameError(null);
+                    setDonateAddressError(null);
+                    setDonatePostalCodeError(null);
+                    setDonateCityError(null);
+                    setDonateSalutationError(null);
+                    setDonateAcceptPoliciesError(null);
+                    setDonateAmountError(null);
+                    setDonateMaterialsDescError(null);
+                    setDonateVolunteerDescError(null);
+                    setDonateCompanyNameError(null);
+                    setDonateCompanyNumberError(null);
+                  }} 
+                  aria-label="Close"
+                  style={{ margin: 0 }}
+                >
                   <X size={18} />
                 </button>
               </div>
 
-              {donateStep === 1 ? (
-                <>
-                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                    <div style={{ background: '#FFE4E6', color: '#E21D54', width: '60px', height: '60px', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Heart size={32} fill="#E21D54" />
-                    </div>
+              {/* Heart logo centered below the top row */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px', marginTop: '-12px' }}>
+                {donateStep === 1 ? (
+                  /* Step 1 Heart Logo: Red heart inside yellow square */
+                  <div style={{ background: '#FDE047', borderRadius: '8px', padding: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Heart size={28} color="#E21D54" fill="#E21D54" />
                   </div>
+                ) : (
+                  /* Step 2 Heart Icon: Red outline heart */
+                  <Heart size={36} color="#E21D54" />
+                )}
+              </div>
+
+              {/* STEP 1: Select Donation Type */}
+              {donateStep === 1 ? (
+                <div>
                   <h2 className="donation-modal-title">{dt.mainTitle}</h2>
                   <p className="donation-modal-subtitle">{dt.subtitle}</p>
 
@@ -2583,73 +2733,25 @@ function App() {
 
                     {donateOptionDropdownOpen && (
                       <div className="custom-select-dropdown">
-                        <button 
-                          type="button"
-                          className={`custom-select-option ${donateOption === 'money' ? 'selected' : ''}`}
-                          onClick={() => {
-                            setDonateOption('money');
-                            setDonateOptionDropdownOpen(false);
-                          }}
-                        >
-                          <div className="custom-option-icon-box money">
-                            <span style={{ fontSize: '18px', fontWeight: '700' }}>€</span>
-                          </div>
-                          <div className="custom-option-content">
-                            <span className="custom-option-title">{dt.optMoneyTitle}</span>
-                            <span className="custom-option-desc">{dt.optMoneyDesc}</span>
-                          </div>
-                        </button>
-
-                        <button 
-                          type="button"
-                          className={`custom-select-option ${donateOption === 'materials' ? 'selected' : ''}`}
-                          onClick={() => {
-                            setDonateOption('materials');
-                            setDonateOptionDropdownOpen(false);
-                          }}
-                        >
-                          <div className="custom-option-icon-box materials">
-                            <Package size={20} />
-                          </div>
-                          <div className="custom-option-content">
-                            <span className="custom-option-title">{dt.optMaterialsTitle}</span>
-                            <span className="custom-option-desc">{dt.optMaterialsDesc}</span>
-                          </div>
-                        </button>
-
-                        <button 
-                          type="button"
-                          className={`custom-select-option ${donateOption === 'volunteer' ? 'selected' : ''}`}
-                          onClick={() => {
-                            setDonateOption('volunteer');
-                            setDonateOptionDropdownOpen(false);
-                          }}
-                        >
-                          <div className="custom-option-icon-box volunteer">
-                            <Clock size={20} />
-                          </div>
-                          <div className="custom-option-content">
-                            <span className="custom-option-title">{dt.optVolunteerTitle}</span>
-                            <span className="custom-option-desc">{dt.optVolunteerDesc}</span>
-                          </div>
-                        </button>
-
-                        <button 
-                          type="button"
-                          className={`custom-select-option ${donateOption === 'legacy' ? 'selected' : ''}`}
-                          onClick={() => {
-                            setDonateOption('legacy');
-                            setDonateOptionDropdownOpen(false);
-                          }}
-                        >
-                          <div className="custom-option-icon-box legacy">
-                            <FileText size={20} />
-                          </div>
-                          <div className="custom-option-content">
-                            <span className="custom-option-title">{dt.optLegacyTitle}</span>
-                            <span className="custom-option-desc">{dt.optLegacyDesc}</span>
-                          </div>
-                        </button>
+                        {donationOptions.map((opt) => (
+                          <button 
+                            key={opt.id}
+                            type="button"
+                            className={`custom-select-option ${donateOption === opt.id ? 'selected' : ''}`}
+                            onClick={() => {
+                              setDonateOption(opt.id);
+                              setDonateOptionDropdownOpen(false);
+                            }}
+                          >
+                            <div className={`custom-option-icon-box ${opt.iconClass}`}>
+                              {opt.icon}
+                            </div>
+                            <div className="custom-option-content">
+                              <span className="custom-option-title">{opt.title}</span>
+                              <span className="custom-option-desc">{opt.desc}</span>
+                            </div>
+                          </button>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -2670,8 +2772,9 @@ function App() {
                     <Lock size={14} style={{ color: '#E21D54' }} />
                     <span>{dt.securityMsg}</span>
                   </div>
-                </>
+                </div>
               ) : (
+                /* STEP 2: Detail Form based on selected option */
                 <form onSubmit={handleDonateSubmit} style={{ width: '100%' }}>
                   <h2 className="donation-modal-title">
                     {donateOption === 'money' && dt.titleMoney}
@@ -2705,11 +2808,17 @@ function App() {
                           onChange={(e) => {
                             setCustomAmount(e.target.value);
                             setDonateAmount('');
+                            if (donateAmountError) setDonateAmountError(null);
                           }}
-                          className="donation-field-input"
+                          className={`donation-field-input ${donateAmountError ? 'input-error' : ''}`}
                           style={{ paddingLeft: '32px' }}
                         />
                       </div>
+                      {donateAmountError && (
+                        <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          {lang === 'FR' ? "Veuillez saisir un montant de don valide." : lang === 'NL' ? "Vul een geldig donatiebedrag in." : "Please enter a valid donation amount."}
+                        </span>
+                      )}
 
                       <div className="quick-amount-grid">
                         {['20', '50', '100', '250'].map((amt) => (
@@ -2720,6 +2829,7 @@ function App() {
                             onClick={() => {
                               setDonateAmount(amt);
                               setCustomAmount('');
+                              if (donateAmountError) setDonateAmountError(null);
                             }}
                           >
                             €{amt}
@@ -2731,6 +2841,7 @@ function App() {
                           onClick={() => {
                             setDonateAmount('');
                             if (!customAmount) setCustomAmount('10');
+                            if (donateAmountError) setDonateAmountError(null);
                           }}
                         >
                           {dt.otherText}
@@ -2747,13 +2858,21 @@ function App() {
                       </label>
                       <textarea
                         value={donateMaterialsDesc}
-                        onChange={(e) => setDonateMaterialsDesc(e.target.value)}
+                        onChange={(e) => {
+                          setDonateMaterialsDesc(e.target.value);
+                          if (donateMaterialsDescError) setDonateMaterialsDescError(null);
+                        }}
                         placeholder={dt.materialsDescPlaceholder}
-                        className="form-input"
+                        className={`form-input ${donateMaterialsDescError ? 'input-error' : ''}`}
                         rows={3}
                         required
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                       />
+                      {donateMaterialsDescError && (
+                        <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          {lang === 'FR' ? "Veuillez remplir ce champ." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                        </span>
+                      )}
                     </div>
                   )}
 
@@ -2765,13 +2884,21 @@ function App() {
                       </label>
                       <textarea
                         value={donateVolunteerDesc}
-                        onChange={(e) => setDonateVolunteerDesc(e.target.value)}
+                        onChange={(e) => {
+                          setDonateVolunteerDesc(e.target.value);
+                          if (donateVolunteerDescError) setDonateVolunteerDescError(null);
+                        }}
                         placeholder={dt.volunteerDescPlaceholder}
-                        className="form-input"
+                        className={`form-input ${donateVolunteerDescError ? 'input-error' : ''}`}
                         rows={3}
                         required
                         style={{ width: '100%', resize: 'vertical', minHeight: '80px', borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                       />
+                      {donateVolunteerDescError && (
+                        <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                          {lang === 'FR' ? "Veuillez remplir ce champ." : lang === 'NL' ? "Dit veld is verplicht." : "This field is required."}
+                        </span>
+                      )}
                     </div>
                   )}
 
@@ -2792,128 +2919,409 @@ function App() {
                     </div>
                   )}
 
-                  {/* COMMON PERSONAL BILLING DETAILS GRID */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px', width: '100%' }}>
-                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.emailLabel}</label>
-                      <input 
-                        type="email" 
-                        required 
-                        value={donateEmail}
-                        onChange={(e) => setDonateEmail(e.target.value)}
-                        className="form-input"
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      />
-                    </div>
-                  </div>
-
+                  {/* Organization Toggle */}
                   <div className="org-toggle-row">
                     <span className="org-toggle-label">{dt.orgToggle}</span>
                     <label className="toggle-switch">
                       <input 
                         type="checkbox" 
                         checked={donateIsOrg}
-                        onChange={(e) => setDonateIsOrg(e.target.checked)}
+                        onChange={(e) => {
+                          setDonateIsOrg(e.target.checked);
+                          // Clear errors when switching forms
+                          setDonateEmailError(null);
+                          setDonateFirstNameError(null);
+                          setDonateLastNameError(null);
+                          setDonateAddressError(null);
+                          setDonatePostalCodeError(null);
+                          setDonateCityError(null);
+                          setDonateSalutationError(null);
+                          setDonateCompanyNameError(null);
+                          setDonateCompanyNumberError(null);
+                        }}
                       />
                       <span className="toggle-slider"></span>
                     </label>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px', width: '100%' }}>
-                    <div className="form-field-group">
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.titleLabel}</label>
-                      <select
-                        value={donateSalutation}
-                        onChange={(e) => setDonateSalutation(e.target.value)}
-                        className="form-select"
-                        required
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      >
-                        <option value="">--</option>
-                        <option value="Mr">{lang === 'FR' ? 'M.' : lang === 'NL' ? 'Dhr.' : 'Mr.'}</option>
-                        <option value="Ms">{lang === 'FR' ? 'Mme' : lang === 'NL' ? 'Mevr.' : 'Ms.'}</option>
-                        <option value="Other">{lang === 'FR' ? 'Autre' : lang === 'NL' ? 'Anders' : 'Other'}</option>
-                      </select>
-                    </div>
-
-                    <div className="form-field-group">
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.firstNameLabel}</label>
+                  {/* Email address field */}
+                  <div className="form-field-group" style={{ marginBottom: '16px', width: '100%' }}>
+                    <label className="form-field-label" style={{ color: '#334155' }}>{dt.emailLabel} *</label>
+                    <div style={{ position: 'relative', width: '100%' }}>
                       <input 
-                        type="text" 
+                        type="email" 
                         required 
-                        value={donateFirstName}
-                        onChange={(e) => setDonateFirstName(e.target.value)}
-                        className="form-input"
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        value={donateEmail}
+                        onChange={(e) => {
+                          setDonateEmail(e.target.value);
+                          if (donateEmailError) setDonateEmailError(null);
+                        }}
+                        className={`form-input ${donateEmailError ? 'input-error' : ''}`}
+                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px 40px 12px 14px' }}
                       />
+                      {isValidEmail(donateEmail) && (
+                        <CheckCircle size={18} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#10B981' }} />
+                      )}
                     </div>
+                    {donateEmailError && (
+                      <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                        {donateEmailError === 'required'
+                          ? (lang === 'FR' ? "L'adresse e-mail est obligatoire." : lang === 'NL' ? "E-mailadres is verplicht." : "Email is required.")
+                          : (lang === 'FR' ? "Veuillez saisir une adresse e-mail valide." : lang === 'NL' ? "Voer een geldig e-mailadres in." : "Please enter a valid email address.")
+                        }
+                      </span>
+                    )}
+                  </div>
 
-                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.lastNameLabel}</label>
-                      <input 
-                        type="text" 
-                        required 
-                        value={donateLastName}
-                        onChange={(e) => setDonateLastName(e.target.value)}
-                        className="form-input"
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      />
+                  {/* RENDER THE RELEVANT FORM (COMPANY OR INDIVIDUAL) */}
+                  {donateIsOrg ? (
+                    /* COMPANY FORM FIELDS */
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px', width: '100%' }}>
+                      
+                      {/* Company Name */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.companyNameLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateCompanyName}
+                          onChange={(e) => {
+                            setDonateCompanyName(e.target.value);
+                            if (donateCompanyNameError) setDonateCompanyNameError(null);
+                          }}
+                          className={`form-input ${donateCompanyNameError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateCompanyNameError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Le nom de l'entreprise est obligatoire." : lang === 'NL' ? "Bedrijfsnaam is verplicht." : "Company name is required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Required Belgian Company Number */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.companyNumberReqLabel}</label>
+                        <input 
+                          type="text" 
+                          required
+                          value={donateCompanyNumber}
+                          onChange={(e) => {
+                            setDonateCompanyNumber(e.target.value);
+                            if (donateCompanyNumberError) setDonateCompanyNumberError(null);
+                          }}
+                          className={`form-input ${donateCompanyNumberError ? 'input-error' : ''}`}
+                          placeholder="BE 0123.456.789"
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateCompanyNumberError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Le numéro d'entreprise est obligatoire." : lang === 'NL' ? "Ondernemingsnummer is verplicht." : "Company number is required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Rep Title */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.titleLabel}</label>
+                        <select
+                          value={donateSalutation}
+                          onChange={(e) => {
+                            setDonateSalutation(e.target.value);
+                            if (donateSalutationError) setDonateSalutationError(null);
+                          }}
+                          className={`form-select ${donateSalutationError ? 'input-error' : ''}`}
+                          required
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        >
+                          <option value="">--</option>
+                          <option value="Mr">{lang === 'FR' ? 'M.' : lang === 'NL' ? 'Dhr.' : 'Mr.'}</option>
+                          <option value="Ms">{lang === 'FR' ? 'Mme' : lang === 'NL' ? 'Mevr.' : 'Ms.'}</option>
+                          <option value="Other">{lang === 'FR' ? 'Autre' : lang === 'NL' ? 'Anders' : 'Other'}</option>
+                        </select>
+                        {donateSalutationError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Rep First Name */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.firstNameLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateFirstName}
+                          onChange={(e) => {
+                            setDonateFirstName(e.target.value);
+                            if (donateFirstNameError) setDonateFirstNameError(null);
+                          }}
+                          className={`form-input ${donateFirstNameError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateFirstNameError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Rep Last Name */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.lastNameLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateLastName}
+                          onChange={(e) => {
+                            setDonateLastName(e.target.value);
+                            if (donateLastNameError) setDonateLastNameError(null);
+                          }}
+                          className={`form-input ${donateLastNameError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateLastNameError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Company Address */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.addressLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateAddress}
+                          onChange={(e) => {
+                            setDonateAddress(e.target.value);
+                            if (donateAddressError) setDonateAddressError(null);
+                          }}
+                          className={`form-input ${donateAddressError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateAddressError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "L'adresse est obligatoire." : lang === 'NL' ? "Adres is verplicht." : "Address is required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Company Postal Code */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.postalCodeLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donatePostalCode}
+                          onChange={(e) => {
+                            setDonatePostalCode(e.target.value);
+                            if (donatePostalCodeError) setDonatePostalCodeError(null);
+                          }}
+                          className={`form-input ${donatePostalCodeError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donatePostalCodeError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Company City */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.cityLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateCity}
+                          onChange={(e) => {
+                            setDonateCity(e.target.value);
+                            if (donateCityError) setDonateCityError(null);
+                          }}
+                          className={`form-input ${donateCityError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateCityError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Company Country */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.countryLabel}</label>
+                        <select
+                          value={donateCountry}
+                          onChange={(e) => setDonateCountry(e.target.value)}
+                          className="form-select"
+                          required
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        >
+                          {countryOptions.map((opt) => (
+                            <option key={opt.value} value={opt.label}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
+                  ) : (
+                    /* INDIVIDUAL FORM FIELDS */
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px', width: '100%' }}>
+                      
+                      {/* Title */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.titleLabel}</label>
+                        <select
+                          value={donateSalutation}
+                          onChange={(e) => {
+                            setDonateSalutation(e.target.value);
+                            if (donateSalutationError) setDonateSalutationError(null);
+                          }}
+                          className={`form-select ${donateSalutationError ? 'input-error' : ''}`}
+                          required
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        >
+                          <option value="">--</option>
+                          <option value="Mr">{lang === 'FR' ? 'M.' : lang === 'NL' ? 'Dhr.' : 'Mr.'}</option>
+                          <option value="Ms">{lang === 'FR' ? 'Mme' : lang === 'NL' ? 'Mevr.' : 'Ms.'}</option>
+                          <option value="Other">{lang === 'FR' ? 'Autre' : lang === 'NL' ? 'Anders' : 'Other'}</option>
+                        </select>
+                        {donateSalutationError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.addressLabel}</label>
-                      <input 
-                        type="text" 
-                        required 
-                        value={donateAddress}
-                        onChange={(e) => setDonateAddress(e.target.value)}
-                        className="form-input"
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      />
-                    </div>
+                      {/* First Name */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.firstNameLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateFirstName}
+                          onChange={(e) => {
+                            setDonateFirstName(e.target.value);
+                            if (donateFirstNameError) setDonateFirstNameError(null);
+                          }}
+                          className={`form-input ${donateFirstNameError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateFirstNameError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="form-field-group">
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.postalCodeLabel}</label>
-                      <input 
-                        type="text" 
-                        required 
-                        value={donatePostalCode}
-                        onChange={(e) => setDonatePostalCode(e.target.value)}
-                        className="form-input"
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      />
-                    </div>
+                      {/* Last Name */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.lastNameLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateLastName}
+                          onChange={(e) => {
+                            setDonateLastName(e.target.value);
+                            if (donateLastNameError) setDonateLastNameError(null);
+                          }}
+                          className={`form-input ${donateLastNameError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateLastNameError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="form-field-group">
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.cityLabel}</label>
-                      <input 
-                        type="text" 
-                        required 
-                        value={donateCity}
-                        onChange={(e) => setDonateCity(e.target.value)}
-                        className="form-input"
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      />
-                    </div>
+                      {/* Address */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.addressLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateAddress}
+                          onChange={(e) => {
+                            setDonateAddress(e.target.value);
+                            if (donateAddressError) setDonateAddressError(null);
+                          }}
+                          className={`form-input ${donateAddressError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateAddressError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "L'adresse est obligatoire." : lang === 'NL' ? "Adres is verplicht." : "Address is required."}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
-                      <label className="form-field-label" style={{ color: '#334155' }}>{dt.countryLabel}</label>
-                      <select
-                        value={donateCountry}
-                        onChange={(e) => setDonateCountry(e.target.value)}
-                        className="form-select"
-                        required
-                        style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
-                      >
-                        {countryOptions.map((opt) => (
-                          <option key={opt.value} value={opt.label}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                      {/* Postal Code */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.postalCodeLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donatePostalCode}
+                          onChange={(e) => {
+                            setDonatePostalCode(e.target.value);
+                            if (donatePostalCodeError) setDonatePostalCodeError(null);
+                          }}
+                          className={`form-input ${donatePostalCodeError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donatePostalCodeError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
 
-                    {donateIsOrg && (
+                      {/* City */}
+                      <div className="form-field-group">
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.cityLabel}</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={donateCity}
+                          onChange={(e) => {
+                            setDonateCity(e.target.value);
+                            if (donateCityError) setDonateCityError(null);
+                          }}
+                          className={`form-input ${donateCityError ? 'input-error' : ''}`}
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        />
+                        {donateCityError && (
+                          <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                            {lang === 'FR' ? "Obligatoire." : lang === 'NL' ? "Verplicht." : "Required."}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Country */}
+                      <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
+                        <label className="form-field-label" style={{ color: '#334155' }}>{dt.countryLabel}</label>
+                        <select
+                          value={donateCountry}
+                          onChange={(e) => setDonateCountry(e.target.value)}
+                          className="form-select"
+                          required
+                          style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
+                        >
+                          {countryOptions.map((opt) => (
+                            <option key={opt.value} value={opt.label}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Optional Belgian Company Number (rendered at bottom of individual form) */}
                       <div className="form-field-group" style={{ gridColumn: 'span 2' }}>
                         <label className="form-field-label" style={{ color: '#334155' }}>{dt.companyLabel}</label>
                         <input 
@@ -2921,12 +3329,12 @@ function App() {
                           value={donateCompanyNumber}
                           onChange={(e) => setDonateCompanyNumber(e.target.value)}
                           className="form-input"
-                          placeholder="0123.456.789"
+                          placeholder="BE 0123.456.789"
                           style={{ borderRadius: '8px', border: '1px solid #E2E8F0', padding: '12px' }}
                         />
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   {/* CHECKBOX POLICIES */}
                   <div style={{ marginTop: '20px', marginBottom: '24px', width: '100%' }}>
@@ -2942,7 +3350,10 @@ function App() {
                       </span>
                     </div>
 
-                    <div className="checkbox-row" onClick={() => setDonateAcceptPolicies(!donateAcceptPolicies)}>
+                    <div className="checkbox-row" onClick={() => {
+                      setDonateAcceptPolicies(!donateAcceptPolicies);
+                      if (donateAcceptPoliciesError) setDonateAcceptPoliciesError(null);
+                    }}>
                       <input 
                         type="checkbox"
                         checked={donateAcceptPolicies}
@@ -2960,14 +3371,20 @@ function App() {
                         )}
                       </span>
                     </div>
+                    {donateAcceptPoliciesError && (
+                      <span className="field-error-msg" style={{ display: 'block', color: '#E21D54', fontSize: '12px', marginTop: '4px', textAlign: 'left' }}>
+                        {lang === 'FR' ? "Vous devez accepter la politique de donation." : lang === 'NL' ? "U moet het donatiebeleid accepteren." : "You must accept the donation policy."}
+                      </span>
+                    )}
                   </div>
 
                   <button type="submit" className="donate-submit-btn">
                     {donateOption === 'money' ? (
                       <>
                         {dt.btnDonateNow}
-                        <span style={{ marginLeft: '6px', padding: '2px 8px', background: 'rgba(255,255,255,0.2)', borderRadius: '4px', fontSize: '13px' }}>
-                          {customAmount ? `${customAmount} €` : `${donateAmount} €`}
+                        <Heart size={16} fill="white" style={{ margin: '0 6px' }} />
+                        <span style={{ fontWeight: '700' }}>
+                          {lang === 'EN' ? `€${finalAmount}` : `${finalAmount} €`}
                         </span>
                       </>
                     ) : (
